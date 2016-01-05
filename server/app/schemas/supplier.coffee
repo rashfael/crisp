@@ -14,4 +14,4 @@ Supplier = new mongoose.Schema
 	email: String
 	notes: String
 
-	module.exports = mongoose.model 'Supplier', Supplier, 'suppliers'
+module.exports = mongoose.model 'Supplier', Supplier, 'suppliers'
