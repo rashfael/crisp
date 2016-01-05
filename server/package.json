@@ -1,0 +1,37 @@
+{
+  "name": "crisp",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "coffee-script": "^1.10.0",
+    "koa": "^1.1.2",
+    "koa-body": "^1.4.0",
+    "koa-router": "^5.3.0",
+    "koa-send": "^3.1.0",
+    "koa-static": "^1.5.2",
+    "lodash": "^3.10.1",
+    "log4js": "^0.6.29",
+    "mocha": "^2.3.4",
+    "moment": "^2.11.0",
+    "mongoose": "^4.3.1",
+    "rand-token": "^0.2.1",
+    "request": "^2.67.0"
+  },
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "co-mocha": "^1.1.2",
+    "co-supertest": "0.0.10",
+    "nock": "^4.0.0",
+    "proxyquire": "^1.7.3",
+    "sinon": "^1.17.2",
+    "sinon-as-promised": "^4.0.0",
+    "sinon-chai": "^2.8.0",
+    "supertest": "^1.1.0"
+  }
+}
