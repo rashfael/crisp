@@ -1,0 +1,10 @@
+mixin textfield(name, labeltext, errors, required)
+	- if(errors === undefined)
+	-	var errors = {}
+	.field(class=errors[name] === undefined ? '' : 'error')
+		label(for=name)= labeltext + ':'
+		if(required)
+			span.required *
+		else
+			span.required
+		input(type='text', id=name, name=name, value=locals[name])

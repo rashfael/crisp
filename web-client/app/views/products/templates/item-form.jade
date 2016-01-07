@@ -1,0 +1,13 @@
+include ../../mixins/form
+
+form
+	p= locals.derp
+	+textfield('id', 'Artikelnummer')
+	+textfield('name', 'Name')
+	+textfield('productGroupId', 'Produktgruppe')
+	+textfield('supplierId', 'Lieferant')
+	+textfield('supplierProductId', 'Lieferantennummer')
+	+textfield('printerline1', 'Druckzeile 1')
+	+textfield('printerline1', 'Druckzeile 2')
+	+textfield('cost', 'EK')
+	+textfield('sale', 'VK')

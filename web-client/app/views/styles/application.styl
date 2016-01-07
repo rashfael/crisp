@@ -12,6 +12,11 @@ typography()
 *
 	box-sizing: border-box
 
+#page-container
+	margin 7rem auto 0
+	padding 0 2em
+	max-width page-width
+
 button
 	button: green
 
@@ -21,47 +26,10 @@ label
 form table td
 	padding: 0.5em
 
-input(width)
-	width width
-	border none
-	border-bottom 1px solid crisp-primary
-	transition all 0.3s cubic-bezier(.64,.09,.08,1)
-	background linear-gradient(to bottom, rgba(255,255,255,0) 96%, crisp-primary 4%)
-	background-position -1*width 0
-	background-size width 100%
-	background-repeat no-repeat
-	color darken(crisp-primary, 20%)
++html5-inputs()
+	input()
 
-	&:focus
-		box-shadow none
-		outline none
-		background-position 0 0
-
-input:invalid
-	background-color: red
-	color: white
-
-#page-container
-	margin 7rem 0 0
-	padding 0 2em
-	@media (max-width: 1150px)
-		padding 0
-
-form#time-input
-	width omnibar-width + 4rem
-	margin auto
-	input
-		input(omnibar-width)
-		height 3rem
-		font-size 1.75em
-	a
-		margin-left 0.5em
-		font-size 2rem
-
-#error-bubble
-	bubble: top center yellow
-	position fixed
-	z-index 100
-	width omnibar-width
-	margin-top 1em
-	display none
+form .field
+	field: right 30em
+	label
+		padding-right 1em

@@ -8,7 +8,7 @@ config = require '../config'
 
 mongoose = require 'mongoose'
 
-mongoose.connect 'mongodb://localhost/creatime'
+mongoose.connect 'mongodb://localhost/crisp-test'
 mongoCon = mongoose.connection
 mongoCon.once 'open', ->
 	log.info 'Connected to database'
