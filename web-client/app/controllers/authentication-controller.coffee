@@ -12,7 +12,7 @@ module.exports = class AuthenticationController extends Chaplin.Controller
 		user = JSON.parse localStorage.getItem 'user'
 		return @_showLoginPrompt() unless user?
 		$.ajax
-			url: '/api/authenticate'
+			url: '/api/v2/authenticate'
 			headers:
 				Authorization: 'Bearer ' + user.token
 			dataType: 'json'
@@ -27,6 +27,11 @@ module.exports = class AuthenticationController extends Chaplin.Controller
 	_loginSuccess: (user) =>
 		mediator.user = new User user
 		localStorage.setItem 'user', JSON.stringify user
+		$.ajaxSetup
+			beforeSend: (xhr, settings) ->
+				if settings.url[0] is '/'
+					xhr.setRequestHeader "Authorization","Bearer #{user.token}"
+
 		@publishEvent '!auth:success'
 		return
 
@@ -40,7 +45,7 @@ module.exports = class AuthenticationController extends Chaplin.Controller
 			data =
 				username: mediator.user.get 'username'
 				password: password
-			$.post '/api/login', data, (user) =>
+			$.post '/api/v2/login', data, (user) =>
 				@_loginSuccess user
 
 		#@view = new LoginView()

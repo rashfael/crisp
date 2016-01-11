@@ -19,8 +19,11 @@ module.exports.list = (next) ->
 	# 		]
 	# if @query.user?
 	# 	query.user = @query.user
+	options =
+		limit: 100
+	# options = @request.body?.options
 
-	list = yield productsController.find query, @request.body?.projection, @request.body?.options
+	list = yield productsController.find query, @request.body?.projection, options
 	@body = list
 	yield next
 

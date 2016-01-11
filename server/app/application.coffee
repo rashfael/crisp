@@ -14,21 +14,21 @@ module.exports = ->
 	sendIndex = ->
 		yield send @, 'index.html', root: config.staticFileDirectory
 
-	publicRouter.post '/api/login', koaBody, routers.auth.login
+	publicRouter.post '/api/v2/login', koaBody, routers.auth.login
 
 
 	app.use(publicRouter.routes()).use(publicRouter.allowedMethods())
 
 	securedRouter = Router()
 	securedRouter.use routers.auth.authMiddleware
-	securedRouter.get '/api/authenticate', routers.auth.authenticate
+	securedRouter.get '/api/v2/authenticate', routers.auth.authenticate
 
-	# if routers.activity?
-	# 	securedRouter.post '/api/activities', koaBody, routers.activity.create
-	# 	securedRouter.get '/api/activities', koaBody, routers.activity.list
-	# 	securedRouter.put '/api/activities/:id', koaBody, routers.activity.update
-	# 	securedRouter.get '/api/activities/:id', routers.activity.read
-	# 	securedRouter.delete '/api/activities/:id', routers.activity.delete
+	if routers.products?
+		securedRouter.post '/api/v2/products', koaBody, routers.products.create
+		securedRouter.get '/api/v2/products', koaBody, routers.products.list
+		securedRouter.put '/api/v2/products/:id', koaBody, routers.products.update
+		securedRouter.get '/api/v2/products/:id', routers.products.read
+		securedRouter.delete '/api/v2/products/:id', routers.products.delete
 	#
 	# if routers.userSettings
 	# 	securedRouter.get '/api/user-settings/:username', routers.userSettings.get
