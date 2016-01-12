@@ -9,6 +9,9 @@ module.exports = class ProductController
 	find: (query, projection, options) =>
 		yield Product.find(query, projection, options).exec()
 
+	count: (query) =>
+		yield Product.count(query).exec()
+
 	findOne: (query, projection, options) =>
 		yield Product.findOne(query, projection, options).exec()
 

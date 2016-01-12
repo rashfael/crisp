@@ -9,6 +9,22 @@ module.exports.create = (next) ->
 
 module.exports.list = (next) ->
 	query = {}
+
+	if @query.search?
+		query =
+			$or: [
+				_id:
+					$regex: '^' + @query.search
+					$options: 'i'
+			,
+				name:
+					$regex: @query.search
+					$options: 'i'
+			,
+				supplierProductId:
+					$regex: @query.search
+					$options: 'i'
+			]
 	# if @query['min-date']? and @query['max-date']?
 	# 	query.begin =
 	# 			$lte: new Date @query['max-date']
@@ -21,10 +37,20 @@ module.exports.list = (next) ->
 	# 	query.user = @query.user
 	options =
 		limit: 100
+		skip: parseInt(@query?.skip) or 0
 	# options = @request.body?.options
 
-	list = yield productsController.find query, @request.body?.projection, options
-	@body = list
+	[list, count] = yield [
+		productsController.find query, @request.body?.projection, options
+		productsController.count query
+	]
+	@body =
+		items: list
+		metadata:
+			totalCount: count
+			limit: options.limit
+			skip: options.skip
+
 	yield next
 
 module.exports.read = (next) ->

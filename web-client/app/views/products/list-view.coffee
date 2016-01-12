@@ -40,7 +40,11 @@ module.exports = class ProductsListView extends View
 	className: 'products'
 	template: require './templates/list'
 	regions:
+		pagination: '#pagination'
 		grid: '#products-list'
+
+	events:
+		'submit form': 'onSearch'
 
 	initialize: (options) =>
 		super options
@@ -52,3 +56,7 @@ module.exports = class ProductsListView extends View
 		grid = @subview 'grid'
 		grid.container = @$ '#products-list'
 		grid.render()
+
+	onSearch: (event) =>
+		event.preventDefault()
+		@publishEvent '!search', @$('input').val()

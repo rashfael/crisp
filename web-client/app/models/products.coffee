@@ -11,3 +11,11 @@ module.exports.Product = class Product extends Model
 module.exports.Products = class Products extends Collection
 	model: Product
 	url: '/api/v2/products'
+
+	constructor: ->
+		@metadata = new Model()
+		super
+
+	parse: (response) =>
+		@metadata.set response.metadata
+		return response.items

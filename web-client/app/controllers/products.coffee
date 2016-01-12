@@ -5,7 +5,7 @@ Controller = require 'controllers/base/controller'
 
 ProductsListView = require 'views/products/list-view'
 ProductsNewView = require 'views/products/new-view'
-
+PaginationView = require 'views/pagination-view'
 
 module.exports = class ProductsController extends Controller
 
@@ -16,6 +16,24 @@ module.exports = class ProductsController extends Controller
 		@view = new ProductsListView
 			region: 'main'
 			collection: products
+
+		@view.subview 'pagination', new PaginationView
+			model: products.metadata
+			region: 'pagination'
+
+		@subscribeEvent 'pagination:page', (page) =>
+			console.log 'load', page
+			products.fetch
+				reset: true
+				data:
+					skip: page * 100
+
+		@subscribeEvent '!search', (query) =>
+			console.log query
+			products.fetch
+				reset: true
+				data:
+					search: query
 
 	new: (params) =>
 		@view = new ProductsNewView
