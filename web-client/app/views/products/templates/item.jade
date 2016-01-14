@@ -1,8 +1,17 @@
 h2= name
 
 ul.tabs
-	li.active: a(href='#') Details
-	li: a(href='#') Historie
+	li.active: a#details-tab(href='#') Details
+	li: a#history-tab(href='#') Historie
 	li: a(href='#') Lagerbestand
-#details
-	include ./item-form
+
+.tab-content
+	#details.active
+		include ./item-form
+	#history
+		table
+			for item in history
+				tr
+					td= item.customerId
+					td= item.saleId
+					td= item.date

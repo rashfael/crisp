@@ -1,3 +1,5 @@
+async = require 'async'
+$ = require 'jquery'
 mediator = require 'mediator'
 Controller = require 'controllers/base/controller'
 
@@ -52,8 +54,13 @@ module.exports = class ProductsController extends Controller
 	item: (params) =>
 		product = new Product
 			_id: params.id
-		product.fetch
-			success: =>
+
+		async.parallel [
+				(cb) -> product.fetch success: -> cb null, {}
+			,
+				(cb) -> $.getJSON "/api/v2/products/#{params.id}/history", (data) -> cb null, data
+			], (err, data) ->
+				product.set 'history', data[1]
 				@view = new ProductsItemView
 					region: 'main'
 					model: product
