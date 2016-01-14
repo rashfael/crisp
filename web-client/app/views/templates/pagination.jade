@@ -2,7 +2,7 @@ ul
 	li: a.first(href='#'): i.fa.fa-angle-double-left
 	li: a.previous(href='#'): i.fa.fa-angle-left
 	- for (var i = firstVisible; i < lastVisible; ++i) {
-		li: a.page(href='#', data-page=i)= i + 1
+		li: a.page(href='#', data-page=i, class=currentPage === i?'active':'')= i + 1
 	- }
 	li: a.next(href='#'): i.fa.fa-angle-right
 	li: a.last(href='#'): i.fa.fa-angle-double-right

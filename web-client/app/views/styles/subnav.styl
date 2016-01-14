@@ -1,0 +1,72 @@
+@import 'nib'
+@import '_settings'
+
+subnav-height = 2.25rem
+
+#subnav
+	position fixed
+	top 2rem
+	width 81rem
+	background-color white
+	padding 3rem 0 1rem
+	border-bottom 2px solid silver
+	#actions
+		display inline
+		a
+			button desaturate(green,15)
+			height subnav-height
+			line-height subnav-height
+			padding 0 1rem
+			width 8rem
+		form
+			margin-left 1rem
+			display inline-block
+			position relative
+			width 28rem
+			label
+				position absolute
+				line-height subnav-height
+				left 0.5rem
+			input
+				input()
+				width 100%
+				height subnav-height
+				padding-left 1.5rem
+	#pagination
+		position absolute
+		right 0
+		top 3rem
+
+.pagination
+	display inline
+	text-align center
+	ul
+
+		display inline-block
+		border 1px solid silver
+		border-radius 2px
+		padding 0
+		margin 0
+
+		li
+			line-height subnav-height
+			display inline-block
+			list-style-property none
+			border-left 1px solid silver
+			padding 0
+			a
+				display inline-block
+				text-align center
+				height subnav-height
+				width 3rem
+
+				&:hover
+					text-decoration none
+					background-color lighten(blue,40)
+					border-bottom none
+
+				&.active
+					background-color white
+
+		:first-child
+			border-left none

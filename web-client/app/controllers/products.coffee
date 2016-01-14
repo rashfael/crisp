@@ -4,6 +4,8 @@ Controller = require 'controllers/base/controller'
 {Product, Products} = require 'models/products'
 
 ProductsListView = require 'views/products/list-view'
+ProductsItemView = require 'views/products/item-view'
+
 ProductsNewView = require 'views/products/new-view'
 PaginationView = require 'views/pagination-view'
 
@@ -35,6 +37,9 @@ module.exports = class ProductsController extends Controller
 				data:
 					search: query
 
+		@subscribeEvent 'row:clicked', (product) =>
+			@redirectTo {controller: ProductsController, action: 'item', params: {id: product.get '_id'}}
+
 	new: (params) =>
 		@view = new ProductsNewView
 			region: 'main'
@@ -43,3 +48,12 @@ module.exports = class ProductsController extends Controller
 			console.log product
 			product.new = true
 			product.save()
+
+	item: (params) =>
+		product = new Product
+			_id: params.id
+		product.fetch
+			success: =>
+				@view = new ProductsItemView
+					region: 'main'
+					model: product

@@ -39,40 +39,29 @@ button
 table
 	table($condensed: true)
 
-#subnav
-	position fixed
-	top 2rem
-	width 81rem
-	background-color white
-	padding 3rem 0 1rem
-	border-bottom 1px solid silver
-	#actions
-		display inline
-		a
-			button green
-			height 3rem
-			line-height 3rem
-			padding 0 1rem
-			width 8rem
-		form
-			margin-left 1rem
-			display inline-block
-			position relative
-			width 28rem
-			label
-				position absolute
-				line-height 3rem
-				left 0.5rem
-			input
-				input()
-				width 100%
-				height 3rem
-				padding-left 1.5rem
-	#pagination
-		position absolute
-		right 0
-		top 3rem
-		
+	tr
+		cursor pointer
 
 #products-list
 	margin-top 9rem
+
+.tabs
+	border-bottom 1px solid silver
+	li
+		margin 0 1rem -1px 0
+		border-radius 3px 3px 0 0
+		list-style-type none
+		display inline-block
+		padding 0
+		&.active
+			border 1px solid silver
+			border-bottom 1px solid white
+
+		&:hover
+			background-color silver
+
+		a
+			display inline-block
+			line-height 2rem
+			height 2rem
+			padding 0 1rem

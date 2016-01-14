@@ -7,3 +7,4 @@ module.exports = (match) ->
 	match 'help', {controller: HelpController, action: 'index'}
 	match 'products', {controller: ProductsController, action: 'index'}
 	match 'products/new', {controller: ProductsController, action: 'new'}
+	match 'products/:id', {controller: ProductsController, action: 'item'}

@@ -3,8 +3,18 @@ _ = require 'lodash'
 View = require 'views/base/view'
 Backgrid = require 'backgrid'
 
+class Chaprow extends View
+	_.extend @::, Backgrid.Row::
+
+	events:
+		'click': 'onClick'
+
+	onClick: ->
+		@publishEvent 'row:clicked', @model
+
 class Chapgrid extends View
 	_.extend @::, Backgrid.Grid::
+
 	columns: [
 		name: '_id'
 		label: 'Artikelnummer'
@@ -49,6 +59,7 @@ module.exports = class ProductsListView extends View
 	initialize: (options) =>
 		super options
 		@subview 'grid', new Chapgrid
+			row: Chaprow
 			collection: @collection
 
 	render: =>
