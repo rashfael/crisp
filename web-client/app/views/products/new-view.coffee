@@ -8,6 +8,7 @@ module.exports = class ProductsListView extends View
 
 	events:
 		'submit': 'onSubmit'
+		'click #generate': 'onGenerate'
 
 	onSubmit: =>
 		data =
@@ -16,3 +17,9 @@ module.exports = class ProductsListView extends View
 		model = new Product data
 		@trigger 'new', model
 		return false
+
+	onGenerate: (event) =>
+		@trigger 'generateId'
+
+	setId: (id) =>
+		@$('form [name=_id]').val id

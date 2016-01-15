@@ -1,13 +1,6 @@
 View = require 'views/base/view'
 {Product} = require 'models/products'
 
-preventWrapper = (func) ->
-	return (event) ->
-		event.preventDefault()
-		func.apply @, arguments
-		return false
-
-
 module.exports = class ProductsItemView extends View
 	autoRender: true
 	className: 'products'
@@ -32,8 +25,8 @@ module.exports = class ProductsItemView extends View
 		@$('.tab-content > div').removeClass 'active'
 		@$("##{name}").addClass 'active'
 
-	showDetails: preventWrapper ->
+	showDetails: ->
 		@showTab 'details'
 
-	showHistory: preventWrapper ->
+	showHistory: ->
 		@showTab 'history'

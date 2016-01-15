@@ -51,6 +51,11 @@ module.exports = class ProductsController extends Controller
 			product.new = true
 			product.save()
 
+		@listenTo @view, 'generateId', ->
+			$.getJSON '/api/v2/products/generate-id', (data) =>
+				console.log 'generated id', data
+				@view.setId data
+
 	item: (params) =>
 		product = new Product
 			_id: params.id

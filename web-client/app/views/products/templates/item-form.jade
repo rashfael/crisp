@@ -1,8 +1,11 @@
 include ../../mixins/form
 
 form
-	p= locals.derp
-	+textfield('_id', 'Artikelnummer')
+	//- +textfield('_id', 'Artikelnummer')
+	.field
+		label(for='_id') Artikelnummer
+		input(type='text', id='_id', name='_id', value=_id)
+		button#generate Generieren
 	+textfield('name', 'Name')
 	+textfield('productGroupId', 'Produktgruppe')
 	+textfield('supplierId', 'Lieferant')

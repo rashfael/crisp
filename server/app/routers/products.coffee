@@ -90,3 +90,7 @@ module.exports.delete = (next) ->
 	else
 		@status = 204
 	yield next
+
+module.exports.generateId = (next) ->
+	result = yield productsController.generateId()
+	@body = JSON.stringify result

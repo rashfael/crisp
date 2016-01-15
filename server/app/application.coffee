@@ -27,9 +27,11 @@ module.exports = ->
 		securedRouter.post '/api/v2/products', koaBody, routers.products.create
 		securedRouter.get '/api/v2/products', koaBody, routers.products.list
 		securedRouter.put '/api/v2/products/:id', koaBody, routers.products.update
+		securedRouter.get '/api/v2/products/generate-id', koaBody, routers.products.generateId
 		securedRouter.get '/api/v2/products/:id', routers.products.read
 		securedRouter.get '/api/v2/products/:id/history', routers.products.history
 		securedRouter.delete '/api/v2/products/:id', routers.products.delete
+
 	#
 	# if routers.userSettings
 	# 	securedRouter.get '/api/user-settings/:username', routers.userSettings.get
