@@ -2,6 +2,8 @@ moment = require 'moment'
 Chaplin = require 'chaplin'
 Backbone = require 'backbone'
 
+translations = require 'translations'
+
 require 'lib/view-helper' # Just load the view helpers, no return value
 
 
@@ -25,6 +27,7 @@ module.exports = class View extends Chaplin.View
 		data.config = require 'config'
 		data.formats =
 			timeFormat: 'H:mm'
+		data.translations = translations
 		return data
 
 	_delegateEvents: (events) ->

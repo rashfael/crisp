@@ -2,6 +2,7 @@ _ = require 'lodash'
 
 View = require 'views/base/view'
 Backgrid = require 'backgrid'
+translations = require 'translations'
 
 class Chaprow extends View
 	_.extend @::, Backgrid.Row::
@@ -11,6 +12,10 @@ class Chaprow extends View
 
 	onClick: ->
 		@publishEvent 'row:clicked', @model
+
+# class SupplierCell extend Backgrid.Cell
+# 	className: 'supplier-cell'
+# 	formatter: SupplierFormatter
 
 class Chapgrid extends View
 	_.extend @::, Backgrid.Grid::
@@ -27,6 +32,8 @@ class Chapgrid extends View
 	,
 		name: 'supplierId'
 		label: 'Lieferant'
+		formatter: _.extend {}, Backgrid.CellFormatter.prototype,
+			fromRaw: (rawValue, model) -> translations.suppliersMap[rawValue].name
 	,
 		name: 'supplierProductId'
 		label: 'LiefNr'
@@ -43,7 +50,7 @@ class Chapgrid extends View
 
 	for column in @::columns
 		column.editable = false
-		column.cell = 'string'
+		column.cell = 'string' if not column.cell?
 
 module.exports = class ProductsListView extends View
 	autoRender: true

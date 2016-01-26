@@ -14,6 +14,13 @@ module.exports = class ProductsListView extends View
 		data =
 			_id: @$('form [name=_id]').val()
 			name: @$('form [name=name]').val()
+			productGroupId: @$('form [name=productGroupId]').val()
+			supplierId: @$('form [name=supplierId]').val()
+			supplierProductId: @$('form [name=supplierProductId]').val()
+			printerline1: @$('form [name=printerline1]').val()
+			printerline1: @$('form [name=printerline1]').val()
+			cost: @$('form [name=cost]').val()
+			sale: @$('form [name=sale]').val()
 		model = new Product data
 		@trigger 'new', model
 		return false

@@ -1,6 +1,7 @@
 $ = require 'jquery'
 Chaplin = require 'chaplin'
 mediator = require 'mediator'
+translations = require 'translations'
 AuthenticationController = require 'controllers/authentication-controller'
 
 # Install polyfill
@@ -19,5 +20,5 @@ module.exports = class Application extends Chaplin.Application
 		Application.__super__.initialize.call @, @options
 
 	start: ->
-		# google.tryAuthenticating()
-		super
+		translations.fetch =>
+			super

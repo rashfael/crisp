@@ -32,6 +32,13 @@ module.exports = ->
 		securedRouter.get '/api/v2/products/:id/history', routers.products.history
 		securedRouter.delete '/api/v2/products/:id', routers.products.delete
 
+		if routers.suppliers?
+			securedRouter.post '/api/v2/suppliers', koaBody, routers.suppliers.create
+			securedRouter.get '/api/v2/suppliers', koaBody, routers.suppliers.list
+			securedRouter.put '/api/v2/suppliers/:id', koaBody, routers.suppliers.update
+			securedRouter.get '/api/v2/suppliers/:id', routers.suppliers.read
+			securedRouter.delete '/api/v2/suppliers/:id', routers.suppliers.delete
+
 	#
 	# if routers.userSettings
 	# 	securedRouter.get '/api/user-settings/:username', routers.userSettings.get
