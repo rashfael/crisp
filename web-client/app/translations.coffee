@@ -12,9 +12,7 @@ class Translations
 			@suppliers = rawSuppliers[0].items
 			@suppliersMap = _.keyBy @suppliers, '_id'
 			@productGroups = rawProductGroups[0].items
-
 			@productGroupsMap = _.keyBy @productGroups, '_id'
-			console.log @productGroupsMap
 			cb()
 		, (err) => console.error err
 

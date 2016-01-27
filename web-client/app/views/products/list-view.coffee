@@ -17,6 +17,9 @@ class Chaprow extends View
 # 	className: 'supplier-cell'
 # 	formatter: SupplierFormatter
 
+currencyFormatter = _.extend {}, Backgrid.CellFormatter.prototype,
+	fromRaw: (rawValue, model) -> rawValue?.toLocaleString 'de-DE', minimumFractionDigits: 2
+
 class Chapgrid extends View
 	_.extend @::, Backgrid.Grid::
 
@@ -42,9 +45,13 @@ class Chapgrid extends View
 	,
 		name: 'cost'
 		label: 'EK'
+		formatter: currencyFormatter
+		cell: 'number'
 	,
 		name: 'sale'
 		label: 'VK'
+		formatter: currencyFormatter
+		cell: 'number'
 	,
 		name: 'stock'
 		label: 'Lager'
