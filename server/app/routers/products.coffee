@@ -1,3 +1,5 @@
+_ = require 'lodash'
+
 productsController = require('../controllers').products
 salesController = require('../controllers').sales
 
@@ -46,8 +48,9 @@ module.exports.list = (next) ->
 		productsController.find query, @request.body?.projection, options
 		productsController.count query
 	]
+	console.log list
 	@body =
-		items: list
+		items: _.map list, (obj) -> obj.toObject getters:true
 		metadata:
 			totalCount: count
 			limit: options.limit

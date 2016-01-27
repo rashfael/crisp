@@ -35,12 +35,12 @@ Product = new mongoose.Schema
 	printerline2: String
 	cost:
 		type: Number
-		get: (x) -> return x/100 if x?
-		set: (x) -> return parseInt(x*100)
+		get: (x) -> x/100 if x?
+		set: (x) -> parseInt(x*100)
 	sale:
 		type: Number
-		get: (x) -> return x/100 if x?
-		set: (x) -> return parseInt(x*100)
+		get: (x) -> x/100 if x?
+		set: (x) -> parseInt(x*100)
 	stock:
 		type: Number
 		default: 0
