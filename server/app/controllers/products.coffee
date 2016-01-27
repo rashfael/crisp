@@ -2,7 +2,7 @@ mongoose = require 'mongoose'
 Product = mongoose.model 'Product'
 log = require('log4js').getLogger('products-controller')
 
-module.exports = class ProductController
+module.exports = class ProductsController
 	create: (obj) =>
 		yield new Product(obj).save()
 

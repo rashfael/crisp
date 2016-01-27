@@ -29,11 +29,13 @@ class Chapgrid extends View
 	,
 		name: 'productGroupId'
 		label: 'Gruppe'
+		formatter: _.extend {}, Backgrid.CellFormatter.prototype,
+			fromRaw: (rawValue, model) -> translations.productGroupsMap[rawValue]?.name
 	,
 		name: 'supplierId'
 		label: 'Lieferant'
 		formatter: _.extend {}, Backgrid.CellFormatter.prototype,
-			fromRaw: (rawValue, model) -> translations.suppliersMap[rawValue].name
+			fromRaw: (rawValue, model) -> translations.suppliersMap[rawValue]?.name
 	,
 		name: 'supplierProductId'
 		label: 'LiefNr'
