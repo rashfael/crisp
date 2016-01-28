@@ -4,23 +4,9 @@ View = require 'views/base/view'
 Backgrid = require 'backgrid'
 translations = require 'translations'
 
-class Chaprow extends View
-	_.extend @::, Backgrid.Row::
+{ChapRow, currencyFormatter} = require 'views/base/backgrid'
 
-	events:
-		'click': 'onClick'
-
-	onClick: ->
-		@publishEvent 'row:clicked', @model
-
-# class SupplierCell extend Backgrid.Cell
-# 	className: 'supplier-cell'
-# 	formatter: SupplierFormatter
-
-currencyFormatter = _.extend {}, Backgrid.CellFormatter.prototype,
-	fromRaw: (rawValue, model) -> rawValue?.toLocaleString 'de-DE', minimumFractionDigits: 2
-
-class Chapgrid extends View
+class ChapGrid extends View
 	_.extend @::, Backgrid.Grid::
 
 	columns: [
@@ -74,8 +60,8 @@ module.exports = class ProductsListView extends View
 
 	initialize: (options) =>
 		super options
-		@subview 'grid', new Chapgrid
-			row: Chaprow
+		@subview 'grid', new ChapGrid
+			row: ChapRow
 			collection: @collection
 
 	render: =>

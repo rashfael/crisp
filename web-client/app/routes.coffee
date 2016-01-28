@@ -1,6 +1,9 @@
 HomeController = require 'controllers/home-controller'
 HelpController = require 'controllers/help-controller'
 ProductsController = require 'controllers/products'
+SuppliersController = require 'controllers/suppliers'
+CustomersController = require 'controllers/customers'
+
 # Application routes.
 module.exports = (match) ->
 	match '', {controller: HomeController, action: 'index'}
@@ -8,3 +11,5 @@ module.exports = (match) ->
 	match 'products', {controller: ProductsController, action: 'index'}
 	match 'products/new', {controller: ProductsController, action: 'new'}
 	match 'products/:id', {controller: ProductsController, action: 'item'}
+	match 'suppliers', {controller: SuppliersController, action: 'index'}
+	match 'customers', {controller: CustomersController, action: 'index'}

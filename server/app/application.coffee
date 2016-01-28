@@ -46,6 +46,13 @@ module.exports = ->
 			securedRouter.get '/api/v2/product-groups/:id', routers.productGroups.read
 			securedRouter.delete '/api/v2/product-groups/:id', routers.productGroups.delete
 
+		if routers.customers?
+			securedRouter.post '/api/v2/customers', koaBody, routers.customers.create
+			securedRouter.get '/api/v2/customers', koaBody, routers.customers.list
+			securedRouter.put '/api/v2/customers/:id', koaBody, routers.customers.update
+			securedRouter.get '/api/v2/customers/:id', routers.customers.read
+			securedRouter.delete '/api/v2/customers/:id', routers.customers.delete
+
 	#
 	# if routers.userSettings
 	# 	securedRouter.get '/api/user-settings/:username', routers.userSettings.get
