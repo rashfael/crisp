@@ -23,6 +23,13 @@ module.exports = ->
 	securedRouter.use routers.auth.authMiddleware
 	securedRouter.get '/api/v2/authenticate', routers.auth.authenticate
 
+	if routers.customers?
+		securedRouter.post '/api/v2/customers', koaBody, routers.customers.create
+		securedRouter.get '/api/v2/customers', koaBody, routers.customers.list
+		securedRouter.put '/api/v2/customers/:id', koaBody, routers.customers.update
+		securedRouter.get '/api/v2/customers/:id', routers.customers.read
+		securedRouter.delete '/api/v2/customers/:id', routers.customers.delete
+
 	if routers.products?
 		securedRouter.post '/api/v2/products', koaBody, routers.products.create
 		securedRouter.get '/api/v2/products', koaBody, routers.products.list
@@ -32,26 +39,26 @@ module.exports = ->
 		securedRouter.get '/api/v2/products/:id/history', routers.products.history
 		securedRouter.delete '/api/v2/products/:id', routers.products.delete
 
-		if routers.suppliers?
-			securedRouter.post '/api/v2/suppliers', koaBody, routers.suppliers.create
-			securedRouter.get '/api/v2/suppliers', koaBody, routers.suppliers.list
-			securedRouter.put '/api/v2/suppliers/:id', koaBody, routers.suppliers.update
-			securedRouter.get '/api/v2/suppliers/:id', routers.suppliers.read
-			securedRouter.delete '/api/v2/suppliers/:id', routers.suppliers.delete
+	if routers.productGroups?
+		securedRouter.post '/api/v2/product-groups', koaBody, routers.productGroups.create
+		securedRouter.get '/api/v2/product-groups', koaBody, routers.productGroups.list
+		securedRouter.put '/api/v2/product-groups/:id', koaBody, routers.productGroups.update
+		securedRouter.get '/api/v2/product-groups/:id', routers.productGroups.read
+		securedRouter.delete '/api/v2/product-groups/:id', routers.productGroups.delete
 
-		if routers.productGroups?
-			securedRouter.post '/api/v2/product-groups', koaBody, routers.productGroups.create
-			securedRouter.get '/api/v2/product-groups', koaBody, routers.productGroups.list
-			securedRouter.put '/api/v2/product-groups/:id', koaBody, routers.productGroups.update
-			securedRouter.get '/api/v2/product-groups/:id', routers.productGroups.read
-			securedRouter.delete '/api/v2/product-groups/:id', routers.productGroups.delete
+	if routers.suppliers?
+		securedRouter.post '/api/v2/suppliers', koaBody, routers.suppliers.create
+		securedRouter.get '/api/v2/suppliers', koaBody, routers.suppliers.list
+		securedRouter.put '/api/v2/suppliers/:id', koaBody, routers.suppliers.update
+		securedRouter.get '/api/v2/suppliers/:id', routers.suppliers.read
+		securedRouter.delete '/api/v2/suppliers/:id', routers.suppliers.delete
 
-		if routers.customers?
-			securedRouter.post '/api/v2/customers', koaBody, routers.customers.create
-			securedRouter.get '/api/v2/customers', koaBody, routers.customers.list
-			securedRouter.put '/api/v2/customers/:id', koaBody, routers.customers.update
-			securedRouter.get '/api/v2/customers/:id', routers.customers.read
-			securedRouter.delete '/api/v2/customers/:id', routers.customers.delete
+	if routers.sales?
+		securedRouter.post '/api/v2/sales', koaBody, routers.sales.create
+		securedRouter.get '/api/v2/sales', koaBody, routers.sales.list
+		securedRouter.put '/api/v2/sales/:id', koaBody, routers.sales.update
+		securedRouter.get '/api/v2/sales/:id', routers.sales.read
+		securedRouter.delete '/api/v2/sales/:id', routers.sales.delete
 
 	#
 	# if routers.userSettings

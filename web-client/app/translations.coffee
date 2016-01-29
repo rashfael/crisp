@@ -2,6 +2,7 @@ $ = require 'jquery'
 _ = require 'lodash'
 
 class Translations
+	dateFormat: "DD. MM. YYYY"
 	suppliers: []
 	suppliersMap: {}
 	productGroups: []
