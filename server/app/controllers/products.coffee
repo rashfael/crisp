@@ -16,7 +16,10 @@ module.exports = class ProductsController
 		yield Product.findOne(query, projection, options).exec()
 
 	update: (id, update) =>
-		yield Product.findByIdAndUpdate(id, update, {new:true}).exec()
+		product = yield Product.findById(id).exec()
+		product.set update
+		yield product.save()
+		return product
 
 	remove: (query) =>
 		yield Product.remove query

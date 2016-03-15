@@ -46,8 +46,9 @@ module.exports = class ProductsController extends Controller
 		@view = new ProductsNewView
 			region: 'main'
 
-		@listenTo @view, 'new', (product) ->
-			console.log product
+		@listenTo @view, 'save', (rawProduct) ->
+			console.log rawProduct
+			product = new Product rawProduct
 			product.new = true
 			product.save()
 
@@ -64,8 +65,10 @@ module.exports = class ProductsController extends Controller
 				(cb) -> product.fetch success: -> cb null, {}
 			,
 				(cb) -> $.getJSON "/api/v2/products/#{params.id}/history", (data) -> cb null, data
-			], (err, data) ->
+			], (err, data) =>
 				product.set 'history', data[1]
 				@view = new ProductsItemView
 					region: 'main'
 					model: product
+				@listenTo @view, 'save', (rawProduct) ->
+					product.save rawProduct

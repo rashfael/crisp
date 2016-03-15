@@ -6,12 +6,12 @@ Controller = require 'controllers/base/controller'
 {Sale, Sales} = require 'models/sales'
 
 SalesListView = require 'views/sales/list-view'
-# ProductsItemView = require 'views/products/item-view'
-#
-# ProductsNewView = require 'views/products/new-view'
+SaleItemView = require 'views/sales/item-view'
+
+
 PaginationView = require 'views/pagination-view'
 
-module.exports = class SuppliersController extends Controller
+module.exports = class SalesController extends Controller
 
 	index: (params) ->
 
@@ -39,33 +39,22 @@ module.exports = class SuppliersController extends Controller
 				data:
 					search: query
 
-		# @subscribeEvent 'row:clicked', (product) =>
-		# 	@redirectTo {controller: ProductsController, action: 'item', params: {id: product.get '_id'}}
+		@subscribeEvent 'row:clicked', (sale) =>
+			@redirectTo {controller: SalesController, action: 'item', params: {id: sale.get '_id'}}
 
-	# new: (params) =>
-	# 	@view = new ProductsNewView
-	# 		region: 'main'
-	#
-	# 	@listenTo @view, 'new', (product) ->
-	# 		console.log product
-	# 		product.new = true
-	# 		product.save()
-	#
-	# 	@listenTo @view, 'generateId', ->
-	# 		$.getJSON '/api/v2/products/generate-id', (data) =>
-	# 			console.log 'generated id', data
-	# 			@view.setId data
-	#
-	# item: (params) =>
-	# 	product = new Product
-	# 		_id: params.id
-	#
-	# 	async.parallel [
-	# 			(cb) -> product.fetch success: -> cb null, {}
-	# 		,
-	# 			(cb) -> $.getJSON "/api/v2/products/#{params.id}/history", (data) -> cb null, data
-	# 		], (err, data) ->
-	# 			product.set 'history', data[1]
-	# 			@view = new ProductsItemView
-	# 				region: 'main'
-	# 				model: product
+	item: (params) =>
+		sale = new Sale
+			_id: params.id
+		sale.fetch success: =>
+			@view = new SaleItemView
+				region: 'main'
+				model: sale
+		# async.parallel [
+		# 		(cb) -> product.fetch success: -> cb null, {}
+		# 	,
+		# 		(cb) -> $.getJSON "/api/v2/products/#{params.id}/history", (data) -> cb null, data
+		# 	], (err, data) ->
+		# 		product.set 'history', data[1]
+		# 		@view = new ProductsItemView
+		# 			region: 'main'
+		# 			model: product

@@ -47,5 +47,8 @@ Product = new mongoose.Schema
 	arrivals: [Arrival]
 	transfers: [Transfer]
 	# inventory: {}
+,
+	toObject : {getters: true}
+	toJSON : {getters: true}
 
 module.exports = mongoose.model 'Product', Product, 'products'

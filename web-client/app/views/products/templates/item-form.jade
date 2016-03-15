@@ -1,13 +1,20 @@
 include ../../mixins/form
 
 form
-	//- +textfield('_id', 'Artikelnummer')
 	.field
 		label(for='_id') Artikelnummer:
-		input(type='text', id='_id', name='_id', value=_id)
-		button#generate Generieren
+		input(type='text', id='_id', name='_id', value=_id, readonly=_id!=null)
+		if(_id == null)
+			button#generate Generieren
 	+textfield('name', 'Name')
-	+textfield('productGroupId', 'Produktgruppe')
+	.field
+		label(for='productGroupId') Produktgruppe:
+		select(id='productGroupId', name='productGroupId')
+			for productGroup in translations.productGroups
+				if productGroupId == productGroup._id
+					option(value=productGroup._id, selected)= productGroup.name
+				else
+					option(value=productGroup._id)= productGroup.name
 	.field
 		label(for='supplierId') Lieferant:
 		select(id='supplierId', name='supplierId')
@@ -19,7 +26,7 @@ form
 	+textfield('supplierProductId', 'Lieferantennummer')
 	+textfield('printerline1', 'Druckzeile 1')
 	+textfield('printerline1', 'Druckzeile 2')
-	+textfield('cost', 'EK')
-	+textfield('sale', 'VK')
+	+textfield('cost', 'EK', cost.toLocaleString('de-DE', {minimumFractionDigits: 2}))
+	+textfield('sale', 'VK', sale.toLocaleString('de-DE', {minimumFractionDigits: 2}))
 	
 	button(type='submit') Speichern
