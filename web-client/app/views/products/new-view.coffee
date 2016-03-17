@@ -1,6 +1,8 @@
 View = require 'views/base/view'
 {Product} = require 'models/products'
 
+parseCurrency = (string) -> parseFloat string.replace ',','.'
+
 module.exports = class ProductsListView extends View
 	autoRender: true
 	className: 'products'
@@ -19,10 +21,9 @@ module.exports = class ProductsListView extends View
 			supplierProductId: @$('form [name=supplierProductId]').val()
 			printerline1: @$('form [name=printerline1]').val()
 			printerline1: @$('form [name=printerline1]').val()
-			cost: @$('form [name=cost]').val()
-			sale: @$('form [name=sale]').val()
-		model = new Product data
-		@trigger 'new', model
+			cost: parseCurrency @$('form [name=cost]').val()
+			sale: parseCurrency @$('form [name=sale]').val()
+		@trigger 'new', data
 		return false
 
 	onGenerate: (event) =>

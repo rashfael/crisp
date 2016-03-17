@@ -13,7 +13,7 @@ module.exports = (match) ->
 
 	match 'customers', {controller: CustomersController, action: 'index'}
 
-	match 'products', {controller: ProductsController, action: 'index'}
+	match 'products', {controller: ProductsController, action: 'index', name: 'products'}
 	match 'products/new', {controller: ProductsController, action: 'new'}
 	match 'products/:id', {controller: ProductsController, action: 'item'}
 

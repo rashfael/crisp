@@ -36,11 +36,11 @@ Product = new mongoose.Schema
 	cost:
 		type: Number
 		get: (x) -> x/100 if x?
-		set: (x) -> parseInt(x*100)
+		set: (x) -> Math.round(x*100)
 	sale:
 		type: Number
 		get: (x) -> x/100 if x?
-		set: (x) -> parseInt(x*100)
+		set: (x) -> Math.round(x*100)
 	stock:
 		type: Number
 		default: 0

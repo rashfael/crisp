@@ -22,7 +22,6 @@ module.exports = class ProductsItemView extends View
 			printerline1: @$('form [name=printerline1]').val()
 			cost: parseCurrency @$('form [name=cost]').val()
 			sale: parseCurrency @$('form [name=sale]').val()
-		data._id = @$('form [name=_id]').val() if not @model.has '_id'
 		@trigger 'save', data
 		return false
 

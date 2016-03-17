@@ -1,0 +1,20 @@
+include ../../mixins/form
+
+form
+	.field
+		label(for='_id') Kundennummer:
+		input(type='text', id='_id', name='_id', value=_id, readonly=_id!=null)
+	+textfield('name', 'Name')
+	+textfield('forename', 'Vorname')
+	+textfield('street', 'Straße')
+	+textfield('zip', 'PLZ')
+	+textfield('place', 'Ort')
+	+textfield('tel', 'Telefon')
+	+textfield('tel2', 'Telefon2')
+	+textfield('fax', 'Fax')
+	+textfield('email', 'Email')
+	+textfield('birthday', 'Geburtstag')
+	+textfield('customerSince', 'Kunde seit')
+	+textfield('notes', 'Notizen')
+	
+	button(type='submit') Speichern

@@ -46,11 +46,13 @@ module.exports = class ProductsController extends Controller
 		@view = new ProductsNewView
 			region: 'main'
 
-		@listenTo @view, 'save', (rawProduct) ->
-			console.log rawProduct
+		@listenTo @view, 'new', (rawProduct) ->
 			product = new Product rawProduct
 			product.new = true
-			product.save()
+			product.save().done( =>
+				@redirectTo 'products'
+			).fail (err) ->
+				console.err err
 
 		@listenTo @view, 'generateId', ->
 			$.getJSON '/api/v2/products/generate-id', (data) =>
@@ -71,4 +73,7 @@ module.exports = class ProductsController extends Controller
 					region: 'main'
 					model: product
 				@listenTo @view, 'save', (rawProduct) ->
-					product.save rawProduct
+					product.save(rawProduct).done( =>
+						@redirectTo 'products'
+					).fail (err) ->
+						console.err err
