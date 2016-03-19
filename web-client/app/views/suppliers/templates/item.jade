@@ -1,0 +1,27 @@
+h2= name
+
+ul.tabs
+	li.active: a#details-tab(href='#') Details
+	li: a#history-tab(href='#') Historie
+	li: a(href='#') Lagerbestand
+
+.tab-content
+	#details.active
+		include ./item-form
+	#history
+		table
+			thread
+				tr
+					th Monat
+					th Anzahl
+					th Summe
+			tbody
+				tr
+					td(style='text-transform: capitalize') Gesamt
+					td= statistics.total.amount
+					td #{(statistics.total.sum/100).toFixed(2)} €
+				for val, key in statistics.stats
+					tr
+						td(style='text-transform: capitalize')= key
+						td= val.amount
+						td #{(val.sum/100).toFixed(2)} €

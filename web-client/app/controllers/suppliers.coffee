@@ -6,9 +6,8 @@ Controller = require 'controllers/base/controller'
 {Supplier, Suppliers} = require 'models/suppliers'
 
 SuppliersListView = require 'views/suppliers/list-view'
-# ProductsItemView = require 'views/products/item-view'
-#
-# ProductsNewView = require 'views/products/new-view'
+SuppliersItemView = require 'views/suppliers/item-view'
+SuppliersNewView = require 'views/suppliers/new-view'
 PaginationView = require 'views/pagination-view'
 
 module.exports = class SuppliersController extends Controller
@@ -39,33 +38,36 @@ module.exports = class SuppliersController extends Controller
 				data:
 					search: query
 
-		# @subscribeEvent 'row:clicked', (product) =>
-		# 	@redirectTo {controller: ProductsController, action: 'item', params: {id: product.get '_id'}}
+		@subscribeEvent 'row:clicked', (item) =>
+			@redirectTo {controller: SuppliersController, action: 'item', params: {id: item.get '_id'}}
 
-	# new: (params) =>
-	# 	@view = new ProductsNewView
-	# 		region: 'main'
-	#
-	# 	@listenTo @view, 'new', (product) ->
-	# 		console.log product
-	# 		product.new = true
-	# 		product.save()
-	#
-	# 	@listenTo @view, 'generateId', ->
-	# 		$.getJSON '/api/v2/products/generate-id', (data) =>
-	# 			console.log 'generated id', data
-	# 			@view.setId data
-	#
-	# item: (params) =>
-	# 	product = new Product
-	# 		_id: params.id
-	#
-	# 	async.parallel [
-	# 			(cb) -> product.fetch success: -> cb null, {}
-	# 		,
-	# 			(cb) -> $.getJSON "/api/v2/products/#{params.id}/history", (data) -> cb null, data
-	# 		], (err, data) ->
-	# 			product.set 'history', data[1]
-	# 			@view = new ProductsItemView
-	# 				region: 'main'
-	# 				model: product
+	new: (params) =>
+		@view = new SuppliersNewView
+			region: 'main'
+
+		@listenTo @view, 'new', (raw) ->
+			item = new Supplier raw
+			item.new = true
+			item.save().done( =>
+				@redirectTo 'suppliers'
+			).fail (err) ->
+				console.err err
+
+	item: (params) =>
+		item = new Supplier
+			_id: params.id
+
+		async.parallel [
+				(cb) -> item.fetch success: -> cb null, {}
+			,
+				(cb) -> $.getJSON "/api/v2/suppliers/#{params.id}/statistics", (data) -> cb null, data
+			], (err, data) =>
+				item.set 'statistics', data[1]
+				@view = new SuppliersItemView
+					region: 'main'
+					model: item
+				@listenTo @view, 'save', (raw) ->
+					item.save(raw).done( =>
+						@redirectTo 'suppliers'
+					).fail (err) ->
+						console.err err

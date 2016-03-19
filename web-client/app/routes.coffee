@@ -21,3 +21,5 @@ module.exports = (match) ->
 	match 'sales/:id', {controller: SalesController, action: 'item'}
 
 	match 'suppliers', {controller: SuppliersController, action: 'index'}
+	match 'suppliers/new', {controller: SuppliersController, action: 'new'}
+	match 'suppliers/:id', {controller: SuppliersController, action: 'item'}

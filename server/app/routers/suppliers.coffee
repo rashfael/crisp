@@ -1,4 +1,5 @@
 suppliersController = require('../controllers').suppliers
+salesController = require('../controllers').sales
 
 log = require('log4js').getLogger('suppliers-router')
 
@@ -31,6 +32,11 @@ module.exports.list = (next) ->
 module.exports.read = (next) ->
 	item = yield suppliersController.findOne _id: @params.id
 	@body = item
+	yield next
+
+module.exports.statistics = (next) ->
+	stats = yield salesController.supplierStatistics parseInt @params.id
+	@body = stats
 	yield next
 
 module.exports.update = (next) ->

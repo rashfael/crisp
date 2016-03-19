@@ -51,6 +51,7 @@ module.exports = ->
 		securedRouter.get '/api/v2/suppliers', koaBody, routers.suppliers.list
 		securedRouter.put '/api/v2/suppliers/:id', koaBody, routers.suppliers.update
 		securedRouter.get '/api/v2/suppliers/:id', routers.suppliers.read
+		securedRouter.get '/api/v2/suppliers/:id/statistics', routers.suppliers.statistics
 		securedRouter.delete '/api/v2/suppliers/:id', routers.suppliers.delete
 
 	if routers.sales?
