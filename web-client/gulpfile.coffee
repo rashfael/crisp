@@ -97,6 +97,12 @@ gulp.task 'font-awesome-css', ->
 		.pipe(gzip())
 		.pipe(gulp.dest('./public/css'))
 
+gulp.task 'daterangepicker-css', ->
+	gulp.src('./node_modules/bootstrap-daterangepicker/daterangepicker.css')
+		.pipe(gulp.dest('./public/css'))
+		.pipe(gzip())
+		.pipe(gulp.dest('./public/css'))
+
 gulp.task 'font-awesome-fonts', ->
 	gulp.src('./node_modules/font-awesome/fonts/*').pipe(gulp.dest('./public/fonts'))
 
@@ -106,7 +112,7 @@ gulp.task 'assets', ->
 		.pipe(gulp.dest('./public'))
 
 # 'Watch' is hardcoded to do a development build, 'build' uses production settings.
-gulp.task 'watch', ['watchSources', 'fonts', 'assets']
+gulp.task 'watch', ['watchSources', 'fonts', 'assets', 'daterangepicker-css']
 gulp.task 'build', ['buildSources', 'styles', 'fonts', 'assets']
 
 gulp.task 'fonts', ['font-awesome-css', 'font-awesome-fonts']

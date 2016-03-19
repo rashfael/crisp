@@ -12,6 +12,9 @@ SaleItem = new mongoose.Schema
 		set: (x) -> parseInt(x*10000)
 	amount: Number
 	supplierId: Number
+,
+	toObject : {getters: true}
+	toJSON : {getters: true}
 
 CouponItem = new mongoose.Schema
 	couponId: Number
@@ -19,6 +22,9 @@ CouponItem = new mongoose.Schema
 		type: Number
 		get: (x) -> x/100 if x?
 		set: (x) -> parseInt(x*100)
+,
+	toObject : {getters: true}
+	toJSON : {getters: true}
 
 ReturnItem = new mongoose.Schema
 	saleId: Number
@@ -28,6 +34,9 @@ ReturnItem = new mongoose.Schema
 		type: Number
 		get: (x) -> x/100 if x?
 		set: (x) -> parseInt(x*100)
+,
+	toObject : {getters: true}
+	toJSON : {getters: true}
 
 Sale = new mongoose.Schema
 	_id: Number
@@ -47,6 +56,9 @@ Sale = new mongoose.Schema
 	items: [SaleItem]
 	coupons: [CouponItem]
 	returns: [ReturnItem]
+,
+	toObject : {getters: true}
+	toJSON : {getters: true}
 
 # Sale.methods.objectify = ->
 # 	obj = @toObject({getters: true})

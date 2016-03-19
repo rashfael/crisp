@@ -3,6 +3,7 @@ Chaplin = require 'chaplin'
 Backbone = require 'backbone'
 
 translations = require 'translations'
+formatters = require 'lib/formatters'
 
 require 'lib/view-helper' # Just load the view helpers, no return value
 
@@ -28,6 +29,7 @@ module.exports = class View extends Chaplin.View
 		data.formats =
 			timeFormat: 'H:mm'
 		data.translations = translations
+		data.formatters = formatters
 		return data
 
 	_delegateEvents: (events) ->

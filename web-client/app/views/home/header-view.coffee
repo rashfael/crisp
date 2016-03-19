@@ -6,6 +6,11 @@ module.exports = class HeaderView extends View
 	className: 'nav'
 	tagName: 'nav'
 	template: require './templates/header'
+	events:
+		'click .toggle-cost': 'toggleCost'
+
+	toggleCost: (event) =>
+		@publishEvent 'toggleCost'
 
 	displayError: (error) =>
 		text = error.toString()

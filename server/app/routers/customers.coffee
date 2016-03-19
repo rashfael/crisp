@@ -1,4 +1,5 @@
 customersController = require('../controllers').customers
+salesController = require('../controllers').sales
 
 log = require('log4js').getLogger('customers-router')
 
@@ -31,6 +32,17 @@ module.exports.list = (next) ->
 module.exports.read = (next) ->
 	item = yield customersController.findOne _id: @params.id
 	@body = item
+	yield next
+
+module.exports.history = (next) ->
+	query =
+		customerId: parseInt @params.id
+	options =
+		sort: {date: -1}
+	# TODO redo with aggregation
+	sales = yield salesController.find query, {_id: 1, date: 1, price: 1, discount: 1}, options
+
+	@body = sales
 	yield next
 
 module.exports.update = (next) ->

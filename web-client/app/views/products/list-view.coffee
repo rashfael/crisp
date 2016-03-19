@@ -33,6 +33,7 @@ class ChapGrid extends View
 		label: 'EK'
 		formatter: currencyFormatter
 		cell: 'number'
+		renderable: false
 	,
 		name: 'sale'
 		label: 'VK'
@@ -69,6 +70,8 @@ module.exports = class ProductsListView extends View
 		grid = @subview 'grid'
 		grid.container = @$ '#products-list'
 		grid.render()
+		@subscribeEvent 'toggleCost', =>
+			grid.columns.find({name:'cost'}).set 'renderable', true
 
 	onSearch: (event) =>
 		event.preventDefault()

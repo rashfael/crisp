@@ -1,5 +1,6 @@
 module.exports =
 	auth: require './auth'
+	coupons: require './coupons'
 	customers: require './customers'
 	products: require './products'
 	productGroups: require './product-groups'

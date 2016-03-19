@@ -1,0 +1,25 @@
+h1 Gutschein #{_id}
+
+
+table
+	tbody
+		tr
+			th Gutscheinnummer
+			td= _id
+		tr
+			th Aktueller Wert
+			td= formatters.formatCurrency(value)
+
+		h2 Veränderungen
+		table
+			thead
+				tr
+					th Bonnummer
+					th Datum
+					th Wertänderung
+			tbody
+				- for item in items
+					tr
+						td: a(href='/sales/'+item.saleId)= item.saleId
+						td= formatters.formatDate(item.date)
+						td= formatters.formatCurrency(item.valuechange)

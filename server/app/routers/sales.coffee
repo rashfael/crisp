@@ -12,22 +12,12 @@ module.exports.create = (next) ->
 
 module.exports.list = (next) ->
 	query = {}
-
 	if @query.search?
 		query =
-			$or: [
-				_id:
-					$regex: '^' + @query.search
-					$options: 'i'
-			,
-				name:
-					$regex: @query.search
-					$options: 'i'
-			,
-				supplierProductId:
-					$regex: @query.search
-					$options: 'i'
-			]
+			_id: parseInt @query.search
+			# $or: [
+			# 	$where: "/^#{@query.search}/.test(this._id)"
+			# ]
 	# if @query['min-date']? and @query['max-date']?
 	# 	query.begin =
 	# 			$lte: new Date @query['max-date']

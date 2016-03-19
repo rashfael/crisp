@@ -1,0 +1,66 @@
+ul.tabs
+	li.active: a#details-tab(href='#') Details
+	li: a#items-tab(href='#') Posten
+
+.tab-content
+	#details.active
+		table
+			tbody
+				tr
+					th Bonnummer
+					td= _id
+				tr
+					th Datum
+					td= formatters.formatDate(date)
+				tr
+					th Kundennummer
+					td= customerId
+				tr
+					th Kassiererin
+					td= cashier
+				tr
+					th Betrag
+					td= formatters.formatCurrency(price)
+				tr
+					th Rabatt
+					td= formatters.formatPercentage(discount)
+	#items
+		h2 Produkte
+		table
+			thead
+				tr
+					th ProduktId
+					th Betrag
+					th Rabatt
+					th Anzahl
+			tbody
+				- for item in items
+					tr
+						td: a(href='/products/'+item.productId)= item.productId
+						td= formatters.formatCurrency(item.price)
+						td= formatters.formatPercentage(item.discount)
+						td= item.amount
+		
+		h2 Gutscheine
+		table
+			thead
+				tr
+					th Gutscheinnummer
+					th Wertänderung
+			tbody
+				- for item in coupons
+					tr
+						td: a(href='/coupons/'+item.couponId)= item.couponId
+						td= formatters.formatCurrency(item.valuechange)
+
+		h2 Rückgaben
+		table
+			thead
+				tr
+					th Bonnummer
+					th Betrag
+			tbody
+				- for item in returns
+					tr
+						td: a(href='/sales/'+item.saleId)= item.saleId
+						td= formatters.formatCurrency(item.price)

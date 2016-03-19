@@ -41,3 +41,11 @@ module.exports = class ProductsController
 
 		@status = 204
 		return ids
+
+	addArrival: (amount, shop) =>
+		product = yield Product.findById(id).exec()
+		product.arrivals.push
+			amount: amount
+			shop: shop
+		yield product.save()
+		return product

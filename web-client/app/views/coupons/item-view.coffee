@@ -3,9 +3,9 @@ _ = require 'lodash'
 View = require 'views/base/view'
 translations = require 'translations'
 
-module.exports = class SaleItemView extends View
+module.exports = class CouponItemView extends View
 	autoRender: true
-	className: 'sale'
+	className: 'coupon'
 	template: require './templates/item'
 	events:
 		'click #details-tab': 'showDetails'

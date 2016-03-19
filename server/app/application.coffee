@@ -28,6 +28,7 @@ module.exports = ->
 		securedRouter.get '/api/v2/customers', koaBody, routers.customers.list
 		securedRouter.put '/api/v2/customers/:id', koaBody, routers.customers.update
 		securedRouter.get '/api/v2/customers/:id', routers.customers.read
+		securedRouter.get '/api/v2/customers/:id/history', routers.customers.history
 		securedRouter.delete '/api/v2/customers/:id', routers.customers.delete
 
 	if routers.products?
@@ -60,6 +61,13 @@ module.exports = ->
 		securedRouter.put '/api/v2/sales/:id', koaBody, routers.sales.update
 		securedRouter.get '/api/v2/sales/:id', routers.sales.read
 		securedRouter.delete '/api/v2/sales/:id', routers.sales.delete
+
+	if routers.coupons?
+		securedRouter.post '/api/v2/coupons', koaBody, routers.coupons.create
+		securedRouter.get '/api/v2/coupons', koaBody, routers.coupons.list
+		securedRouter.put '/api/v2/coupons/:id', koaBody, routers.coupons.update
+		securedRouter.get '/api/v2/coupons/:id', routers.coupons.read
+		securedRouter.delete '/api/v2/coupons/:id', routers.coupons.delete
 
 	#
 	# if routers.userSettings

@@ -1,0 +1,24 @@
+h2 #{forename} #{name}
+
+ul.tabs
+	li.active: a#details-tab(href='#') Details
+	li: a#history-tab(href='#') Historie
+
+.tab-content
+	#details.active
+		include ./item-form
+	#history
+		table
+			thead
+				tr
+					th Bonnummer
+					th Datum
+					th Preis
+					th Rabatt
+			tbody
+				for item in history
+					tr
+						td= item._id
+						td= formatters.formatDateTime(item.date)
+						td.number-cell= formatters.formatCurrency(item.price)
+						td.number-cell= formatters.formatPercentage(item.discount)
