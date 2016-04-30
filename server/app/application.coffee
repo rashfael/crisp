@@ -37,6 +37,7 @@ module.exports = ->
 		securedRouter.put '/api/v2/products/:id', koaBody, routers.products.update
 		securedRouter.get '/api/v2/products/generate-id', koaBody, routers.products.generateId
 		securedRouter.get '/api/v2/products/:id', routers.products.read
+		securedRouter.post '/api/v2/products/:id/arrival', koaBody, routers.products.arrival
 		securedRouter.get '/api/v2/products/:id/history', routers.products.history
 		securedRouter.delete '/api/v2/products/:id', routers.products.delete
 

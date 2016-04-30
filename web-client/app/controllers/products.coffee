@@ -77,3 +77,15 @@ module.exports = class ProductsController extends Controller
 						@redirectTo 'products'
 					).fail (err) ->
 						console.err err
+
+				@listenTo @view, 'arrival', (raw) ->
+					console.log raw
+					$.post
+						url: "/api/v2/products/#{params.id}/arrival"
+						data: JSON.stringify
+							amount: raw.amount
+							shop: 'Ludwigsburg'
+						dataType: 'json'
+						contentType: 'application/json; charset=UTF-8'
+						success: =>
+							@redirectTo 'product', id: product.get '_id'

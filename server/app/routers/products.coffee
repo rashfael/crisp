@@ -96,3 +96,9 @@ module.exports.delete = (next) ->
 module.exports.generateId = (next) ->
 	result = yield productsController.generateId()
 	@body = JSON.stringify result
+
+module.exports.arrival = (next) ->
+	console.log @request.body
+	result = yield productsController.addArrival @params.id, @request.body.amount, @request.body.shop
+	@body = result
+	yield next

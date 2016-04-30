@@ -42,7 +42,7 @@ module.exports = class ProductsController
 		@status = 204
 		return ids
 
-	addArrival: (amount, shop) =>
+	addArrival: (id, amount, shop) =>
 		product = yield Product.findById(id).exec()
 		product.arrivals.push
 			amount: amount

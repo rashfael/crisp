@@ -3,11 +3,12 @@ h2= name
 ul.tabs
 	li.active: a#details-tab(href='#') Details
 	li: a#history-tab(href='#') Historie
-	li: a(href='#') Lagerbestand
+	li: a(href='#')#arrivals-tab Lagerbestand
 
 .tab-content
 	#details.active
 		include ./item-form
+		button() Drucken
 	#history
 		table
 			for item in history
@@ -15,3 +16,19 @@ ul.tabs
 					td= item.customerId
 					td= item.saleId
 					td= item.date
+	#arrivals
+		form
+			label Anzahl
+			input(type='text', name='arrival')
+			button(type='submit') Hinzufügen
+			
+		table
+			thead
+				tr
+					th Datum
+					th Anzal
+			tbody
+				for item in arrivals
+					tr
+						td= formatters.formatDate(item.date)
+						td= item.amount

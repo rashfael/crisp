@@ -8,9 +8,11 @@ module.exports = class ProductsItemView extends View
 	className: 'products'
 	template: require './templates/item'
 	events:
-		'submit': 'onSubmit'
+		'submit #details form': 'onSubmit'
+		'submit #arrivals form': 'onArrival'
 		'click #details-tab': 'showDetails'
 		'click #history-tab': 'showHistory'
+		'click #arrivals-tab': 'showArrivals'
 
 	onSubmit: =>
 		data =
@@ -25,6 +27,12 @@ module.exports = class ProductsItemView extends View
 		@trigger 'save', data
 		return false
 
+	onArrival: =>
+		data =
+			amount: parseInt @$('#arrivals form [name=arrival]').val()
+		@trigger 'arrival', data
+		return false
+
 	showTab: (name) =>
 		@$('.tabs li').removeClass 'active'
 		@$("##{name}-tab").parent().addClass 'active'
@@ -37,3 +45,12 @@ module.exports = class ProductsItemView extends View
 
 	showHistory: ->
 		@showTab 'history'
+
+	showArrivals: ->
+		@showTab 'arrivals'
+
+	render: =>
+		super()
+		@$('form #cost').hide()
+		@subscribeEvent 'toggleCost', =>
+			@$('form #cost').show()
