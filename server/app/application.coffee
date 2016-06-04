@@ -5,9 +5,10 @@ module.exports = ->
 	koa = require 'koa'
 	Router = require 'koa-router'
 	koaBody = require('koa-body')()
-
+	cors = require 'koa-cors'
 	app = koa()
 
+	app.use(cors())
 	routers = require './routers'
 
 	publicRouter = Router()

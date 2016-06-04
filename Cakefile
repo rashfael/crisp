@@ -9,7 +9,7 @@ task 'update', 'Update dependencies', ->
 	spawn 'npm', ['update'], {cwd: 'server', stdio: 'inherit'}
 
 task 'watch', 'Launch application (development mode)', ->
-	client = spawn 'node_modules/.bin/gulp', ['watch'], {cwd: 'web-client', stdio: 'inherit' }
+	client = spawn 'npm', ['start'], {cwd: 'web-client', stdio: 'inherit' }
 	server = null
 	# client.stdout.on 'data', (data) ->
 	# Delay start of server to prevent annoying auto-reloads.

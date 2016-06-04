@@ -1,0 +1,52 @@
+#products
+	#subnav
+		#actions
+			a(href='/products/new') Neuer Artikel
+			form.search
+				label(for='search'): i.fa.fa-search
+				input#search(type='text')
+		#pagination
+	table
+		tr
+			th Artikelnummer
+			th Name
+			th Gruppe
+			th Lieferant
+			th LiefNr
+			th EK
+			th VK
+			th Lager
+		tr(is="list-item", v-for="item in items", :item="item")
+		
+	//- 	name: '_id'
+	//- 	label: 'Artikelnummer'
+	//- ,
+	//- 	name: 'name'
+	//- 	label: 'Name'
+	//- ,
+	//- 	name: 'productGroupId'
+	//- 	label: 'Gruppe'
+	//- 	formatter: _.extend {}, Backgrid.CellFormatter.prototype,
+	//- 		fromRaw: (rawValue, model) -> translations.productGroupsMap[rawValue]?.name
+	//- ,
+	//- 	name: 'supplierId'
+	//- 	label: 'Lieferant'
+	//- 	formatter: _.extend {}, Backgrid.CellFormatter.prototype,
+	//- 		fromRaw: (rawValue, model) -> translations.suppliersMap[rawValue]?.name
+	//- ,
+	//- 	name: 'supplierProductId'
+	//- 	label: 'LiefNr'
+	//- ,
+	//- 	name: 'cost'
+	//- 	label: 'EK'
+	//- 	formatter: currencyFormatter
+	//- 	cell: 'number'
+	//- 	renderable: false
+	//- ,
+	//- 	name: 'sale'
+	//- 	label: 'VK'
+	//- 	formatter: currencyFormatter
+	//- 	cell: 'number'
+	//- ,
+	//- 	name: 'stock'
+	//- 	label: 'Lager'

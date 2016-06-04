@@ -1,8 +1,8 @@
 import App from './App'
-
+import Products from './products'
 let routes = {
 	'/' : {
-		component: App
+		component: Products
 	}
 }
 
