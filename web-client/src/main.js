@@ -2,19 +2,14 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import api from './api'
-
 import routes from './routes'
-import Navbar from './navbar'
+import App from './App'
 
 Vue.use(Router)
 
-let App = {
-	template: require('./main.jade'),
-	components: { navbar: Navbar },
-	replace: false
-}
-
-let router = new Router()
+let router = new Router({
+	history: true
+})
 
 router.map(routes)
 let init = (promise) => {
