@@ -1,7 +1,7 @@
 <template lang="jade">
 nav
 	ul.nav
-		li: a(href='/products/') Artikel
+		li: a(v-link="'/products/'") Artikel
 		li: a(href='/suppliers/') Lieferanten
 		li: a(href='/customers/') Kunden
 		li: a(href='/sales/') Verkaufshistorie

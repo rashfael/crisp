@@ -36,6 +36,7 @@
     "jade-html-loader": "0.0.3",
     "jade-loader": "^0.8.0",
     "json-loader": "^0.5.4",
+    "keen-ui": "^0.8.8",
     "nib": "^1.1.0",
     "ora": "^0.2.3",
     "raw-loader": "^0.5.1",

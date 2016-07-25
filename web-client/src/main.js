@@ -1,11 +1,18 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Keen from 'keen-ui'
+import 'keen-ui/dist/keen-ui.css'
 
-import api from './api'
+import Üei from 'toolkit/üei'
+
+import api from 'lib/api'
 import routes from './routes'
 import App from './App'
-
+import humanize from 'lib/humanize'
+import 'filters'
 Vue.use(Router)
+Vue.use(Keen)
+Vue.use(Üei)
 
 let router = new Router({
 	history: true
@@ -21,4 +28,4 @@ let init = (promise) => {
 	})
 
 }
-init(api.auth.getSession())
+init(api.auth.getSession().then(humanize.fetch))

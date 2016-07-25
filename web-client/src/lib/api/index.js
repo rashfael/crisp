@@ -36,8 +36,44 @@ let api = {
 	products: {
 		list() {
 			return request('products').then((response) => response.json())
+		},
+		get(id) {
+			return request('products/'+id).then((response) => response.json())
+		},
+		update(product) {
+			return api.fetch('products/'+product._id, 'PUT', JSON.stringify(product))
+		}
+	},
+	suppliers: {
+		list() {
+			return request('suppliers').then((response) => response.json())
+		}
+	},
+	productGroups: {
+		list() {
+			return request('product-groups').then((response) => response.json())
 		}
 	}
+}
+
+api.fetch = function(url, method, body) {
+	headers.append('Content-Type', 'application/json');
+	let options = {
+		method: method || 'GET',
+		headers,
+		body
+	}
+	return fetch(BASE_URL + url, options).then((response) => {
+		return response.json().then((json) => {
+			if (!response.ok)
+				return Promise.reject(json)
+
+			return Promise.resolve(json)
+		})
+	}).catch((error) => {
+		// mediator.emit('fetch-error', error)
+		return Promise.reject(error)
+	})
 }
 
 export default api

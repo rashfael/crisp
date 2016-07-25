@@ -13,7 +13,7 @@ module.exports = {
 	},
 	resolve: {
 		extensions: ['', '.js', '.json', '.vue'],
-		modules: [path.resolve(__dirname, "../src"), path.join(__dirname, '../node_modules')]
+		modules: [path.resolve(__dirname, "../src"), path.resolve('src/styles'), path.join(__dirname, '../node_modules')]
 	},
 	module: {
 		loaders: [
