@@ -49,11 +49,26 @@ let api = {
 		},
 		generateId() {
 			return api.fetch('products/generate-id')
+		},
+		history(id) {
+			return api.fetch('products/' + id + '/history')
 		}
 	},
 	suppliers: {
 		list() {
-			return request('suppliers').then((response) => response.json())
+			return api.fetch('suppliers')
+		},
+		get(id) {
+			return api.fetch('suppliers/' + id)
+		},
+		update(supplier) {
+			return api.fetch('suppliers/'+product._id, 'PUT', JSON.stringify(supplier))
+		},
+		create(supplier) {
+			return api.fetch('suppliers/', 'POST', JSON.stringify(supplier))
+		},
+		statistics(id) {
+			return api.fetch('suppliers/' + id + '/statistics')
 		}
 	},
 	productGroups: {

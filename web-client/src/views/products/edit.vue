@@ -43,11 +43,13 @@ export default {
 			})
 		},
 		submit() {
-			console.log('submit')
+			let navigate = (product) =>
+				this.$router.go({name: 'product', params: {id: product._id}})
 			if(this.new)
-				api.products.create(this.product)
+				api.products.create(this.product).then((product) => this.product = product)
 			else
-				api.products.update(this.product)
+				api.products.update(this.product).then(navigate)
+
 		}
 	}
 }

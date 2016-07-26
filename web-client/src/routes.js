@@ -1,6 +1,11 @@
 import Products from 'views/products'
-import Product from 'views/product'
-import NewProduct from 'views/product/new'
+import Product from 'views/products/item'
+import NewProduct from 'views/products/new'
+
+import Suppliers from 'views/suppliers'
+import Supplier from 'views/suppliers/item'
+import NewSupplier from 'views/suppliers/new'
+
 
 
 let routes = {
@@ -17,6 +22,18 @@ let routes = {
 	'/products/new' : {
 		name: 'new-product',
 		component: NewProduct
+	},
+
+	'/suppliers/' : {
+		component: Suppliers
+	},
+	'/suppliers/:id' : {
+		name: 'supplier',
+		component: Supplier
+	},
+	'/suppliers/new' : {
+		name: 'new-supplier',
+		component: NewSupplier
 	}
 }
 

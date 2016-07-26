@@ -1,12 +1,24 @@
 <template lang="jade">
-.product-details
-	h2 {{ product.name }}
+.supplier-details
+	h2 {{ supplier.name }}
 
 	ui-tabs
 		ui-tab(header="Details")
-			edit(:product="product")
-		ui-tab(header="Historie")
-		ui-tab(header="Lagerbestand")
+			edit(:supplier="supplier")
+		//- ui-tab(header="Historie")
+		//- 	table.history
+		//- 		tr(v-for="item in history")
+		//- 			td {{ item.customerId }}
+		//- 			td {{ item.saleId }}
+		//- 			td {{ item.date }}
+		//- ui-tab(header="Lagerbestand")
+		//- 	table.arrivals
+		//- 		tr
+		//- 			td Datum
+		//- 			td Anzahl
+		//- 		tr(v-for="arrival in product.arrivals")
+		//- 			td {{ arrival.item }}
+		//- 			td {{ item.amount }}
 		//- include ./item-form
 		//- button() Drucken
 	//- #history
@@ -42,14 +54,16 @@ export default {
 	components: {Edit},
 	data() {
 		return {
-			product: {}
+			supplier: {},
+			history: []
 		}
 	},
 	route: {
 		data(transition) {
-			return api.products.get(this.$route.params.id).then((product) => {
+			return Promise.all([api.suppliers.get(this.$route.params.id), api.suppliers.statistics(this.$route.params.id)]).then(([supplier, history]) => {
 				return {
-					product
+					supplier,
+					history
 				}
 			})
 		}
@@ -64,8 +78,11 @@ export default {
 <style lang="stylus">
 @import '~_ui'
 
-.product-details
+.supplier-details
 	card()
 	width 1200px
 	margin 0 auto
+
+	table.history, table.arrivals
+		table()
 </style>

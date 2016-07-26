@@ -1,7 +1,7 @@
 <template lang="jade">
 .uei-textfield
 	label(:for="name") {{label}}
-	input(:type="type", :name="name", v-model="value", :disabled="disabled")
+	input(:type="type", :name="name", v-model="value", :disabled="disabled", :readonly="readonly")
 	//- - if(errors === undefined)
 	//- -	var errors = {}
 	//- 	.field(class=errors[name] === undefined ? '' : 'error', id=name)
@@ -33,6 +33,10 @@ export default {
 			twoWay: true
 		},
 		disabled: {
+			type: Boolean,
+			default: false
+		},
+		readonly: {
 			type: Boolean,
 			default: false
 		},
