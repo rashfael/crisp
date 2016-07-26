@@ -122,9 +122,11 @@ export default {
 		text-align right
 		height 36px
 		padding 8px
+		margin 0
 
 		li
 			display inline-block
+			padding 0
 
 			.material-icons
 				vertical-align bottom

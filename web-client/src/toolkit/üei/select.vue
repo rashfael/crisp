@@ -35,7 +35,10 @@ export default {
 }
 </script>
 <style lang="stylus">
-.uei-textfield
-	input
+.uei-select
+	field: right 30em
+	select
 		input()
+	label
+		padding-right 1em
 </style>

@@ -1,8 +1,8 @@
 <template lang="jade">
 #products.list(v-if="items")
 	.toolbar
-		#actions
-			a(href='/products/new') Neuer Artikel
+		.actions
+			a.new(v-link="{name: 'new-product'}") Neuer Artikel
 			form.search(@submit.prevent='loadItems')
 				label(for='search'): i.fa.fa-search
 				input#search(type='text', v-model="search")

@@ -1,5 +1,6 @@
 const BASE_URL = 'http://localhost:9000/api/v2/'
 let headers = new Headers()
+headers.append('Content-Type', 'application/json')
 
 function request(url, body, method = 'GET') {
 	let options = {
@@ -42,6 +43,12 @@ let api = {
 		},
 		update(product) {
 			return api.fetch('products/'+product._id, 'PUT', JSON.stringify(product))
+		},
+		create(product) {
+			return api.fetch('products/', 'POST', JSON.stringify(product))
+		},
+		generateId() {
+			return api.fetch('products/generate-id')
 		}
 	},
 	suppliers: {
@@ -57,7 +64,6 @@ let api = {
 }
 
 api.fetch = function(url, method, body) {
-	headers.append('Content-Type', 'application/json');
 	let options = {
 		method: method || 'GET',
 		headers,
