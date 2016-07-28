@@ -5,45 +5,24 @@
 	ui-tabs
 		ui-tab(header="Details")
 			edit(:product="product")
+			button() Drucken
 		ui-tab(header="Historie")
 			table.history
 				tr(v-for="item in history")
 					td {{ item.customerId }}
 					td {{ item.saleId }}
 					td {{ item.date }}
-		ui-tab(header="Lagerbestand")
-			table.arrivals
+		ui-tab#arrivals(header="Lagerbestand")
+			form(@submit.prevent="addArrival")
+				uei-textbox(name="name", :value.sync="arrivalAmount", label="Anzahl")
+				button(type='submit') Hinzufügen
+			table
 				tr
 					td Datum
 					td Anzahl
 				tr(v-for="arrival in product.arrivals")
-					td {{ arrival.item }}
-					td {{ item.amount }}
-		//- include ./item-form
-		//- button() Drucken
-	//- #history
-	//- 	table
-	//- 		for item in product.history
-	//- 			tr
-	//- 				td= item.customerId
-	//- 				td= item.saleId
-	//- 				td= item.date
-	//- #arrivals
-	//- 	form
-	//- 		label Anzahl
-	//- 		input(type='text', name='arrival')
-	//- 		button(type='submit') Hinzufügen
-	//-
-	//- 	table
-	//- 		thead
-	//- 			tr
-	//- 				th Datum
-	//- 				th Anzal
-	//- 		tbody
-	//- 			for item in arrivals
-	//- 				tr
-	//- 					td= formatters.formatDate(item.date)
-	//- 					td= item.amount
+					td {{ arrival.date }}
+					td {{ arrival.amount }}
 
 </template>
 <script>
@@ -54,6 +33,7 @@ export default {
 	components: {Edit},
 	data() {
 		return {
+			arrivalAmount: 0,
 			product: {},
 			history: []
 		}
@@ -69,7 +49,11 @@ export default {
 		}
 	},
 	methods: {
-
+		addArrival() {
+			api.products.addArrival(this.product._id, this.arrivalAmount).then((product) => {
+				this.product.arrivals = product.arrivals
+			})
+		}
 	},
 	events: {
 	}
@@ -83,6 +67,6 @@ export default {
 	width 1200px
 	margin 0 auto
 
-	table.history, table.arrivals
+	table.history, #arrivals table
 		table()
 </style>

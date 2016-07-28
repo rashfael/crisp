@@ -39,10 +39,10 @@ let api = {
 			return request('products').then((response) => response.json())
 		},
 		get(id) {
-			return request('products/'+id).then((response) => response.json())
+			return request(`products/${id}`).then((response) => response.json())
 		},
 		update(product) {
-			return api.fetch('products/'+product._id, 'PUT', JSON.stringify(product))
+			return api.fetch(`products/${product._id}`, 'PUT', JSON.stringify(product))
 		},
 		create(product) {
 			return api.fetch('products/', 'POST', JSON.stringify(product))
@@ -51,24 +51,31 @@ let api = {
 			return api.fetch('products/generate-id')
 		},
 		history(id) {
-			return api.fetch('products/' + id + '/history')
+			return api.fetch(`products/${id}/history`)
+		},
+		addArrival(id, amount) {
+			const data = {
+				amount,
+				shop: 'Ludwigsburg'
+			}
+			return api.fetch(`products/${id}/arrival`, 'POST', JSON.stringify(data))
 		}
 	},
 	suppliers: {
 		list() {
-			return api.fetch('suppliers')
+			return api.fetch(`suppliers`)
 		},
 		get(id) {
-			return api.fetch('suppliers/' + id)
+			return api.fetch(`suppliers/${id}`)
 		},
 		update(supplier) {
-			return api.fetch('suppliers/'+product._id, 'PUT', JSON.stringify(supplier))
+			return api.fetch(`suppliers/${product._id}`, 'PUT', JSON.stringify(supplier))
 		},
 		create(supplier) {
 			return api.fetch('suppliers/', 'POST', JSON.stringify(supplier))
 		},
 		statistics(id) {
-			return api.fetch('suppliers/' + id + '/statistics')
+			return api.fetch(`suppliers/${id}/statistics`)
 		}
 	},
 	productGroups: {

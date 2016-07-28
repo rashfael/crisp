@@ -20,23 +20,23 @@
 		tr(v-for="item in items.items", :item="item", @click="$router.go({name:'product', params:{id: item._id}})")
 			td {{item._id}}
 			td {{item.name}}
-			td {{item.productGroupId}}
-			td {{item.supplierId}}
+			td {{humanize.productGroupsMap[item.productGroupId].name}}
+			td {{humanize.suppliersMap[item.supplierId].name}}
 			td {{item.supplierProductId}}
-			td {{item.cost}}
-			td {{item.sale}}
+			td {{item.cost | currency}}
+			td {{item.sale | currency}}
 			td {{item.stock}}
-	//- list(:columns="columns")
 </template>
 <script>
 import api from 'lib/api'
 import ListMixin from 'components/mixins/list'
-
+import humanize from 'lib/humanize'
 export default {
 	mixins: [ListMixin],
 	data() {
 		return {
-			baseUrl: 'products'
+			baseUrl: 'products',
+			humanize
 		}
 	},
 	methods: {
