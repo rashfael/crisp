@@ -20,7 +20,7 @@ Vue.filter('currency', {
 Vue.filter('percentage', function(val) {
 		if(val == null)
 			return ''
-		return val*100 + ' %'
+		return (val*100).toFixed(2) + ' %'
 })
 
 Vue.filter('date', function(val) {

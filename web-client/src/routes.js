@@ -1,3 +1,6 @@
+import Coupons from 'views/coupons'
+import Coupon from 'views/coupons/item'
+
 import Customers from 'views/customers'
 import Customer from 'views/customers/item'
 import NewCustomer from 'views/customers/new'
@@ -18,6 +21,14 @@ import NewSupplier from 'views/suppliers/new'
 let routes = {
 	'/' : {
 		component: Products
+	},
+
+	'/coupons/' : {
+		component: Coupons
+	},
+	'/coupons/:id' : {
+		name: 'coupon',
+		component: Coupon
 	},
 
 	'/customers/' : {
