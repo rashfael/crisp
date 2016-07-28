@@ -6,7 +6,7 @@ export default {
 	components: {Pagination},
 	data() {
 		return {
-			baseUrl: 'SET ME',
+			fetchFunc: 'SET ME',
 			itemsPerPage: 100,
 			items: null,
 			activeItem: null,

@@ -6,6 +6,9 @@ import Products from 'views/products'
 import Product from 'views/products/item'
 import NewProduct from 'views/products/new'
 
+import Sales from 'views/sales'
+import Sale from 'views/sales/item'
+
 import Suppliers from 'views/suppliers'
 import Supplier from 'views/suppliers/item'
 import NewSupplier from 'views/suppliers/new'
@@ -39,6 +42,14 @@ let routes = {
 	'/products/new' : {
 		name: 'new-product',
 		component: NewProduct
+	},
+
+	'/sales/' : {
+		component: Sales
+	},
+	'/sales/:id' : {
+		name: 'sale',
+		component: Sale
 	},
 
 	'/suppliers/' : {

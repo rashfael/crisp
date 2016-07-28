@@ -4,7 +4,7 @@ nav
 		li: a(v-link="'/products/'") Artikel
 		li: a(v-link="'/suppliers/'") Lieferanten
 		li: a(v-link="'/customers/'") Kunden
-		li: a(href='/sales/') Verkaufshistorie
+		li: a(v-link="'/sales/'") Verkaufshistorie
 		li: a(href='/coupons/') Gutscheine
 		li: a(href='/statistics') Statistiken
 		//- li: a(href='/inventory') Inventur

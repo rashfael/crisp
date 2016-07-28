@@ -1,19 +1,36 @@
 import Vue from 'vue'
+import moment from 'moment'
 
 const format = new Intl.NumberFormat('de-DE', {minimumFractionDigits: 2, maximumFractionDigits:2})
+const dateFormat = 'DD. MM. YYYY'
+const dateTimeFormat = 'DD. MM. YYYY hh:mm'
 
 Vue.filter('currency', {
-	// model -> view
-	// formats the value when updating the input element.
 	read: function(val) {
 		if(val == null)
 			return ''
 		return format.format(val)
 	},
-	// view -> model
-	// formats the value when writing to the data.
 	write: function(val, oldVal) {
 		var number = parseFloat(val.replace(/\./g,'').replace(',','.'))
 		return isNaN(number) ? 0 : number
 	}
+})
+
+Vue.filter('percentage', function(val) {
+		if(val == null)
+			return ''
+		return val*100 + ' %'
+})
+
+Vue.filter('date', function(val) {
+		if(val == null)
+			return ''
+		return moment(val).format(dateFormat)
+})
+
+Vue.filter('datetime', function(val) {
+		if(val == null)
+			return ''
+		return moment(val).format(dateTimeFormat)
 })
