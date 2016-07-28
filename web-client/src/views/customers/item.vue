@@ -1,10 +1,17 @@
 <template lang="jade">
-.supplier-details
-	h2 {{ supplier.name }}
+.customer-details
+	h2 {{ customer.name }}
 
 	ui-tabs
 		ui-tab(header="Details")
-			edit(:supplier="supplier")
+			edit(:customer="customer")
+		ui-tab(header="Historie")
+			table.history
+				tr(v-for="item in history")
+					td {{ item._id }}
+					td {{ item.date }}
+					td {{ item.price | currency }}
+					td {{ item.discount }}
 
 </template>
 <script>
@@ -15,15 +22,15 @@ export default {
 	components: {Edit},
 	data() {
 		return {
-			supplier: {},
+			customer: {},
 			history: []
 		}
 	},
 	route: {
 		data(transition) {
-			return Promise.all([api.suppliers.get(this.$route.params.id), api.suppliers.statistics(this.$route.params.id)]).then(([supplier, history]) => {
+			return Promise.all([api.customers.get(this.$route.params.id), api.customers.history(this.$route.params.id)]).then(([customer, history]) => {
 				return {
-					supplier,
+					customer,
 					history
 				}
 			})
@@ -39,7 +46,7 @@ export default {
 <style lang="stylus">
 @import '~_ui'
 
-.supplier-details
+.customer-details
 	card()
 	width 1200px
 	margin 0 auto

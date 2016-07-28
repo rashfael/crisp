@@ -34,6 +34,31 @@ let api = {
 			})
 		}
 	},
+	coupons: {
+		list() {
+			return api.fetch(`coupons`)
+		},
+		get(id) {
+			return api.fetch(`coupons/${id}`)
+		}
+	},
+	customers: {
+		list() {
+			return api.fetch(`customers`)
+		},
+		get(id) {
+			return api.fetch(`customers/${id}`)
+		},
+		update(customer) {
+			return api.fetch(`customers/${customer._id}`, 'PUT', JSON.stringify(customer))
+		},
+		create(customer) {
+			return api.fetch('customers/', 'POST', JSON.stringify(customer))
+		},
+		history(id) {
+			return api.fetch(`customers/${id}/history`)
+		},
+	},
 	products: {
 		list() {
 			return request('products').then((response) => response.json())
@@ -59,6 +84,14 @@ let api = {
 				shop: 'Ludwigsburg'
 			}
 			return api.fetch(`products/${id}/arrival`, 'POST', JSON.stringify(data))
+		}
+	},
+	sales: {
+		list() {
+			return api.fetch(`sales`)
+		},
+		get(id) {
+			return api.fetch(`sales/${id}`)
 		}
 	},
 	suppliers: {

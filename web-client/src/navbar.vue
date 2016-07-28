@@ -3,7 +3,7 @@ nav
 	ul.nav
 		li: a(v-link="'/products/'") Artikel
 		li: a(v-link="'/suppliers/'") Lieferanten
-		li: a(href='/customers/') Kunden
+		li: a(v-link="'/customers/'") Kunden
 		li: a(href='/sales/') Verkaufshistorie
 		li: a(href='/coupons/') Gutscheine
 		li: a(href='/statistics') Statistiken

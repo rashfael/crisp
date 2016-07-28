@@ -1,3 +1,7 @@
+import Customers from 'views/customers'
+import Customer from 'views/customers/item'
+import NewCustomer from 'views/customers/new'
+
 import Products from 'views/products'
 import Product from 'views/products/item'
 import NewProduct from 'views/products/new'
@@ -12,6 +16,19 @@ let routes = {
 	'/' : {
 		component: Products
 	},
+
+	'/customers/' : {
+		component: Customers
+	},
+	'/customers/:id' : {
+		name: 'customer',
+		component: Customer
+	},
+	'/customers/new' : {
+		name: 'new-customer',
+		component: NewCustomer
+	},
+
 	'/products/' : {
 		component: Products
 	},
