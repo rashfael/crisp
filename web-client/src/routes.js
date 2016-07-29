@@ -16,7 +16,7 @@ import Suppliers from 'views/suppliers'
 import Supplier from 'views/suppliers/item'
 import NewSupplier from 'views/suppliers/new'
 
-
+import Statistics from 'views/statistics'
 
 let routes = {
 	'/' : {
@@ -73,7 +73,11 @@ let routes = {
 	'/suppliers/new' : {
 		name: 'new-supplier',
 		component: NewSupplier
-	}
+	},
+
+	'/statistics/' : {
+		component: Statistics
+	},
 }
 
 export default routes

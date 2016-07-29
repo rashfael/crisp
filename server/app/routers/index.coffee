@@ -5,6 +5,7 @@ module.exports =
 	products: require './products'
 	productGroups: require './product-groups'
 	sales: require './sales'
+	statistics: require './statistics'
 	suppliers: require './suppliers'
 
 	# taiga: require './taiga'

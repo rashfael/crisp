@@ -115,6 +115,11 @@ let api = {
 		list() {
 			return request('product-groups').then((response) => response.json())
 		}
+	},
+	statistics: {
+		supplierArticleProfit(start, end) {
+			return api.fetch(`statistics/supplier-article-profit`, 'POST', JSON.stringify({start: start, end: end}))
+		}
 	}
 }
 

@@ -2,7 +2,7 @@ mongoose = require 'mongoose'
 Sale = mongoose.model 'Sale'
 log = require('log4js').getLogger('sales-controller')
 
-module.exports = class ProductController
+module.exports = class SalesController
 	create: (obj) =>
 		yield new Sale(obj).save()
 
@@ -33,7 +33,6 @@ module.exports = class ProductController
 			for value in values
 				amount += value.amount
 				sum += value.sum
-			print(sum)
 			return {amount: amount, sum: sum}
 
 		mapReduce =

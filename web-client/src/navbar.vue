@@ -6,7 +6,7 @@ nav
 		li: a(v-link="'/customers/'") Kunden
 		li: a(v-link="'/sales/'") Verkaufshistorie
 		li: a(v-link="'/coupons/'") Gutscheine
-		li: a(href='/statistics') Statistiken
+		li: a(v-link="'/statistics'") Statistiken
 		//- li: a(href='/inventory') Inventur
 
 	button.toggle-cost EK anzeigen
