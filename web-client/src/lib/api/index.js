@@ -12,13 +12,17 @@ function request(url, body, method = 'GET') {
 
 let api = {
 	auth: {
+		authenticated: false,
 		login(username, password) {
-			let headers = {
-				'Content-Type': 'application/json',
-			}
-			fetch(BASE_URL + 'login', {method: 'POST', headers: headers, body: JSON.stringify({username: username, password: password})})
-			.then((response) => response.json()).then((json) => {
+			return fetch(BASE_URL + 'login', {method: 'POST', headers: headers, body: JSON.stringify({username: username, password: password})})
+			.then((response) => {
+				if (!response.ok)
+					return Promise.reject()
+				return response.json()
+			}).then((json) => {
 				localStorage.setItem('user', JSON.stringify(json))
+				api.auth.authenticated = true
+				headers.set('Authorization', 'Bearer ' + json.token)
 				return Promise.resolve(json)
 			})
 		},
@@ -30,6 +34,7 @@ let api = {
 				if (!response.ok) {
 					return Promise.reject(response.statusText)
 				}
+				api.auth.authenticated = true
 				response.json()
 			})
 		}

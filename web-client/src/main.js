@@ -19,13 +19,16 @@ let router = new Router({
 })
 
 router.map(routes)
-let init = (promise) => {
-	promise.then((user) => {
-		router.start(App, 'body')
-	}).catch(() => {
-		console.log('nope')
-		init(api.auth.login('herp', 'derp'))
-	})
 
-}
-init(api.auth.getSession().then(humanize.fetch))
+router.beforeEach((transition) => {
+	if (transition.to.auth && !api.auth.authenticated) {
+		transition.redirect('/login')
+	} else {
+		transition.next()
+	}
+})
+
+api.auth.getSession()
+.then(humanize.fetch).then( () => {
+	router.start({}, 'body')
+}).catch(() => {router.start({}, 'body')})

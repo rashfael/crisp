@@ -1,3 +1,5 @@
+import App from './App'
+
 import Coupons from 'views/coupons'
 import Coupon from 'views/coupons/item'
 
@@ -18,66 +20,77 @@ import NewSupplier from 'views/suppliers/new'
 
 import Statistics from 'views/statistics'
 
+import Login from 'views/login'
+
 let routes = {
 	'/' : {
-		component: Products
-	},
+		component: App,
+		subRoutes: {
+			'/' : {
+				component: Products
+			},
 
-	'/coupons/' : {
-		component: Coupons
-	},
-	'/coupons/:id' : {
-		name: 'coupon',
-		component: Coupon
-	},
+			'coupons/' : {
+				component: Coupons
+			},
+			'coupons/:id' : {
+				name: 'coupon',
+				component: Coupon
+			},
 
-	'/customers/' : {
-		component: Customers
-	},
-	'/customers/:id' : {
-		name: 'customer',
-		component: Customer
-	},
-	'/customers/new' : {
-		name: 'new-customer',
-		component: NewCustomer
-	},
+			'customers/' : {
+				component: Customers
+			},
+			'customers/:id' : {
+				name: 'customer',
+				component: Customer
+			},
+			'customers/new' : {
+				name: 'new-customer',
+				component: NewCustomer
+			},
 
-	'/products/' : {
-		component: Products
-	},
-	'/products/:id' : {
-		name: 'product',
-		component: Product
-	},
-	'/products/new' : {
-		name: 'new-product',
-		component: NewProduct
-	},
+			'products/' : {
+				component: Products
+			},
+			'products/:id' : {
+				name: 'product',
+				component: Product
+			},
+			'products/new' : {
+				name: 'new-product',
+				component: NewProduct
+			},
 
-	'/sales/' : {
-		component: Sales
-	},
-	'/sales/:id' : {
-		name: 'sale',
-		component: Sale
-	},
+			'sales/' : {
+				component: Sales
+			},
+			'sales/:id' : {
+				name: 'sale',
+				component: Sale
+			},
 
-	'/suppliers/' : {
-		component: Suppliers
-	},
-	'/suppliers/:id' : {
-		name: 'supplier',
-		component: Supplier
-	},
-	'/suppliers/new' : {
-		name: 'new-supplier',
-		component: NewSupplier
-	},
+			'suppliers/' : {
+				component: Suppliers
+			},
+			'suppliers/:id' : {
+				name: 'supplier',
+				component: Supplier
+			},
+			'suppliers/new' : {
+				name: 'new-supplier',
+				component: NewSupplier
+			},
 
-	'/statistics/' : {
-		component: Statistics
+			'statistics/' : {
+				component: Statistics
+			}
+		},
+		auth: true
 	},
+	'/login' : {
+		component: Login
+	}
 }
 
 export default routes
