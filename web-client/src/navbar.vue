@@ -10,7 +10,6 @@ nav
 		//- li: a(href='/inventory') Inventur
 
 	button.toggle-cost EK anzeigen
-	a.settings(href='/settings'): i.fa.fa-cogs
 </template>
 <script>
 export default {

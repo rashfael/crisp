@@ -1,5 +1,5 @@
 <template lang="jade">
-.product-details
+.product-details.details
 	h2 {{ product.name }}
 
 	ui-tabs
@@ -61,12 +61,7 @@ export default {
 </script>
 <style lang="stylus">
 @import '~_ui'
-
 .product-details
-	card()
-	width 1200px
-	margin 0 auto
-
 	table.history, #arrivals table
 		table()
 </style>

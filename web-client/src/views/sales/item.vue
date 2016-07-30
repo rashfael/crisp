@@ -1,5 +1,5 @@
 <template lang="jade">
-.sale-details
+.sale-details.details
 	h2 {{ sale._id }}
 
 	ui-tabs
@@ -87,10 +87,6 @@ export default {
 @import '~_ui'
 
 .sale-details
-	card()
-	width 1200px
-	margin 0 auto
-
 	table.details, table.sale-items, table.coupons, table.returns
 		table()
 </style>

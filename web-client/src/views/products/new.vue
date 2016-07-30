@@ -1,5 +1,5 @@
 <template lang="jade">
-.product-details
+.product-details.details
 
 	edit(:product="product", :new="true")
 </template>
@@ -28,9 +28,4 @@ export default {
 </script>
 <style lang="stylus">
 @import '~_ui'
-
-.product-details
-	card()
-	width 1200px
-	margin 0 auto
 </style>

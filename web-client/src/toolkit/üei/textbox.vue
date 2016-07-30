@@ -77,10 +77,12 @@ export default {
 }
 </script>
 <style lang="stylus">
+@import '~_settings'
+
 .uei-textfield
 	field: right 30em
 	input
-		input()
+		input(crisp-primary)
 	label
 		padding-right 1em
 </style>

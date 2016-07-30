@@ -35,10 +35,12 @@ export default {
 }
 </script>
 <style lang="stylus">
+@import '~_settings'
+
 .uei-select
 	field: right 30em
 	select
-		input()
+		input(crisp-primary)
 	label
 		padding-right 1em
 </style>

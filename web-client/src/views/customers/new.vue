@@ -1,6 +1,6 @@
 <template lang="jade">
-.supplier-details
-	edit(:supplier="supplier", :new="true")
+.customer-details.details
+	edit(:customer="customer", :new="true")
 </template>
 <script>
 import api from 'lib/api'
@@ -10,7 +10,7 @@ export default {
 	components: {Edit},
 	data() {
 		return {
-			supplier: {
+			customer: {
 				_id: '',
 				name: '',
 				forename: '',
@@ -30,10 +30,5 @@ export default {
 }
 </script>
 <style lang="stylus">
-@import '~_ui'
 
-.supplier-details
-	card()
-	width 1200px
-	margin 0 auto
 </style>

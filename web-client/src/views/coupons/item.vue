@@ -1,5 +1,5 @@
 <template lang="jade">
-.coupon-details
+.coupon-details.details
 	h1 Gutschein {{ coupon._id }}
 
 	table.details
@@ -48,10 +48,6 @@ export default {
 @import '~_ui'
 
 .coupon-details
-	card()
-	width 1200px
-	margin 0 auto
-
 	table.details, table.changes
 		table()
 </style>

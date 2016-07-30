@@ -1,5 +1,5 @@
 <template lang="jade">
-.customer-details
+.customer-details.details
 	h2 {{ customer.name }}
 
 	ui-tabs
@@ -47,10 +47,6 @@ export default {
 @import '~_ui'
 
 .customer-details
-	card()
-	width 1200px
-	margin 0 auto
-
 	table.history, table.arrivals
 		table()
 </style>
