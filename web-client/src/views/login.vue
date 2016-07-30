@@ -44,6 +44,7 @@ export default {
 		margin 0
 		letter-spacing 24px
 		margin-left 24px
+		color crisp-primary
 	h2
 		color clr-secondary-text-light
 		font-weight 300
@@ -55,10 +56,12 @@ export default {
 		flex-direction column
 		align-items center
 		input
-			input()
+			input(crisp-primary)
 			width 150px
+			box-sizing border-box
 			margin-bottom 1rem
 		button
-			button()
+			button(crisp-primary)
+			width 150px
 
 </style>

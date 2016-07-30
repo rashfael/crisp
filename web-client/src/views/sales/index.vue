@@ -3,7 +3,7 @@
 	.toolbar
 		.actions
 			form.search(@submit.prevent='loadItems')
-				label(for='search'): i.fa.fa-search
+				label(for='search'): i.material-icons search
 				input#search(type='text', v-model="search")
 		pagination(:pages="pages", :current-page="currentPage", :total="items.metadata.totalCount", :items-per-page="100", @change-page="changePage")
 	table

@@ -7,12 +7,16 @@
 			edit(:customer="customer")
 		ui-tab(header="Historie")
 			table.history
+				tr
+					th Bonnummer
+					th Datum
+					th Summe
+					th Rabatt
 				tr(v-for="item in history")
-					td {{ item._id }}
-					td {{ item.date }}
+					td: a(v-link="{name: 'sale', params:{id: item._id}}") {{ item._id }}
+					td {{ item.date | datetime }}
 					td {{ item.price | currency }}
-					td {{ item.discount }}
-
+					td {{ item.discount | percentage }}
 </template>
 <script>
 import api from 'lib/api'
