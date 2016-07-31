@@ -8,11 +8,13 @@ module.exports.login = (next) ->
 		@status = 400
 		log.warn 'Invalid login request'
 		return
-	token = yield auth.authenticate @request.body
+	user = yield auth.authenticate @request.body
+	if not user?
+		@status = 403
+		log.warn 'Failed login attempt', @request.body
+		return
 	yield from next
-	@body =
-		username: @request.body.username
-		token: token
+	@body = user
 
 module.exports.authMiddleware = (next) ->
 	if @header?.authorization?

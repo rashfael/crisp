@@ -40,8 +40,9 @@ module.exports.list = (next) ->
 	# if @query.user?
 	# 	query.user = @query.user
 	options =
-		limit: 100
+		limit: parseInt(@query?.limit) or 100
 		skip: parseInt(@query?.skip) or 0
+		sort: '_id'
 	# options = @request.body?.options
 
 	[list, count] = yield [

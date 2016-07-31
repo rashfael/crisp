@@ -5,9 +5,10 @@ module.exports = ->
 	koa = require 'koa'
 	Router = require 'koa-router'
 	koaBody = require('koa-body')()
-
+	cors = require 'koa-cors'
 	app = koa()
 
+	app.use(cors())
 	routers = require './routers'
 
 	publicRouter = Router()
@@ -15,7 +16,6 @@ module.exports = ->
 		yield send @, 'index.html', root: config.staticFileDirectory
 
 	publicRouter.post '/api/v2/login', koaBody, routers.auth.login
-
 
 	app.use(publicRouter.routes()).use(publicRouter.allowedMethods())
 
@@ -62,6 +62,9 @@ module.exports = ->
 		securedRouter.put '/api/v2/sales/:id', koaBody, routers.sales.update
 		securedRouter.get '/api/v2/sales/:id', routers.sales.read
 		securedRouter.delete '/api/v2/sales/:id', routers.sales.delete
+
+	if routers.statistics?
+		securedRouter.post '/api/v2/statistics/supplier-article-profit', koaBody, routers.statistics.supplierArticleProfit
 
 	if routers.coupons?
 		securedRouter.post '/api/v2/coupons', koaBody, routers.coupons.create

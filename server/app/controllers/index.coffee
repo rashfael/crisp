@@ -5,6 +5,7 @@ module.exports =
 	products: new (require('./products'))
 	productGroups: new (require('./product-groups'))
 	sales: new (require('./sales'))
+	statistics: new (require('./statistics'))
 	suppliers: new (require('./suppliers'))
 
 	# taiga: new (require('./taiga'))()

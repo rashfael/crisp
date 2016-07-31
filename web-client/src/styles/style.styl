@@ -1,0 +1,35 @@
+@import '_settings'
+@import '_ui'
+normalize-css()
+base()
+typography()
+
+a
+	color crisp-primary
+	text-decoration none
+
+body
+	background-color clr-grey-100
+#app
+	display flex
+	margin-top 64px
+@import 'nav'
+
+// table
+// 	table($condensed: true)
+//
+// 	tr
+// 		cursor pointer
+//
+	// .number-cell
+	// 	text-align right
+
+.details
+	card()
+	width 1200px
+	margin 0 auto
+
+.details-edit
+	button
+		margin-left 236px
+		button(crisp-primary)

@@ -12,9 +12,26 @@ module.exports.create = (next) ->
 module.exports.list = (next) ->
 	query = {}
 
+	if @query.search?
+		searchNumber = parseInt(@query.search)
+		if not isNaN(searchNumber)
+			query = {_id: searchNumber}
+		else
+			query =
+				$or: [
+					name:
+						$regex: @query.search
+						$options: 'i'
+				,
+					forename:
+						$regex: @query.search
+						$options: 'i'
+				]
+
 	options =
+		limit: parseInt(@query?.limit) or 100
 		skip: parseInt(@query?.skip) or 0
-		limit: 100
+		sort: '_id'
 
 	[list, count] = yield [
 		customersController.find query, @request.body?.projection, options

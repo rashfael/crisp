@@ -1,0 +1,114 @@
+@import '_settings'
+
+nav-spacing = 12px
+nav-line-height = 0.3em
+inner-nav-height = nav-height - nav-spacing * 2 - nav-line-height
+
+nav, #nav
+	group()
+	box-sizing border-box
+	display block
+	z-index 10
+	background-color navbar-background-color
+	box-shadow 0 3px 3px rgba(0,0,0,.15)
+	border-bottom nav-line-height solid crisp-primary
+
+	padding nav-spacing
+	width 100%
+	position fixed
+	// +below('m')
+	// 	position relative
+
+	z-index 100
+	overflow hidden
+	transition top 0.7s ease-out-back
+
+	// height nav-height + nav-top-buffer
+	// @media (min-width: screen-medium-min)
+	top 0
+	height nav-height
+
+	.container
+		// margin-top nav-height
+		margin 0 auto 0
+
+
+	img
+		height nav-height - nav-spacing * 2 - nav-line-height
+		+below('s')
+			height auto
+			max-height nav-height - nav-spacing * 2 - nav-line-height
+			width 90%
+			margin 0 5%
+	h3
+		font-size 1.25em
+		+below('xl')
+			display none
+		display inline-block
+		reset-link()
+		color crisp-primary
+		vertical-align middle
+		padding-left 2em
+		margin 0
+		height nav-height - nav-line-height - nav-spacing*2
+
+
+	.toggle
+		display block
+		+above('m')
+			display none
+		float right
+		font-size 3em
+		color crisp-primary
+
+	a:hover, h1:hover
+		color crisp-primary
+
+	&.open
+		height auto
+		ul.nav
+			text-align center
+			li
+				display block
+
+				&:after
+					content none
+
+	ul.nav
+		font-weight 300
+		height nav-height - nav-spacing * 2 - nav-line-height
+		margin 0 auto
+		max-width 85rem
+
+		li
+			display inline
+			text-transform uppercase
+
+			line-height nav-height - nav-spacing * 2
+			a
+				reset-link()
+
+			&:after
+				display inline-block
+				content ''
+				height .6em
+				background-color crisp-primary
+				width 3px
+				margin 0.05em 1em
+
+
+			&:last-child:after
+				content none
+
+			a:hover
+				color crisp-primary
+	button
+		display inline-block
+		position absolute
+		top 1.25rem
+		right 5rem
+	a.settings
+		font-size 2rem
+		position absolute
+		top 0.5em
+		right 0.5em
