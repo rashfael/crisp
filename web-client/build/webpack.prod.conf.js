@@ -2,6 +2,8 @@ var path = require('path')
 var webpack = require('webpack')
 var merge = require('webpack-merge')
 var utils = require('./utils')
+var path = require('path')
+var projectRoot = path.resolve(__dirname, '../')
 var baseWebpackConfig = require('./webpack.base.conf')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -9,18 +11,17 @@ var CompressionWebpackPlugin = require('compression-webpack-plugin')
 var CleanWebpackPlugin = require('clean-webpack-plugin')
 
 var webpackConfig = merge(baseWebpackConfig, {
-  entry: {
-    app: [
-      './src/styles/tradecore-embed.styl',
-      './src/main.js'
-    ]
-  },
+	resolve: {
+		alias: {
+			'config': path.resolve(projectRoot, 'config.prod.js')
+		}
+	},
   module: {
     loaders: utils.styleLoaders({ sourceMap: true, extract: true })
   },
   output: {
-    filename: utils.assetsPath('js/[name].js'),
-    chunkFilename: utils.assetsPath('js/[id].js')
+    filename: utils.assetsPath('js/[name].[chunkhash].js'),
+    chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
   },
   vue: {
     loaders: utils.cssLoaders({
@@ -39,12 +40,12 @@ var webpackConfig = merge(baseWebpackConfig, {
       }
     }),
     // extract css into its own file
-    new ExtractTextPlugin(utils.assetsPath('css/[name].css')),
+    new ExtractTextPlugin(utils.assetsPath('css/[name].[contenthash].css')),
     // generate dist index.html with correct asset hash for caching.
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
-      template: './src/index.html',
+      template: 'index.html',
       inject: true,
       minify: {
         removeComments: true,

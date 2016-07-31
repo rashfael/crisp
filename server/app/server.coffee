@@ -13,7 +13,7 @@ mongoCon = mongoose.connection
 mongoCon.once 'open', ->
 	log.info 'Connected to database'
 
-
+require './schemas/cashier'
 require './schemas/coupon'
 require './schemas/customer'
 # require './schemas/inventory'

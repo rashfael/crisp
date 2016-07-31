@@ -1,4 +1,5 @@
-const BASE_URL = 'http://localhost:9000/api/v2/'
+import config from 'config'
+const BASE_URL = config.api.baseUrl
 let headers = new Headers()
 headers.append('Content-Type', 'application/json')
 

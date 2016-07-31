@@ -1,5 +1,7 @@
 config = require '../../config'
 request = require 'request'
+mongoose = require 'mongoose'
+Cashier = mongoose.model 'Cashier'
 
 tokenStore = []
 
@@ -48,16 +50,22 @@ module.exports = class Authenticator
 
 randtoken = require 'rand-token'
 
-tokenStore = []
+tokenStore = {}
 
 module.exports = class Authenticator
 
 	authenticate: (user) ->
 		token = randtoken.generate 32
 		yield (done) -> done() # for future asyncings
-		tokenStore[token] = user
-		return token
-
+		cashier = yield Cashier.findOne({_id: user.username}).exec()
+		if cashier? and cashier.password is user.password
+			user.token = token
+			user.name = cashier.name
+			user.forename = cashier.forename
+			tokenStore[token] = user
+			return user
+		else
+			return
 
 	authorize: (token) ->
 		yield (done) -> done()
