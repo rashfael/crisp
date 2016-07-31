@@ -11,10 +11,10 @@
 
 		template(v-if="pages > 1")
 			li
-				a.previous(v-if="currentPage > 1", href='#', @click.prevent="changePage(Math.max(currentPage - 1, 1))", :title="Zurück"): span.material-icons &#xE5CB;
+				a.previous(v-if="currentPage > 1", href='#', @click.prevent="changePage(Math.max(currentPage - 1, 1))", title="Zurück"): span.material-icons &#xE5CB;
 				span.placeholder(v-else): span.material-icons &#xE5CB;
 			li
-				a.next(v-if="currentPage < pages", href='#', @click.prevent="changePage(Math.min(currentPage + 1, pages))", :title="Weiter"): span.material-icons &#xE5CC;
+				a.next(v-if="currentPage < pages", href='#', @click.prevent="changePage(Math.min(currentPage + 1, pages))", title="Weiter"): span.material-icons &#xE5CC;
 				span.placeholder(v-else): span.material-icons &#xE5CC;
 
 </template>

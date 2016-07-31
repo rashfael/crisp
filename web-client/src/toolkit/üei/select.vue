@@ -38,9 +38,11 @@ export default {
 @import '~_settings'
 
 .uei-select
-	field: right 30em
+	field: right 500px
 	select
 		input(crisp-primary)
+		box-sizing content-box
+		padding 6px
 	label
 		padding-right 1em
 </style>

@@ -5,7 +5,7 @@
 	ui-tabs
 		ui-tab(header="Details")
 			edit(:product="product")
-			button() Drucken
+			//- button() Drucken
 		ui-tab(header="Historie")
 			table.history
 				tr(v-for="item in history")

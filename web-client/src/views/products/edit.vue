@@ -1,6 +1,6 @@
 <template lang="jade">
 
-form(@submit.prevent="submit")
+form.details-edit(@submit.prevent="submit")
 	.product-id
 		uei-textbox(name="_id", :value.sync="product._id", label="Artikelnummer", :disabled="!new")
 		ui-button.generate(v-if="new", @click.prevent="generateId") Generieren
@@ -10,8 +10,8 @@ form(@submit.prevent="submit")
 	uei-textbox(name="supplierProductId", :value.sync="product.supplierProductId", label="Lieferantennummer")
 	uei-textbox(name="printerline1", :value.sync="product.printerline1", label="Druckzeile 1")
 	uei-textbox(name="printerline2", :value.sync="product.printerline2", label="Druckzeile 2")
-	uei-textbox(name="cost", :value.sync="product.cost | currency", label="EK")
-	uei-textbox(name="sale", :value.sync="product.sale | currency", label="VK")
+	uei-textbox(name="cost", :value.sync="product.cost | pure-currency", label="EK")
+	uei-textbox(name="sale", :value.sync="product.sale | pure-currency", label="VK")
 
 	button(type='submit') Speichern
 </template>

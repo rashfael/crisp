@@ -1,6 +1,6 @@
 <template lang="jade">
 
-form(@submit.prevent="submit")
+form.details-edit(@submit.prevent="submit")
 	uei-textbox(name="_id", :value.sync="customer._id", label="Kundennummer", :readonly="!new")
 	uei-textbox(name="name", :value.sync="customer.name", label="Name")
 	uei-textbox(name="name2", :value.sync="customer.forename", label="Vorname")

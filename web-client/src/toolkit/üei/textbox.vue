@@ -80,9 +80,12 @@ export default {
 @import '~_settings'
 
 .uei-textfield
-	field: right 30em
+	field: right 500px
 	input
 		input(crisp-primary)
+		padding 6px
+		&[disabled]
+			input-disabled()
 	label
 		padding-right 1em
 </style>

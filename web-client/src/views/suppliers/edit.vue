@@ -1,7 +1,7 @@
 <template lang="jade">
 
-form(@submit.prevent="submit")
-	uei-textbox(name="_id", :value.sync="supplier._id", label="Lieferantennummer", :readonly="!new")
+form.details-edit(@submit.prevent="submit")
+	uei-textbox(name="_id", :value.sync="supplier._id", label="Lieferantennummer", :disabled="!new")
 	uei-textbox(name="name", :value.sync="supplier.name", label="Name")
 	uei-textbox(name="name2", :value.sync="supplier.name2", label="Name2")
 	uei-textbox(name="street", :value.sync="supplier.street", label="Straße")

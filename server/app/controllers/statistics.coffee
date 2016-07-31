@@ -22,16 +22,5 @@ module.exports = class StatisticsController
 			reduce: reduce
 			query: {date: {$gte: start, $lt: end}}
 			verbose: true
-		console.log mapReduce
 		results = yield Sale.mapReduce(mapReduce)
-		# stats = {}
-		# total = {amount:0, sum:0}
-		# for result in results
-		# 	date = new Date result._id.year, result._id.month, 1, 1
-		# 	stats[date] = result.value
-		# 	total.amount += result.value.amount
-		# 	total.sum += result.value.sum
-		# ret =
-		# 	stats: stats
-		# 	total: total
 		return results
