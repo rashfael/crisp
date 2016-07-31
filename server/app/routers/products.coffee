@@ -29,21 +29,10 @@ module.exports.list = (next) ->
 					$regex: @query.search
 					$options: 'i'
 			]
-	# if @query['min-date']? and @query['max-date']?
-	# 	query.begin =
-	# 			$lte: new Date @query['max-date']
-	# 	query.$or = [
-	# 			end: $exists: false
-	# 		,
-	# 			end: $gte: new Date @query['min-date']
-	# 		]
-	# if @query.user?
-	# 	query.user = @query.user
 	options =
 		limit: parseInt(@query?.limit) or 100
 		skip: parseInt(@query?.skip) or 0
 		sort: '_id'
-	# options = @request.body?.options
 
 	[list, count] = yield [
 		productsController.find query, @request.body?.projection, options
@@ -99,7 +88,6 @@ module.exports.generateId = (next) ->
 	@body = JSON.stringify result
 
 module.exports.arrival = (next) ->
-	console.log @request.body
 	result = yield productsController.addArrival @params.id, @request.body.amount, @request.body.shop
 	@body = result
 	yield next

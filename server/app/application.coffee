@@ -73,17 +73,7 @@ module.exports = ->
 		securedRouter.get '/api/v2/coupons/:id', routers.coupons.read
 		securedRouter.delete '/api/v2/coupons/:id', routers.coupons.delete
 
-	#
-	# if routers.userSettings
-	# 	securedRouter.get '/api/user-settings/:username', routers.userSettings.get
-	# 	securedRouter.put '/api/user-settings/:username', koaBody, routers.userSettings.update
-	#
-	# if routers.worktimeStats
-	# 	securedRouter.get '/api/stats/worktime/:username', koaBody, routers.worktimeStats.get
-	# 	securedRouter.post '/api/stats/worktime/:username', koaBody, routers.worktimeStats.get
-
 	app.use(securedRouter.routes()).use(securedRouter.allowedMethods())
-
 
 	# catch all client routes
 	app.use (next) ->

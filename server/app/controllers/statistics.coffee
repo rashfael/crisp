@@ -8,6 +8,7 @@ module.exports = class StatisticsController
 		map = ->
 			for item in this.items
 				emit {supplierId: item.supplierId, productId: item.productId}, {amount: item.amount, sum: item.price}
+			return
 
 		reduce = (key, values) ->
 			sum = 0
@@ -15,7 +16,7 @@ module.exports = class StatisticsController
 			for value in values
 				amount += value.amount
 				sum += value.sum
-			return {amount: amount, sum: sum}
+			return {amount, sum}
 
 		mapReduce =
 			map: map

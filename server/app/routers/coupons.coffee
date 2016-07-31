@@ -19,7 +19,7 @@ module.exports.list = (next) ->
 		limit: 100
 		skip: parseInt(@query?.skip) or 0
 		sort:
-			date: -1
+			_id: -1
 	# options = @request.body?.options
 
 	[list, count] = yield [

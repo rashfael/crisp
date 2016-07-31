@@ -7,7 +7,6 @@ nav
 		li: a(v-link="'/sales/'") Verkaufshistorie
 		li: a(v-link="'/coupons/'") Gutscheine
 		li: a(v-link="'/statistics'") Statistiken
-		//- li: a(href='/inventory') Inventur
 
 	button.toggle-cost EK anzeigen
 </template>
@@ -33,4 +32,4 @@ export default {
 }
 </script>
 <style lang="stylus">
-</style>^
+</style>

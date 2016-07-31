@@ -13,8 +13,8 @@ module.exports.list = (next) ->
 	query = {}
 
 	options =
+		limit: parseInt(@query?.limit) or 100
 		skip: parseInt(@query?.skip) or 0
-		# limit:
 
 	[list, count] = yield [
 		suppliersController.find query, @request.body?.projection, options

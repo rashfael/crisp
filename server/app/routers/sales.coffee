@@ -15,25 +15,11 @@ module.exports.list = (next) ->
 	if @query.search?
 		query =
 			_id: parseInt @query.search
-			# $or: [
-			# 	$where: "/^#{@query.search}/.test(this._id)"
-			# ]
-	# if @query['min-date']? and @query['max-date']?
-	# 	query.begin =
-	# 			$lte: new Date @query['max-date']
-	# 	query.$or = [
-	# 			end: $exists: false
-	# 		,
-	# 			end: $gte: new Date @query['min-date']
-	# 		]
-	# if @query.user?
-	# 	query.user = @query.user
 	options =
 		limit: 100
 		skip: parseInt(@query?.skip) or 0
 		sort:
 			date: -1
-	# options = @request.body?.options
 
 	[list, count] = yield [
 		salesController.find query, @request.body?.projection, options

@@ -1,6 +1,6 @@
 {
   "name": "crisp-client",
-  "version": "0.5.0",
+  "version": "4.0.0-beta.1",
   "private": "true",
   "description": "",
   "main": "index.js",

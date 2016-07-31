@@ -16,7 +16,6 @@ mongoCon.once 'open', ->
 require './schemas/cashier'
 require './schemas/coupon'
 require './schemas/customer'
-# require './schemas/inventory'
 require './schemas/product'
 require './schemas/product-group'
 require './schemas/sale'
