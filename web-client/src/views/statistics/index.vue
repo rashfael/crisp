@@ -2,6 +2,10 @@
 .statistics
 	input#daterangepicker(type="text", v-el:daterangepicker)
 	table
+		tr.total
+			th Gesamt
+			th {{ totals.amount }}
+			th {{ totals.sum | currency }}
 		template(v-for="(supplierId, supplier) in suppliers")
 			tr.supplier
 				th {{ humanize.suppliersMap[supplierId].name }}
@@ -30,7 +34,11 @@ export default {
 			startDate: moment().startOf('day'),
 			endDate: moment().startOf('day'),
 			suppliers: [],
-			humanize
+			humanize,
+			totals: {
+				amount: 0,
+				sum: 0
+			}
 		}
 	},
 	ready() {
@@ -59,6 +67,8 @@ export default {
 		loadStatistics() {
 			api.statistics.supplierArticleProfit(this.startDate, this.endDate).then((data) => {
 				let suppliers = {}
+				let totalAmount = 0
+				let totalSum = 0
 				for(let supplierArticle of data) {
 					let supplierId = supplierArticle._id.supplierId
 					let productId = supplierArticle._id.productId
@@ -68,8 +78,11 @@ export default {
 					suppliers[supplierId].products.push({productId, value})
 					suppliers[supplierId].value.amount += value.amount
 					suppliers[supplierId].value.sum += value.sum
+					totalAmount += value.amount
+					totalSum += value.sum
 				}
-
+				this.totals.amount = totalAmount
+				this.totals.sum = totalSum
 				this.suppliers = suppliers
 			})
 		}
