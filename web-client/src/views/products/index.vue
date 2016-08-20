@@ -14,7 +14,7 @@
 			th Gruppe
 			th Lieferant
 			th LiefNr
-			th EK
+			th(v-show="globals.costVisible") EK
 			th VK
 			th Lager
 		tr(v-for="item in items.items", :item="item", @click="$router.go({name:'product', params:{id: item._id}})")
@@ -23,7 +23,7 @@
 			td {{humanize.productGroupsMap[item.productGroupId].name}}
 			td {{humanize.suppliersMap[item.supplierId].name}}
 			td {{item.supplierProductId}}
-			td {{item.cost | currency}}
+			td(v-show="globals.costVisible") {{item.cost | currency}}
 			td {{item.sale | currency}}
 			td {{item.stock}}
 </template>
@@ -31,12 +31,15 @@
 import api from 'lib/api'
 import ListMixin from 'components/mixins/list'
 import humanize from 'lib/humanize'
+import globals from 'lib/globals'
+
 export default {
 	mixins: [ListMixin],
 	data() {
 		return {
 			baseUrl: 'products',
-			humanize
+			humanize,
+			globals
 		}
 	},
 	methods: {

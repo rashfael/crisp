@@ -1,5 +1,5 @@
 @import '_settings'
-
+@import '_ui'
 nav-spacing = 12px
 nav-line-height = 0.3em
 inner-nav-height = nav-height - nav-spacing * 2 - nav-line-height
@@ -8,12 +8,11 @@ nav, #nav
 	group()
 	box-sizing border-box
 	display block
+	card()
 	z-index 10
-	background-color navbar-background-color
-	box-shadow 0 3px 3px rgba(0,0,0,.15)
-	border-bottom nav-line-height solid crisp-primary
 
-	padding nav-spacing
+
+	padding 0
 	width 100%
 	position fixed
 	// +below('m')
@@ -26,32 +25,11 @@ nav, #nav
 	// height nav-height + nav-top-buffer
 	// @media (min-width: screen-medium-min)
 	top 0
-	height nav-height
+	// height nav-height
 
 	.container
 		// margin-top nav-height
 		margin 0 auto 0
-
-
-	img
-		height nav-height - nav-spacing * 2 - nav-line-height
-		+below('s')
-			height auto
-			max-height nav-height - nav-spacing * 2 - nav-line-height
-			width 90%
-			margin 0 5%
-	h3
-		font-size 1.25em
-		+below('xl')
-			display none
-		display inline-block
-		reset-link()
-		color crisp-primary
-		vertical-align middle
-		padding-left 2em
-		margin 0
-		height nav-height - nav-line-height - nav-spacing*2
-
 
 	.toggle
 		display block
@@ -63,16 +41,6 @@ nav, #nav
 
 	a:hover, h1:hover
 		color crisp-primary
-
-	&.open
-		height auto
-		ul.nav
-			text-align center
-			li
-				display block
-
-				&:after
-					content none
 
 	ul.nav
 		font-weight 300
@@ -87,6 +55,7 @@ nav, #nav
 			line-height nav-height - nav-spacing * 2
 			a
 				reset-link()
+				color clr-primary-text-dark
 
 			&:after
 				display inline-block

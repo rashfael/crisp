@@ -20,7 +20,7 @@ Vue.filter('pure-currency', {
 Vue.filter('currency', function(val) {
 	if(val == null)
 		return ''
-	return format.format(val) + ' €'
+	return format.format(val)
 })
 
 Vue.filter('percentage', function(val) {

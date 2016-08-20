@@ -49,7 +49,6 @@ export default {
 				api.products.create(this.product).then((product) => this.product = product)
 			else
 				api.products.update(this.product).then(navigate)
-
 		}
 	}
 }

@@ -23,4 +23,11 @@ module.exports = class Authenticator
 
 	authorize: (token) ->
 		yield (done) -> done()
-		return tokenStore[token]
+		user = tokenStore[token]
+		return null if not user?
+		ret = {
+			token: user.token
+			name: user.name
+			forename: user.forename
+		}
+		return ret
