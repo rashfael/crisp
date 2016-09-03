@@ -1,3 +1,4 @@
+moment = require 'moment'
 customersController = require('../controllers').customers
 salesController = require('../controllers').sales
 
@@ -74,3 +75,34 @@ module.exports.delete = (next) ->
 	else
 		@status = 204
 	yield next
+
+module.exports.export = (next) ->
+	query =
+		$where: ''
+	if @query.hasEmail? and @query.hasEmail is 'true'
+		query.$where = "this.email != undefined && this.email !=  ''"
+	else
+		query.$where = "(this.email == undefined || this.email ==  '') &&( this.zip != undefined && this.zip != '')"
+
+	if @query.birthday
+		query.$where += "&& new Date(this.birthday).getMonth() == #{@query.birthday-1}" # TODO injection
+
+	options =
+		sort:
+			birthday: 1
+			zip: 1
+	console.log(query)
+	result = yield customersController.find query, null, options
+
+	# if filter? && filter.birthday?
+	# 	data.sort (a,b) -> return a.birthday.getDate() - b.birthday.getDate()
+	csvData = '#,Titel,Name,Vorname,Straße,ZIP,Ort,Telefon,Email,Geburtstag\n'
+	console.log(result.length)
+	for c in result
+		if c.birthday?
+			c.birthdayFormat = moment(c.birthday).format('DD.MM.YYYY')
+		csvData += "#{c._id},#{c.title || ''},#{c.name || ''},#{c.forename || ''},\"#{c.street || ''}\",#{c.zip || ''},\"#{c.place || ''}\",#{c.tel || ''},#{c.email || ''},#{c.birthdayFormat || ''}\n"
+	@body =
+		csv: csvData
+	# @set('Content-Type', 'text/csv')
+	# @set('Content-Disposition': 'attachment; filename="kunden.csv"')

@@ -6,6 +6,7 @@ import Coupon from 'views/coupons/item'
 import Customers from 'views/customers'
 import Customer from 'views/customers/item'
 import NewCustomer from 'views/customers/new'
+import ExportCustomers from 'views/customers/export'
 
 import Products from 'views/products'
 import Product from 'views/products/item'
@@ -26,11 +27,12 @@ let routes = {
 	'/' : {
 		component: App,
 		subRoutes: {
-			'/' : {
-				component: Products
-			},
+			// '/' : {
+			// 	component: Products
+			// },
 
 			'coupons/' : {
+				name: 'coupons',
 				component: Coupons
 			},
 			'coupons/:id' : {
@@ -39,6 +41,7 @@ let routes = {
 			},
 
 			'customers/' : {
+				name: 'customers',
 				component: Customers
 			},
 			'customers/:id' : {
@@ -49,8 +52,13 @@ let routes = {
 				name: 'new-customer',
 				component: NewCustomer
 			},
+			'customers/export' : {
+				name: 'export-customers',
+				component: ExportCustomers
+			},
 
 			'products/' : {
+				name: 'products',
 				component: Products
 			},
 			'products/:id' : {
@@ -63,6 +71,7 @@ let routes = {
 			},
 
 			'sales/' : {
+				name: 'sales',
 				component: Sales
 			},
 			'sales/:id' : {
@@ -71,6 +80,7 @@ let routes = {
 			},
 
 			'suppliers/' : {
+				name: 'suppliers',
 				component: Suppliers
 			},
 			'suppliers/:id' : {
@@ -83,6 +93,7 @@ let routes = {
 			},
 
 			'statistics/' : {
+				name: 'statistics',
 				component: Statistics
 			}
 		},

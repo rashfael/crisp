@@ -64,6 +64,9 @@ let api = {
 		history(id) {
 			return api.fetch(`customers/${id}/history`)
 		},
+		csvExport(birthday, hasEmail) {
+			return api.fetch(`customers/export?birthday=${birthday || ''}&hasEmail=${hasEmail}`)
+		}
 	},
 	products: {
 		list() {
