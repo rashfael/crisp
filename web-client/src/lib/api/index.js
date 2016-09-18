@@ -104,8 +104,9 @@ let api = {
 		}
 	},
 	suppliers: {
-		list() {
-			return api.fetch(`suppliers`)
+		list(limit) {
+			limit = limit || 100
+			return api.fetch(`suppliers?limit=${limit}`)
 		},
 		get(id) {
 			return api.fetch(`suppliers/${id}`)
