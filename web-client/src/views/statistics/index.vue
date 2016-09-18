@@ -5,7 +5,7 @@
 		tr.total
 			th Gesamt
 			th {{ totals.amount }}
-			th {{ totals.sum | currency }}
+			th {{ totals.sum/100 | currency }}
 		template(v-for="(supplierId, supplier) in suppliers")
 			tr.supplier
 				th {{ humanize.suppliersMap[supplierId].name }}
