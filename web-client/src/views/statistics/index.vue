@@ -12,7 +12,7 @@
 				th {{ supplier.value.amount }}
 				th {{ supplier.value.sum/100 | currency }}
 			tr.product(v-for="product in supplier.products")
-				td {{ product.productId }}
+				td: a(v-link="{name: 'product', params:{id:product.productId}}") {{ product.productId }}
 				td {{ product.value.amount }}
 				td {{ product.value.sum/100 | currency }}
 

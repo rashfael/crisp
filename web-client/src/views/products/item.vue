@@ -8,10 +8,14 @@
 			//- button() Drucken
 		ui-tab(header="Historie")
 			table.history
+				tr
+					td Kunde
+					td Bonnummer
+					td Datum
 				tr(v-for="item in history")
-					td {{ item.customerId }}
-					td {{ item.saleId }}
-					td {{ item.date }}
+					td: a(v-link="{name: 'customer', params:{id:item.customerId}}") {{ item.customerId }}
+					td: a(v-link="{name: 'sale', params:{id:item.saleId}}") {{ item.saleId }}
+					td {{ item.date | datetime }}
 		ui-tab#arrivals(header="Lagerbestand")
 			form(@submit.prevent="addArrival")
 				uei-textbox(name="name", :value.sync="arrivalAmount", label="Anzahl")
