@@ -11,7 +11,7 @@
 					td {{ sale.date | datetime }}
 				tr
 					th Kundennummer
-					td {{ sale.customerId }}
+					td: a(v-link="{name: 'customer', params:{id:sale.customerId}}") {{ sale.customerId }}
 				tr
 					th Kassiererin
 					td {{ sale.cashier }}
