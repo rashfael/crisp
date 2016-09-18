@@ -9,8 +9,6 @@ Customer = new mongoose.Schema
 	zip: String
 	place: String
 	tel: String
-	tel2: String
-	fax: String
 	email: String
 	birthday: Date
 	customerSince: {type: Date, default: Date.now}

@@ -18,8 +18,6 @@ export default {
 				zip: '',
 				place: '',
 				tel: '',
-				tel2: '',
-				fax: '',
 				email: '',
 				birthday: '',
 				customerSince: '',
