@@ -8,7 +8,7 @@ let humanize = {
 	productGroups: [],
 	productGroupsMap: {},
 
-	fetch() {
+	init() {
 		Promise.all([api.suppliers.list(9000), api.productGroups.list()]).then(([rawSuppliers, rawProductGroups]) => {
 			humanize.suppliers = rawSuppliers.items
 			humanize.suppliersMap = _.keyBy(humanize.suppliers, '_id')

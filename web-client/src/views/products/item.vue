@@ -64,7 +64,7 @@ export default {
 }
 </script>
 <style lang="stylus">
-@import '~_ui'
+@import "~_settings"
 .product-details
 	table.history, #arrivals table
 		table()

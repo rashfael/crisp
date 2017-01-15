@@ -4,7 +4,7 @@
 		ui-select(label="Geburtstag", name="birthday_month", :options="birthdayOptions", :default="birthdayOptions[0]", :value.sync="birthday")
 		ui-switch.email(label="Email", :value.sync="hasEmail")
 		button(type="submit") Export
-	a.download-link(v-el:download-link)
+	a.download-link(ref="download-link")
 </template>
 
 <script>
@@ -39,7 +39,7 @@ export default {
 			api.customers.csvExport(this.birthday.value, this.hasEmail).then((result) => {
 				const blob = new Blob([result.csv], { type: 'text/csv' })
 				const url = URL.createObjectURL(blob)
-				const link = this.$els.downloadLink
+				const link = this.$refs.downloadLink
 				link.setAttribute('href', url);
 				link.setAttribute('download', 'kunden.csv');
 				link.click();
@@ -51,8 +51,7 @@ export default {
 }
 </script>
 <style lang="stylus">
-@import '~_settings'
-@import '~_ui'
+@import "~_settings"
 
 #customers-export
 	flex 1 0

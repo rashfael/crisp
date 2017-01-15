@@ -1,7 +1,7 @@
 <template lang="jade">
 
 form.details-edit(@submit.prevent="submit")
-	uei-textbox(name="_id", :value.sync="supplier._id", label="Lieferantennummer", :disabled="!new")
+	uei-textbox(name="_id", :value.sync="supplier._id", label="Lieferantennummer", :disabled="!isNew")
 	uei-textbox(name="name", :value.sync="supplier.name", label="Name")
 	uei-textbox(name="name2", :value.sync="supplier.name2", label="Name2")
 	uei-textbox(name="street", :value.sync="supplier.street", label="Straße")
@@ -21,7 +21,7 @@ import api from 'lib/api'
 export default {
 	props: {
 		supplier:Object,
-		new: {
+		isNew: {
 			type: Boolean,
 			default: false
 		}
@@ -33,7 +33,7 @@ export default {
 		submit() {
 			let navigate = (supplier) =>
 				this.$router.go({name: 'supplier', params: {id: supplier._id}})
-			if(this.new)
+			if(this.isNew)
 				api.suppliers.create(this.supplier).then((supplier) => this.supplier = supplier)
 			else
 				api.suppliers.update(this.supplier).then(navigate)

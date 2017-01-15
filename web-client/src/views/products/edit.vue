@@ -2,8 +2,8 @@
 
 form.details-edit(@submit.prevent="submit")
 	.product-id
-		uei-textbox(name="_id", :value.sync="product._id", label="Artikelnummer", :disabled="!new")
-		ui-button.generate(v-if="new", @click.prevent="generateId") Generieren
+		uei-textbox(name="_id", :value.sync="product._id", label="Artikelnummer", :disabled="!isNew")
+		ui-button.generate(v-if="isNew", @click.prevent="generateId") Generieren
 	uei-textbox(name="name", :value.sync="product.name", label="Name")
 	uei-select(name="productGroupId", label="Produktgruppe", :value.sync="product.productGroupId", :options="humanize.productGroups", text-key="name", value-key="_id")
 	uei-select(name="supplierId", label="Lieferant", :value.sync="product.supplierId", :options="humanize.suppliers", text-key="name", value-key="_id")
@@ -26,7 +26,7 @@ export default {
 			default: {
 			}
 		},
-		new: {
+		isNew: {
 			type: Boolean,
 			default: false
 		}
@@ -45,7 +45,7 @@ export default {
 		submit() {
 			let navigate = (product) =>
 				this.$router.go({name: 'product', params: {id: product._id}})
-			if(this.new)
+			if(this.isNew)
 				api.products.create(this.product).then((product) => this.product = product)
 			else
 				api.products.update(this.product).then(navigate)

@@ -27,5 +27,4 @@ export default {
 }
 </script>
 <style lang="stylus">
-@import '~_ui'
 </style>

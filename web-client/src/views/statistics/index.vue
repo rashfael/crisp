@@ -1,6 +1,6 @@
 <template lang="jade">
 .statistics
-	input#daterangepicker(type="text", v-el:daterangepicker)
+	input#daterangepicker(type="text", ref="daterangepicker")
 	table
 		tr.total
 			th Gesamt
@@ -42,7 +42,7 @@ export default {
 		}
 	},
 	ready() {
-		$(this.$els.daterangepicker).daterangepicker({
+		$(this.$refs.daterangepicker).daterangepicker({
 			locale: {
 				format: 'DD.MM.YYYY'
 			},
@@ -90,7 +90,7 @@ export default {
 }
 </script>
 <style lang="stylus">
-@import '~_ui'
+@import "~_settings"
 
 .statistics
 	width 1200px

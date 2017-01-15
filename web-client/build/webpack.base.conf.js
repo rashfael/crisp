@@ -18,7 +18,7 @@ module.exports = {
 	module: {
 		loaders: [
 			{ test: /\.vue$/, loader: 'vue' },
-			{ test: /\.js$/, loader: 'babel', include: projectRoot, exclude: /node_modules/ },
+			{ test: /\.js$/, loader: 'babel', include: projectRoot, exclude: /node_modules\/(?!buntpapier)/  },
 			{ test: /\.json$/, loader: 'json' },
 			{ test: /\.html$/, loader: 'vue-html' },
 			{ test: /\.(png|jpe?g|gif|svg)(\?.*)?$/, loader: 'url',
@@ -37,6 +37,6 @@ module.exports = {
 		loaders: utils.cssLoaders()
 	},
 	stylus: {
-		use: [require('nib')(),require('axis')(),require('rupture')(),require('autoprefixer-stylus')()]
+		use: [require('nib')(),require('rupture')(),require('autoprefixer-stylus')(), require('buntpapier/stylus')()]
 	}
 }

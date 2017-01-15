@@ -1,13 +1,13 @@
 <template lang="jade">
 nav
 	.nav-inner
-		ui-tabs(:active-tab="$route.name")
-			ui-tab(header="Artikel", id="products", @selected="$router.go('/products')")
-			ui-tab(header="Lieferanten", id="suppliers", @selected="$router.go('/suppliers')")
-			ui-tab(header="Kunden", id="customers", @selected="$router.go('/customers')")
-			ui-tab(header="Verkaufshistorie", id="sales", @selected="$router.go('/sales')")
-			ui-tab(header="Gutscheine", id="coupons", @selected="$router.go('/coupons')")
-			ui-tab(header="Statistiken", id="statistics", @selected="$router.go('/statistics')")
+		bunt-tabs(:active-tab="$route.name")
+			bunt-tab(header="Artikel", id="products", @selected="$router.go('/products')")
+			bunt-tab(header="Lieferanten", id="suppliers", @selected="$router.go('/suppliers')")
+			bunt-tab(header="Kunden", id="customers", @selected="$router.go('/customers')")
+			bunt-tab(header="Verkaufshistorie", id="sales", @selected="$router.go('/sales')")
+			bunt-tab(header="Gutscheine", id="coupons", @selected="$router.go('/coupons')")
+			bunt-tab(header="Statistiken", id="statistics", @selected="$router.go('/statistics')")
 
 		ui-switch.toggle-cost(label="EK anzeigen", :value.sync="costVisible")
 </template>

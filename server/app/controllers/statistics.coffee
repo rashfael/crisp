@@ -8,6 +8,8 @@ module.exports = class StatisticsController
 		map = ->
 			for item in this.items
 				emit {supplierId: item.supplierId, productId: item.productId}, {amount: item.amount, sum: item.price}
+			for coupon in this.coupons when coupon.valuechange > 0 # only add bought coupons to statistic
+				emit {coupon: true}, {amount: 1, sum: coupon.price}
 			return
 
 		reduce = (key, values) ->

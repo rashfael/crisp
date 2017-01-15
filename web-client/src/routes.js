@@ -23,85 +23,74 @@ import Statistics from 'views/statistics'
 
 import Login from 'views/login'
 
-let routes = {
-	'/' : {
-		component: App,
-		subRoutes: {
-			// '/' : {
-			// 	component: Products
-			// },
-
-			'coupons/' : {
-				name: 'coupons',
-				component: Coupons
-			},
-			'coupons/:id' : {
-				name: 'coupon',
-				component: Coupon
-			},
-
-			'customers/' : {
-				name: 'customers',
-				component: Customers
-			},
-			'customers/:id' : {
-				name: 'customer',
-				component: Customer
-			},
-			'customers/new' : {
-				name: 'new-customer',
-				component: NewCustomer
-			},
-			'customers/export' : {
-				name: 'export-customers',
-				component: ExportCustomers
-			},
-
-			'products/' : {
-				name: 'products',
-				component: Products
-			},
-			'products/:id' : {
-				name: 'product',
-				component: Product
-			},
-			'products/new' : {
-				name: 'new-product',
-				component: NewProduct
-			},
-
-			'sales/' : {
-				name: 'sales',
-				component: Sales
-			},
-			'sales/:id' : {
-				name: 'sale',
-				component: Sale
-			},
-
-			'suppliers/' : {
-				name: 'suppliers',
-				component: Suppliers
-			},
-			'suppliers/:id' : {
-				name: 'supplier',
-				component: Supplier
-			},
-			'suppliers/new' : {
-				name: 'new-supplier',
-				component: NewSupplier
-			},
-
-			'statistics/' : {
-				name: 'statistics',
-				component: Statistics
-			}
-		},
-		auth: true
-	},
-	'/login' : {
-		component: Login
-	}
-}
+let routes = [{
+	path: '/',
+	component: App,
+	meta: {requiresAuth: true},
+	children: [{
+		path: 'coupons/',
+		name: 'coupons',
+		component: Coupons
+	}, {
+		path: 'coupons/:id',
+		name: 'coupon',
+		component: Coupon
+	}, {
+		path: 'customers/',
+		name: 'customers',
+		component: Customers
+	},{
+		path: 'customers/:id',
+		name: 'customer',
+		component: Customer
+	}, {
+		path: 'customers/new',
+		name: 'new-customer',
+		component: NewCustomer
+	}, {
+		path: 'customers/export',
+		name: 'export-customers',
+		component: ExportCustomers
+	}, {
+		path: 'products/',
+		name: 'products',
+		component: Products
+	}, {
+		path: 'products/:id',
+		name: 'product',
+		component: Product
+	}, {
+		path: 'products/new',
+		name: 'new-product',
+		component: NewProduct
+	}, {
+		path: 'sales/',
+		name: 'sales',
+		component: Sales
+	}, {
+		path: 'sales/:id',
+		name: 'sale',
+		component: Sale
+	}, {
+		path: 'suppliers/',
+		name: 'suppliers',
+		component: Suppliers
+	}, {
+		path: 'suppliers/:id' ,
+		name: 'supplier',
+		component: Supplier
+	}, {
+		path: 'suppliers/new',
+		name: 'new-supplier',
+		component: NewSupplier
+	}, {
+		path: 'statistics/',
+		name: 'statistics',
+		component: Statistics
+	}]
+}, {
+	path: '/login',
+	component: Login
+}]
 
 export default routes

@@ -1,29 +1,25 @@
 @import '_settings'
-@import '_ui'
+variables()
 normalize-css()
 base()
 typography()
+components()
 
 a
-	color crisp-primary
+	color $crisp-primary
 	text-decoration none
 
-body
-	background-color clr-grey-100
-	overflow-y scroll
-#app
-	display flex
-	margin-top 64px
-@import 'nav'
+html, body, #v-app
+	margin 0
+	height 100%
+	overflow hidden
 
-// table
-// 	table($condensed: true)
-//
-// 	tr
-// 		cursor pointer
-//
-	// .number-cell
-	// 	text-align right
+body
+	background-color $clr-grey-100
+
+#v-app
+	display flex
+	flex-direction column
 
 .details
 	card()

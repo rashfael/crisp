@@ -37,7 +37,7 @@ export default {
 }
 </script>
 <style lang="stylus">
-@import '~_ui'
+@import "~_settings"
 
 .supplier-details
 	card()

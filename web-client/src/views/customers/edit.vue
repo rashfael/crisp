@@ -1,7 +1,7 @@
 <template lang="jade">
 
 form.details-edit(@submit.prevent="submit")
-	uei-textbox(name="_id", :value.sync="customer._id", label="Kundennummer", :readonly="!new")
+	uei-textbox(name="_id", :value.sync="customer._id", label="Kundennummer", :readonly="!isNew")
 	uei-textbox(name="name", :value.sync="customer.name", label="Name")
 	uei-textbox(name="name2", :value.sync="customer.forename", label="Vorname")
 	uei-textbox(name="street", :value.sync="customer.street", label="Straße")
@@ -21,7 +21,7 @@ import api from 'lib/api'
 export default {
 	props: {
 		customer: Object,
-		new: {
+		isNew: {
 			type: Boolean,
 			default: false
 		}
@@ -33,7 +33,7 @@ export default {
 		submit() {
 			let navigate = (customer) =>
 				this.$router.go({name: 'customer', params: {id: customer._id}})
-			if(this.new)
+			if(this.isNew)
 				api.customers.create(this.customer).then((customer) => this.customer = customer)
 			else
 				api.customers.update(this.customer).then(navigate)

@@ -1,34 +1,45 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Keen from 'keen-ui'
-import 'keen-ui/dist/keen-ui.css'
-
-import Üei from 'toolkit/üei'
+import Buntpapier from 'buntpapier'
+import moment from 'moment'
 
 import api from 'lib/api'
 import routes from './routes'
-import App from './App'
 import humanize from 'lib/humanize'
 import 'filters'
 Vue.use(Router)
-Vue.use(Keen)
-Vue.use(Üei)
+Vue.use(Buntpapier)
 
-let router = new Router({
-	history: true
+Vue.moment = moment
+const datetimeFormat = 'YYYY-MM-DD hh:mm'
+Vue.filter('datetime', (date) => {
+	return moment(date).format(datetimeFormat)
 })
 
-router.map(routes)
+Vue.filter('fromnow', (date) => {
+	return moment(date).fromNow()
+})
 
-router.beforeEach((transition) => {
-	if (transition.to.auth && !api.auth.authenticated) {
-		transition.redirect('/login')
+let router = new Router({
+	mode: 'history',
+	routes: routes
+})
+
+router.beforeEach((to, from, next) => {
+	if (to.matched.some(record => record.meta.requiresAuth) && !api.auth.authenticated) {
+		next({path: '/login'})
 	} else {
-		transition.next()
+		next()
 	}
 })
 
-api.auth.getSession()
-.then(humanize.fetch).then( () => {
-	router.start({}, 'body')
-}).catch(() => {router.start({}, 'body')})
+import Main from './main.vue'
+Main.router = router
+
+api.auth.getSession().then(() => {
+	console.log('initing!')
+	new Vue(Main).$mount('#v-app')
+}).catch((error) => {
+	console.error(error)
+	new Vue(Main).$mount('#v-app')
+})

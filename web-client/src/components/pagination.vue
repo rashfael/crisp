@@ -112,7 +112,6 @@ export default {
 </script>
 <style lang="stylus">
 @import '~_settings'
-@import '_ui'
 
 .pagination
 	display flex
