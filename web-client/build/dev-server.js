@@ -7,7 +7,8 @@ var config = {
 }
 var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = require('./webpack.dev.conf')
-var port = process.env.PORT || 8080
+var DashboardPlugin = require('webpack-dashboard/plugin');
+var port = process.env.PORT || 8880
 
 var app = express()
 var compiler = webpack(webpackConfig)
@@ -21,22 +22,17 @@ var devMiddleware = require('webpack-dev-middleware')(compiler, {
 })
 
 var hotMiddleware = require('webpack-hot-middleware')(compiler)
-// force page reload when html-webpack-plugin template changes
-compiler.plugin('compilation', function (compilation) {
-	compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
-		hotMiddleware.publish({ action: 'reload' })
+	// force page reload when html-webpack-plugin template changes
+compiler.plugin('compilation', function(compilation) {
+	compilation.plugin('html-webpack-plugin-after-emit', function(data, cb) {
+		hotMiddleware.publish({
+			action: 'reload'
+		})
 		cb()
 	})
 })
 
-// proxy api requests
-// Object.keys(proxyTable).forEach(function (context) {
-// 	var options = proxyTable[context]
-// 	if (typeof options === 'string') {
-// 		options = { target: options }
-// 	}
-// 	app.use(proxyMiddleware(context, options))
-// })
+compiler.apply(new DashboardPlugin())
 
 // handle fallback for HTML5 history API
 app.use(require('connect-history-api-fallback')())
@@ -50,10 +46,14 @@ app.use(hotMiddleware)
 
 var staticPath = path.posix.join(config.assetsPublicPath, config.assetsSubDirectory)
 app.use(staticPath, express.static('./static'))
+app.use('/snape', express.static('./snape/dist/build'))
 
-module.exports = app.listen(port, function (err) {
+module.exports = app.listen(port, function(err) {
 	if (err) {
-		console.log(err)
+		if (require.main === module)
+			console.error(err)
+		else
+			throw err
 		return
 	}
 	console.log('Listening at http://localhost:' + port + '\n')

@@ -2,7 +2,6 @@ var webpack = require('webpack')
 var merge = require('webpack-merge')
 var path = require('path')
 var projectRoot = path.resolve(__dirname, '../')
-var utils = require('./utils')
 var baseWebpackConfig = require('./webpack.base.conf')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 
@@ -13,21 +12,28 @@ Object.keys(baseWebpackConfig.entry).forEach(function (name) {
 
 module.exports = merge(baseWebpackConfig, {
 	module: {
-		loaders: utils.styleLoaders()
+		rules: [
+			{ test: /\.vue$/, use: ['vue-loader']},
+			{ test: /\.css$/, use: ['style-loader','css-loader'] },
+			{ test: /\.styl$/, use: ['style-loader','css-loader', 'stylus-loader'] }
+		]
 	},
 	resolve: {
 		alias: {
-			'config': path.resolve(projectRoot, 'config.dev.js')
+			'config': path.resolve(projectRoot, 'config.dev.js'),
 		}
 	},
 	// eval-source-map is faster for development
 	devtool: '#source-map',
 	plugins: [
 		new webpack.DefinePlugin({
-			'process.env': '"development"'
+			'ENV_DEVELOPMENT': true,
+			'process.env': {
+				NODE_ENV: '"development"'
+			},
+			TARGET: '"stage"'
 		}),
 		new webpack.HotModuleReplacementPlugin(),
-		new webpack.NoErrorsPlugin(),
 		new HtmlWebpackPlugin({
 			filename: 'index.html',
 			template: 'index.html',
