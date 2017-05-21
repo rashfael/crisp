@@ -19,6 +19,19 @@
 nbproject
 Thumbs.db
 
+Python specific
+__pycache__/
+*.py[cod]
+
+# Database specific
+*.db
+*.sqlite3
+
+# Development files
+.coverage
+env/
+
+
 # NPM packages folder.
 node_modules/
 
