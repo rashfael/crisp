@@ -1,32 +1,36 @@
 <template lang="jade">
-#suppliers.list(v-if="items")
+#suppliers.list(v-if="suppliers")
 	.toolbar
 		.actions
-			a.new(v-link="{name: 'new-supplier'}") Neuer Lieferant
+			bunt-button.new(@click.native="$router.push({name: 'new-supplier'})") Neuer Lieferant
 			form.search(@submit.prevent='loadItems')
 				label(for='search'): i.fa.fa-search
 				input#search(type='text', v-model="search")
-		pagination(:pages="pages", :current-page="currentPage", :total="items.metadata.totalCount", :items-per-page="100", @change-page="changePage")
 	table
 		tr
 			th #
 			th Name
-		tr(v-for="item in items.items", :item="item", @click="$router.go({name:'supplier', params:{id: item._id}})")
-			td {{item._id}}
-			td {{item.name}}
+		tr(v-for="supplier in suppliers", @click="$router.push({name:'supplier', params:{id: supplier._id}})")
+			td {{supplier.id}}
+			td {{supplier.name}}
 </template>
 <script>
-import api from 'lib/api'
-import ListMixin from 'components/mixins/list'
+import { mapState } from 'vuex'
 
 export default {
-	mixins: [ListMixin],
-	data() {
+	data () {
 		return {
-			baseUrl: 'suppliers'
 		}
+	},
+	computed: {
+		...mapState(['suppliers'])
 	}
 }
 </script>
 <style lang="stylus">
+@import '~_settings'
+
+#suppliers
+	.bunt-button.new
+		button-style(color: $crisp-primary)
 </style>

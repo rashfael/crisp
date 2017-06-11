@@ -1,17 +1,17 @@
 <template lang="jade">
 
 form.details-edit(@submit.prevent="submit")
-	uei-textbox(name="_id", :value.sync="customer._id", label="Kundennummer", :readonly="!isNew")
-	uei-textbox(name="name", :value.sync="customer.name", label="Name")
-	uei-textbox(name="name2", :value.sync="customer.forename", label="Vorname")
-	uei-textbox(name="street", :value.sync="customer.street", label="Straße")
-	uei-textbox(name="zip", :value.sync="customer.zip", label="PLZ")
-	uei-textbox(name="place", :value.sync="customer.place", label="Ort")
-	uei-textbox(name="tel", :value.sync="customer.tel", label="Telefon")
-	uei-textbox(name="email", :value.sync="customer.email", label="Email")
-	uei-textbox(name="birthday", :value.sync="customer.birthday", label="Geburtstag")
-	uei-textbox(name="customerSince", :value.sync="customer.customerSince", label="Kunde seit")
-	uei-textbox(name="notes", :value.sync="customer.notes", label="Notizen")
+	bunt-input(name="_id", :value.sync="customer._id", label="Kundennummer", :readonly="!isNew")
+	bunt-input(name="name", :value.sync="customer.name", label="Name")
+	bunt-input(name="name2", :value.sync="customer.forename", label="Vorname")
+	bunt-input(name="street", :value.sync="customer.street", label="Straße")
+	bunt-input(name="zip", :value.sync="customer.zip", label="PLZ")
+	bunt-input(name="place", :value.sync="customer.place", label="Ort")
+	bunt-input(name="tel", :value.sync="customer.tel", label="Telefon")
+	bunt-input(name="email", :value.sync="customer.email", label="Email")
+	bunt-input(name="birthday", :value.sync="customer.birthday", label="Geburtstag")
+	bunt-input(name="customerSince", :value.sync="customer.customerSince", label="Kunde seit")
+	bunt-input(name="notes", :value.sync="customer.notes", label="Notizen")
 
 	button(type='submit') Speichern
 </template>

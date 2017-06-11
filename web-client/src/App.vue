@@ -11,7 +11,8 @@ import './styles/style.styl'
 export default {
 	components: { Navbar },
 	created () {
-		humanize.init()
+		// humanize.init()
+		this.$store.dispatch('fetch-globals')
 	},
 }
 </script>

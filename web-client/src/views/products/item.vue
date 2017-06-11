@@ -18,7 +18,7 @@
 					td {{ item.date | datetime }}
 		ui-tab#arrivals(header="Lagerbestand")
 			form(@submit.prevent="addArrival")
-				uei-textbox(name="name", :value.sync="arrivalAmount", label="Anzahl")
+				bunt-input(name="name", :value.sync="arrivalAmount", label="Anzahl")
 				button(type='submit') Hinzufügen
 			table
 				tr

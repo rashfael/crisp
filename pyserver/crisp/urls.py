@@ -17,6 +17,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
+from rest_framework.authtoken import views as rest_framework_views
 
 from .views import (
     CouponView,
@@ -39,4 +40,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^token/$', rest_framework_views.obtain_auth_token, name='get_auth_token'),
 ]

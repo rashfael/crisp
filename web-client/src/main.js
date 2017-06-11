@@ -4,6 +4,7 @@ import Buntpapier from 'buntpapier'
 import moment from 'moment'
 
 import api from 'lib/api'
+import store from 'store'
 import routes from './routes'
 import humanize from 'lib/humanize'
 import 'filters'
@@ -35,6 +36,7 @@ router.beforeEach((to, from, next) => {
 
 import Main from './main.vue'
 Main.router = router
+Main.store = store
 
 api.auth.getSession().then(() => {
 	console.log('initing!')

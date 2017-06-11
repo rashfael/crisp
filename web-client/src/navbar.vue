@@ -1,15 +1,15 @@
 <template lang="jade">
 nav
 	.nav-inner
-		bunt-tabs(:active-tab="$route.name")
-			bunt-tab(header="Artikel", id="products", @selected="$router.go('/products')")
-			bunt-tab(header="Lieferanten", id="suppliers", @selected="$router.go('/suppliers')")
-			bunt-tab(header="Kunden", id="customers", @selected="$router.go('/customers')")
-			bunt-tab(header="Verkaufshistorie", id="sales", @selected="$router.go('/sales')")
-			bunt-tab(header="Gutscheine", id="coupons", @selected="$router.go('/coupons')")
-			bunt-tab(header="Statistiken", id="statistics", @selected="$router.go('/statistics')")
+		bunt-tabs(:active-tab="activeTab")
+			bunt-tab(header="Artikel", id="products", @selected="tabSelected")
+			bunt-tab(header="Lieferanten", id="suppliers", @selected="tabSelected")
+			bunt-tab(header="Kunden", id="customers", @selected="tabSelected")
+			bunt-tab(header="Verkaufshistorie", id="sales", @selected="tabSelected")
+			bunt-tab(header="Gutscheine", id="coupons", @selected="tabSelected")
+			//- bunt-tab(header="Statistiken", id="statistics", @selected="$router.go('/statistics')")
 
-		ui-switch.toggle-cost(label="EK anzeigen", :value.sync="costVisible")
+		//- ui-switch.toggle-cost(label="EK anzeigen", :value.sync="costVisible")
 </template>
 <script>
 import globals from 'lib/globals'
@@ -22,11 +22,20 @@ export default {
 			costVisible: false
 		}
 	},
+	computed: {
+		activeTab () {
+			return this.$route.name.split(':', 1)[0]
+		}
+	},
 	methods: {
-
+		tabSelected (id) {
+			if (this.$route.name.split(':', 1)[0] === id)
+				return // HACK prevent programatic select changing route, see computed.activeTab
+			this.$router.replace({name: id, params: this.$route.params})
+		}
 	},
 	watch: {
-		costVisible(makeVisible) {
+		costVisible (makeVisible) {
 			// using watch here is a tad wrong, but keen wants bidirectional values…
 			globals.costVisible = makeVisible
 		}
@@ -36,24 +45,20 @@ export default {
 <style lang="stylus">
 @import '~_settings'
 nav
+	card()
 	.nav-inner
 		width 1200px
 		margin 0 auto
 		display flex
-	.ui-tabs
-		margin-bottom 0
-	.ui-tabs-header.background-color-default
-		background-color clr-white
-	.ui-tabs-header-items.text-color-black
-		color clr-disabled-text-light
-
-	.ui-tabs-header-items.text-color-active-primary .ui-tab-header-item.active
-		color clr-primary-text-light
-
-	.ui-tabs-active-tab-indicator.color-primary
-		background-color crisp-primary
-	.ui-tabs-body
-		display none
+	.bunt-tabs
+		width: auto
+		tabs-style(
+			background-color: transparent,
+			color: $clr-secondary-text-light,
+			active-color: $clr-primary-text-light,
+			indicator-color: $crisp-primary
+		)
+		margin-bottom: 0
 	.toggle-cost
 		flex 1
 		align-self center

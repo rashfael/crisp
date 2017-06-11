@@ -1,6 +1,6 @@
 <template lang="jade">
 .supplier-details
-	edit(:supplier="supplier", :new="true")
+	edit(:supplier="supplier", :is-new="true")
 </template>
 <script>
 import api from 'lib/api'
@@ -33,5 +33,9 @@ export default {
 .supplier-details
 	card()
 	width 1200px
-	margin 0 auto
+	align-self: center
+	
+	form
+		max-width: 420px
+		margin: 36px 0 0 36px
 </style>

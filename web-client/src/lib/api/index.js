@@ -15,7 +15,7 @@ let api = {
 	auth: {
 		authenticated: false,
 		login(username, password) {
-			return fetch(BASE_URL + 'login', {method: 'POST', headers: headers, body: JSON.stringify({username: username, password: password})})
+			return fetch(BASE_URL + 'token/', {method: 'POST', headers: headers, body: JSON.stringify({username: username, password: password})})
 			.then((response) => {
 				if (!response.ok)
 					return Promise.reject()
@@ -30,14 +30,16 @@ let api = {
 		getSession() {
 			let user = JSON.parse(localStorage.getItem('user'))
 			if(!user) return Promise.reject()
-			headers.set('Authorization', 'Bearer ' + user.token)
-			return fetch(BASE_URL + 'authenticate', {headers: headers}).then((response) => {
-				if (!response.ok) {
-					return Promise.reject(response.statusText)
-				}
-				api.auth.authenticated = true
-				response.json()
-			})
+			headers.set('Authorization', 'Token ' + user.token)
+			api.auth.authenticated = true
+			return Promise.resolve()
+			// return fetch(BASE_URL + 'authenticate', {headers: headers}).then((response) => {
+			// 	if (!response.ok) {
+			// 		return Promise.reject(response.statusText)
+			// 	}
+			// 	
+			// 	response.json()
+			// })
 		}
 	},
 	coupons: {
@@ -104,26 +106,26 @@ let api = {
 		}
 	},
 	suppliers: {
-		list(limit) {
+		list (limit) {
 			limit = limit || 100
-			return api.fetch(`suppliers?limit=${limit}`)
+			return api.fetch(`suppliers/`)
 		},
-		get(id) {
+		get (id) {
 			return api.fetch(`suppliers/${id}`)
 		},
-		update(supplier) {
+		update (supplier) {
 			return api.fetch(`suppliers/${product._id}`, 'PUT', JSON.stringify(supplier))
 		},
-		create(supplier) {
+		create (supplier) {
 			return api.fetch('suppliers/', 'POST', JSON.stringify(supplier))
 		},
-		statistics(id) {
+		statistics (id) {
 			return api.fetch(`suppliers/${id}/statistics`)
 		}
 	},
 	productGroups: {
 		list() {
-			return request('product-groups').then((response) => response.json())
+			return request('product-groups/').then((response) => response.json())
 		}
 	},
 	statistics: {
@@ -133,7 +135,7 @@ let api = {
 	}
 }
 
-api.fetch = function(url, method, body) {
+api.fetch = function (url, method, body) {
 	let options = {
 		method: method || 'GET',
 		headers,

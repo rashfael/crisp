@@ -1,17 +1,17 @@
 <template lang="jade">
 
 form.details-edit(@submit.prevent="submit")
-	uei-textbox(name="_id", :value.sync="supplier._id", label="Lieferantennummer", :disabled="!isNew")
-	uei-textbox(name="name", :value.sync="supplier.name", label="Name")
-	uei-textbox(name="name2", :value.sync="supplier.name2", label="Name2")
-	uei-textbox(name="street", :value.sync="supplier.street", label="Straße")
-	uei-textbox(name="zip", :value.sync="supplier.zip", label="PLZ")
-	uei-textbox(name="place", :value.sync="supplier.place", label="Ort")
-	uei-textbox(name="tel", :value.sync="supplier.tel", label="Telefon")
-	uei-textbox(name="tel2", :value.sync="supplier.tel2", label="Telefon2")
-	uei-textbox(name="fax", :value.sync="supplier.fax", label="Fax")
-	uei-textbox(name="email", :value.sync="supplier.email", label="Email")
-	uei-textbox(name="notes", :value.sync="supplier.notes", label="Notizen")
+	bunt-input(name="_id", v-model="supplier._id", label="Lieferantennummer", :disabled="!isNew")
+	bunt-input(name="name", v-model="supplier.name", label="Name")
+	bunt-input(name="name2", v-model="supplier.name2", label="Name2")
+	bunt-input(name="street", v-model="supplier.street", label="Straße")
+	bunt-input(name="zip", v-model="supplier.zip", label="PLZ")
+	bunt-input(name="place", v-model="supplier.place", label="Ort")
+	bunt-input(name="tel", v-model="supplier.tel", label="Telefon")
+	bunt-input(name="tel2", v-model="supplier.tel2", label="Telefon2")
+	bunt-input(name="fax", v-model="supplier.fax", label="Fax")
+	bunt-input(name="email", v-model="supplier.email", label="Email")
+	bunt-input(name="notes", v-model="supplier.notes", label="Notizen")
 
 	button(type='submit') Speichern
 </template>
@@ -20,20 +20,20 @@ import api from 'lib/api'
 
 export default {
 	props: {
-		supplier:Object,
+		supplier: Object,
 		isNew: {
 			type: Boolean,
 			default: false
 		}
 	},
-	data() {
+	data () {
 		return {}
 	},
 	methods: {
-		submit() {
+		submit () {
 			let navigate = (supplier) =>
 				this.$router.go({name: 'supplier', params: {id: supplier._id}})
-			if(this.isNew)
+			if (this.isNew)
 				api.suppliers.create(this.supplier).then((supplier) => this.supplier = supplier)
 			else
 				api.suppliers.update(this.supplier).then(navigate)
