@@ -1,6 +1,6 @@
 <template lang="jade">
 #v-app
-	navbar
+	navbar(v-if="$route.name !== 'pos'")
 	router-view
 </template>
 <script>

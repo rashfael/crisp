@@ -37,7 +37,7 @@ let api = {
 			// 	if (!response.ok) {
 			// 		return Promise.reject(response.statusText)
 			// 	}
-			// 	
+			//
 			// 	response.json()
 			// })
 		}
@@ -51,45 +51,45 @@ let api = {
 		}
 	},
 	customers: {
-		list() {
-			return api.fetch(`customers`)
+		list (search) {
+			return api.fetch(`customers/?search=${search}`)
 		},
-		get(id) {
+		get (id) {
 			return api.fetch(`customers/${id}`)
 		},
-		update(customer) {
+		update (customer) {
 			return api.fetch(`customers/${customer._id}`, 'PUT', JSON.stringify(customer))
 		},
-		create(customer) {
+		create (customer) {
 			return api.fetch('customers/', 'POST', JSON.stringify(customer))
 		},
-		history(id) {
+		history (id) {
 			return api.fetch(`customers/${id}/history`)
 		},
-		csvExport(birthday, hasEmail) {
+		csvExport (birthday, hasEmail) {
 			return api.fetch(`customers/export?birthday=${birthday || ''}&hasEmail=${hasEmail}`)
 		}
 	},
 	products: {
-		list() {
-			return request('products').then((response) => response.json())
+		list (search) {
+			return api.fetch(`products/?search=${search}`)
 		},
-		get(id) {
+		get (id) {
 			return request(`products/${id}`).then((response) => response.json())
 		},
-		update(product) {
+		update (product) {
 			return api.fetch(`products/${product._id}`, 'PUT', JSON.stringify(product))
 		},
-		create(product) {
+		create (product) {
 			return api.fetch('products/', 'POST', JSON.stringify(product))
 		},
-		generateId() {
+		generateId () {
 			return api.fetch('products/generate-id')
 		},
-		history(id) {
+		history (id) {
 			return api.fetch(`products/${id}/history`)
 		},
-		addArrival(id, amount) {
+		addArrival (id, amount) {
 			const data = {
 				amount,
 				shop: 'Ludwigsburg'
@@ -98,10 +98,10 @@ let api = {
 		}
 	},
 	sales: {
-		list() {
+		list () {
 			return api.fetch(`sales`)
 		},
-		get(id) {
+		get (id) {
 			return api.fetch(`sales/${id}`)
 		}
 	},

@@ -71,6 +71,7 @@
   },
   "dependencies": {
     "buntpapier": "^0.17.0",
+    "decimal.js": "^7.3.0",
     "lodash": "^4.17.4",
     "moment": "^2.15.2",
     "vue": "^2.3.4",

@@ -1,6 +1,6 @@
 <template lang="jade">
 nav
-	.nav-inner
+	.nav-inner(v-if="this.$route.name !== 'pos'")
 		bunt-tabs(:active-tab="activeTab")
 			bunt-tab(header="Artikel", id="products", @selected="tabSelected")
 			bunt-tab(header="Lieferanten", id="suppliers", @selected="tabSelected")
@@ -46,6 +46,8 @@ export default {
 @import '~_settings'
 nav
 	card()
+	height: 48px
+	z-index: 100
 	.nav-inner
 		width 1200px
 		margin 0 auto

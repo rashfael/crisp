@@ -8,8 +8,13 @@ import store from 'store'
 import routes from './routes'
 import humanize from 'lib/humanize'
 import 'filters'
+import DecimalInput from 'components/decimal-input'
+import PercentageInput from 'components/percentage-input'
+
 Vue.use(Router)
 Vue.use(Buntpapier)
+Vue.component('decimal-input', DecimalInput)
+Vue.component('percentage-input', PercentageInput)
 
 Vue.moment = moment
 const datetimeFormat = 'YYYY-MM-DD hh:mm'

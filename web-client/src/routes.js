@@ -2,24 +2,26 @@ import App from './App'
 
 import Coupons from 'views/coupons'
 // import Coupon from 'views/coupons/item'
-// 
+//
 import Customers from 'views/customers'
 // import Customer from 'views/customers/item'
 // import NewCustomer from 'views/customers/new'
 // import ExportCustomers from 'views/customers/export'
-// 
+//
 import Products from 'views/products'
 // import Product from 'views/products/item'
 // import NewProduct from 'views/products/new'
-// 
+//
 import Sales from 'views/sales'
 // import Sale from 'views/sales/item'
-// 
+//
 import Suppliers from 'views/suppliers'
 // import Supplier from 'views/suppliers/item'
 import NewSupplier from 'views/suppliers/new'
 
 // import Statistics from 'views/statistics'
+
+import PointOfSale from 'views/pos'
 
 import Login from 'views/login'
 
@@ -27,6 +29,7 @@ let routes = [{
 	path: '/',
 	component: App,
 	meta: {requiresAuth: true},
+	name: 'home',
 	children: [{
 		path: 'coupons/',
 		name: 'coupons',
@@ -39,7 +42,7 @@ let routes = [{
 		path: 'customers/',
 		name: 'customers',
 		component: Customers
-	},{
+	}, {
 	// 	path: 'customers/:id',
 	// 	name: 'customer',
 	// 	component: Customer
@@ -87,6 +90,10 @@ let routes = [{
 		// path: 'statistics/',
 		// name: 'statistics',
 		// component: Statistics
+	}, {
+		path: 'pos',
+		name: 'pos',
+		component: PointOfSale
 	}]
 }, {
 	path: '/login',
