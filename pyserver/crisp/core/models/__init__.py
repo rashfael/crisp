@@ -1,12 +1,13 @@
 from .coupon import CouponChange, Coupon
 from .customer import Customer
 from .product_group import ProductGroup
-from .product import Product
-from .sale import Sale, SaleItem
+from .product import Product, Arrival
+from .sale import Sale, SaleItem, ReturnItem
 from .supplier import Supplier
 
 
 __all__ = [
+    'Arrival'
     'Customer',
     'Supplier',
     'ProductGroup',
@@ -14,7 +15,8 @@ __all__ = [
     'Coupon',
     'CouponChange',
     'Sale',
-    'SaleItem'
+    'SaleItem',
+    'ReturnItem'
 ]
 
 from django.conf import settings

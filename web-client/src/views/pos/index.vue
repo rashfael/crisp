@@ -23,6 +23,24 @@
 					.subtotal {{ subtotal | currency }}
 					percentage-input.global-discount(name="global-discount", v-model="globalDiscount")
 					.total {{ total | currency  }}
+	.mode-return(v-if="mode === 'return'")
+		bunt-icon-button#btn-back(@click.native="mode = 'scan'") arrow_back
+		.items
+			.item-header
+				span.item-selected ~
+				span.article-id #
+				span.article-name Beschreibung
+				span.item-discount Rabatt
+				span.item-amount Menge
+				span.item-sum Summe
+			.item(v-for="item of returnSale.sale_items", :class="{selected: returnSale.returningItems.includes(item)}", @click="selectReturnItem(item)")
+				bunt-checkbox(:value="returnSale.returningItems.includes(item)", name="returnItemSelection").item-selected
+				span.article-id {{ item.product.id }}
+				span.article-name {{ item.product.name }}
+				span.item-discount {{ item.discount | percentage }}
+				span.item-amount {{ item.amount }}
+				span.item-price {{ item.price | currency }}
+		bunt-button#return-final(@click.native="returnSelected") ausgewählte Artikel zurückgeben
 	.mode-pay(v-if="mode === 'pay'")
 		bunt-icon-button#btn-back(@click.native="mode = 'scan'") arrow_back
 		.subtotal
@@ -37,6 +55,7 @@
 		.actions
 			bunt-button#pay-bar(icon="attach_money", :class="{active: paymentMethod === 'cash'}", @click.native="paymentMethod = 'cash'") bar
 			bunt-button#pay-ec(icon="credit_card", :class="{active: paymentMethod === 'card'}", @click.native="paymentMethod = 'card'") ec
+		bunt-button#pay-final(@click.native="send") Bezahlt
 </template>
 <script>
 import Decimal from 'decimal.js'
@@ -48,12 +67,14 @@ export default {
 	components: {SaleItem, Ultrasearch},
 	data () {
 		return {
-			mode: 'scan',
+			mode: 'scan', // 'scan', 'return', 'pay'
 			ultraresults: {
 				products: [],
-				customers: []
+				customers: [],
+				sales: []
 			},
 			customer: null,
+			returnSale: null,
 			items: [],
 			globalDiscount: new Decimal(0),
 			paymentMethod: null
@@ -79,21 +100,23 @@ export default {
 			if (search === '') return
 			this.ultraresults = {
 				products: [],
-				customers: []
+				customers: [],
+				sales: []
 			}
-			Promise.all([api.products.list(search), api.customers.list(search)]).then(([products, customers]) => {
+			Promise.all([api.products.list(search), api.customers.list(search), api.sales.list(search)]).then(([products, customers, sales]) => {
 				this.ultraresults = {
 					products,
-					customers
+					customers,
+					sales
 				}
 			})
 		},
 		onSelect ({type, object}) {
 			this.ultraresults = {
 				products: [],
-				customers: []
+				customers: [],
+				sales: []
 			}
-			console.log(this.ultraresults)
 			switch (type) {
 				case 'product':
 					const product = {
@@ -109,7 +132,56 @@ export default {
 				case 'customer':
 					this.customer = object
 					break
+				case 'sale':
+					Promise.all(object.sale_items.map((item) => api.products.get(item.product))).then((products) => {
+
+						object.sale_items.forEach((item, i) => {
+							item.product = products[i]
+						})
+						this.$set(this, 'returnSale', object)
+						this.$set(this.returnSale, 'returningItems', [])
+						// this.returnSale = object
+						this.mode = 'return'
+					})
+					break
 			}
+		},
+		send () {
+			const sale_items = this.items.map((item) => ({
+				product: item.productId,
+				price: item.sum,
+				discount: item.discount,
+				amount: item.amount
+			}))
+			api.sales.create({
+				customer: this.customer ? this.customer.id : 1,
+				price: this.total,
+				discount: this.globalDiscount,
+				payment_method: this.paymentMethod,
+				sale_items
+			})
+		},
+		selectReturnItem (item) {
+			const idx = this.returnSale.returningItems.indexOf(item)
+			if (idx >= 0)
+				this.returnSale.returningItems.splice(idx, 1)
+			else
+				this.returnSale.returningItems.push(item)
+		},
+		returnSelected () {
+			for (const item of this.returnSale.returningItems) {
+				const returnItem = {
+					type: 'return',
+					productId: item.product.id,
+					name: `Rückgabe: '${item.product.name}'`,
+					price: new Decimal(item.price).div(item.amount).mul(-1),
+					discount: new Decimal(0),
+					amount: item.amount,
+					returnedItemId: item.id
+				}
+				this.items.push(returnItem)
+			}
+			this.mode = 'scan'
 		}
 	}
 }
@@ -118,6 +190,36 @@ export default {
 #pos
 	display: flex
 	flex: 1 1
+
+	.items
+		flex: 1 0
+		display: flex
+		flex-direction: column
+		.item-header, .item
+			display: flex
+
+		.item-header
+			height: 32px
+			align-items: center
+			border-bottom: 2px solid $clr-dividers-light
+
+			> :first-child
+				padding-left: 8px
+
+			> :last-child
+				padding-right: 8px
+
+			.item-price, .item-discount, .item-amount, .item-sum
+				text-align: right
+		.article-id
+			flex: 0 0 136px
+			box-sizing: border-box
+
+		.article-name
+			flex: 1 0
+
+		.item-price, .item-discount, .item-amount, .item-sum
+			flex: 0 0 80px
 	.mode-scan
 		display: flex
 		flex: 1 1
@@ -126,35 +228,6 @@ export default {
 			display: flex
 			flex-direction: column
 			background-color: $clr-white
-			.items
-				flex: 1 0
-				display: flex
-				flex-direction: column
-			.item-header, .item
-				display: flex
-
-			.item-header
-				height: 32px
-				align-items: center
-				border-bottom: 2px solid $clr-dividers-light
-
-				> :first-child
-					padding-left: 8px
-
-				> :last-child
-					padding-right: 8px
-
-				.item-price, .item-discount, .item-amount, .item-sum
-					text-align: right
-			.article-id
-				flex: 0 0 136px
-				box-sizing: border-box
-
-			.article-name
-				flex: 1 0
-
-			.item-price, .item-discount, .item-amount, .item-sum
-				flex: 0 0 80px
 
 			.finalize
 				height: 128px
@@ -197,7 +270,8 @@ export default {
 				.bunt-input
 					flex: 1
 					margin: 8px 16px
-	.mode-pay
+
+	.mode-pay, .mode-return
 		background-color: $clr-white
 		flex: 1 1
 		display: flex
@@ -215,7 +289,22 @@ export default {
 			.material-icons
 				font-size: 64px
 
+	.mode-return
+		.items
+			width: 720px
+			margin-top: 32px
 
+			.item
+				height: 48px
+				align-items: center
+
+				&.selected
+					background-color: $clr-success
+
+			.item-selected
+				width: 36px
+				padding-left: 8px
+	.mode-pay
 		.subtotal, .discount, .total
 			display: flex
 			align-items: baseline

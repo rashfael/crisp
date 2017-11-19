@@ -75,7 +75,7 @@ let api = {
 			return api.fetch(`products/?search=${search}`)
 		},
 		get (id) {
-			return request(`products/${id}`).then((response) => response.json())
+			return request(`products/${id}/`).then((response) => response.json())
 		},
 		update (product) {
 			return api.fetch(`products/${product._id}`, 'PUT', JSON.stringify(product))
@@ -98,11 +98,14 @@ let api = {
 		}
 	},
 	sales: {
-		list () {
-			return api.fetch(`sales`)
+		list (search) {
+			return api.fetch(`sales/?search=${search}`)
 		},
 		get (id) {
 			return api.fetch(`sales/${id}`)
+		},
+		create (sale) {
+			return api.fetch(`sales/`, 'POST', JSON.stringify(sale))
 		}
 	},
 	suppliers: {

@@ -24,6 +24,11 @@
 			.customer.result(v-for="customer in results.customers", @click="selected('customer', customer)")
 				.id {{ customer.id }}
 				.name  {{ customer.forename }} {{ customer.name }}
+		.sales(v-if="results.sales.length > 0")
+			h6 gefundene Bons
+			.customer.result(v-for="sale in results.sales", @click="selected('sale', sale)")
+				.id {{ sale.id }}
+				.date  {{ sale.date }}
 //- ul.bunt-select-dropdown-menu(ref="dropdownMenu", v-show="open",  :style="{ 'max-height': maxHeight, 'width': width+'px' }", @mousedown.prevent.stop="")
 //- 	li(v-for="option, index in filteredOptions", track-by="$index", :class="{ active: isOptionSelected(option), highlight: index === typeAheadPointer }", @mouseover="typeAheadPointer = index", @mousedown.prevent.stop="select(option)")
 //- 		| {{ getOptionLabel(option) }}
