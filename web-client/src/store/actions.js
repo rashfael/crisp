@@ -6,12 +6,12 @@ const actions = {
 	},
 	'fetch-suppliers' ({commit}) {
 		return api.suppliers.list().then((suppliers) => {
-			commit('SET_SUPPLIERS', suppliers)
+			commit('SET_SUPPLIERS', suppliers.results)
 		})
 	},
 	'fetch-product-groups' ({commit}) {
 		return api.productGroups.list().then((productGroups) => {
-			commit('SET_PRODUCT_GROUPS', productGroups)
+			commit('SET_PRODUCT_GROUPS', productGroups.results)
 		})
 	}
 }

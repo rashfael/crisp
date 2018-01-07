@@ -16,5 +16,6 @@ class CustomerSerializer(serializers.ModelSerializer):
 class CustomerView(viewsets.ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
-    filter_backends = (filters.SearchFilter,)
+    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
     search_fields = ('id', 'name', 'forename')
+    ordering = ('id',)

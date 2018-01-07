@@ -19,8 +19,22 @@ module.exports = {
 	},
 	module: {
 		rules: [
-			
-			{ test: /\.js$/, include: projectRoot, exclude: /node_modules\/(?!buntpapier)/, use: ['babel-loader']  },
+			{ test: /\.js$/, include: projectRoot, exclude: /node_modules\/(?!buntpapier|lodash-es)/, use: [{
+				loader: 'babel-loader',
+				options: {
+					babelrc: false,
+					presets: [
+						['@babel/env', {
+							modules: false,
+							loose: true,
+							targets: {
+								chrome: 61
+							}}],
+						'@babel/stage-1',
+					],
+					plugins: ['@babel/proposal-optional-chaining']
+				}}]
+			},
 			{ test: /\.html$/, use: ['vue-html-loader'] },
 			{test: /\.svg(\?.*)?/, use: [{
 				loader: 'svg-url-loader',

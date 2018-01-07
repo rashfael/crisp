@@ -1,18 +1,19 @@
 <template lang="jade">
-#suppliers.list(v-if="suppliers")
+#suppliers.index(v-if="suppliers")
 	.toolbar
 		.actions
-			bunt-button.new(@click.native="$router.push({name: 'new-supplier'})") Neuer Lieferant
+			router-link(:to="{name: 'suppliers:new'}").new Neuer Lieferant
 			form.search(@submit.prevent='loadItems')
 				label(for='search'): i.fa.fa-search
 				input#search(type='text', v-model="search")
-	table
-		tr
-			th #
-			th Name
-		tr(v-for="supplier in suppliers", @click="$router.push({name:'supplier', params:{id: supplier._id}})")
-			td {{supplier.id}}
-			td {{supplier.name}}
+	.list
+		.thead
+			.id #
+			.name Name
+		.tbody(v-scrollbar.y="")
+			.item(v-for="supplier in suppliers", @click="$router.push({name:'suppliers:supplier', params:{id: supplier.id}})")
+				.id {{supplier.id}}
+				.name {{supplier.name}}
 </template>
 <script>
 import { mapState } from 'vuex'
@@ -20,6 +21,7 @@ import { mapState } from 'vuex'
 export default {
 	data () {
 		return {
+			search: '',
 		}
 	},
 	computed: {
@@ -33,4 +35,8 @@ export default {
 #suppliers
 	.bunt-button.new
 		button-style(color: $crisp-primary)
+
+	.list
+		.id
+			width: 240px
 </style>

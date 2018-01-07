@@ -1,53 +1,92 @@
 <template lang="jade">
-#products.list(v-if="items")
+#products.index(v-if="products")
 	.toolbar
 		.actions
-			a.new(v-link="{name: 'new-product'}") Neuer Artikel
+			router-link(:to="{name: 'product:new'}").new Neuer Artikel
 			form.search(@submit.prevent='loadItems')
 				label(for='search'): i.material-icons search
 				input#search(type='text', v-model="search")
-		pagination(:pages="pages", :current-page="currentPage", :total="items.metadata.totalCount", :items-per-page="100", @change-page="changePage")
-	table
-		tr
-			th Artikelnummer
-			th Name
-			th Gruppe
-			th Lieferant
-			th LiefNr
-			th(v-show="globals.costVisible") EK
-			th VK
-			th Lager
-		tr(v-for="item in items.items", :item="item", @click="$router.go({name:'product', params:{id: item._id}})")
-			td {{item._id}}
-			td {{item.name}}
-			td {{humanize.productGroupsMap[item.productGroupId].name}}
-			td {{humanize.suppliersMap[item.supplierId].name}}
-			td {{item.supplierProductId}}
-			td(v-show="globals.costVisible") {{item.cost | currency}}
-			td {{item.sale | currency}}
-			td {{item.stock}}
+	.list
+		.thead
+			.id Artikelnummer
+			.name Name
+			.product-group Gruppe
+			.supplier Lieferant
+			.supplier-product-id LiefNr
+			.cost EK
+			.price VK
+			//- .stock Lager
+		.tbody(v-scrollbar.y="")
+			router-link.item(v-for="product in products", v-if="product.id", :to="{name:'producs:product', params:{id: product.id}}")
+				.id {{product.id}}
+				.name {{product.name}}
+				.product-group {{productGroupsMap[product.product_group].name}}
+				.supplier {{suppliersMap[product.supplier].name}}
+				.supplier-product-id {{product.supplier_product_id}}
+				.cost {{product.cost | currency}}
+				.price {{product.sale | currency}}
+				//- .stock {{product.stock}}
+			infinite-scroll(ref="infinite", @infinite="onInfinite", :loading="loading")
 </template>
 <script>
+import { mapState } from 'vuex'
 import api from 'lib/api'
-import ListMixin from 'components/mixins/list'
-import humanize from 'lib/humanize'
+import InfiniteScroll from 'components/infinite-scroll'
 import globals from 'lib/globals'
 
 export default {
-	mixins: [ListMixin],
+	components: {InfiniteScroll},
 	data() {
 		return {
-			baseUrl: 'products',
-			humanize,
-			globals
+			globals,
+			products: null,
+			loading: true,
+			next: null,
+			search: ''
 		}
 	},
-	methods: {
-
+	created () {
+		api.products.list().then((response) => {
+			this.products = response.results
+			this.next = response.next
+			this.loading = false
+		})
 	},
-	events: {
+	computed: {
+		...mapState(['suppliersMap', 'productGroupsMap'])
+	},
+	methods: {
+		onInfinite () {
+			this.loading = true
+			api.fetch(this.next).then((response) => {
+				this.products.push(...response.results)
+				this.next = response.next
+				this.loading = false
+			})
+		},
 	}
 }
 </script>
 <style lang="stylus">
+@import '~_settings'
+
+#products
+	.bunt-button.new
+		button-style(color: $crisp-primary)
+
+	.list
+		.id
+			width: 120px
+		.name
+			flex: 2
+		.product-group, .supplier, .supplier-product-id
+			flex: 1 0
+		.product-group, .supplier
+			text-overflow: ellipsis
+			overflow: hidden
+		.cost, .price
+			width: 52px
+			text-align: right
+		.stock
+			width: 32px
 </style>

@@ -9,14 +9,15 @@ import Customers from 'views/customers'
 // import ExportCustomers from 'views/customers/export'
 //
 import Products from 'views/products'
-// import Product from 'views/products/item'
-// import NewProduct from 'views/products/new'
+import Product from 'views/products/item'
+import NewProduct from 'views/products/new'
+import ProductDetails from 'views/products/details'
 //
 import Sales from 'views/sales'
 // import Sale from 'views/sales/item'
 //
 import Suppliers from 'views/suppliers'
-// import Supplier from 'views/suppliers/item'
+import Supplier from 'views/suppliers/item'
 import NewSupplier from 'views/suppliers/new'
 
 // import Statistics from 'views/statistics'
@@ -59,14 +60,19 @@ let routes = [{
 		name: 'products',
 		component: Products
 	}, {
-	// 	path: 'products/:id',
-	// 	name: 'product',
-	// 	component: Product
-	// }, {
-	// 	path: 'products/new',
-	// 	name: 'new-product',
-	// 	component: NewProduct
-	// }, {
+		path: 'products/new',
+		name: 'products:new',
+		component: NewProduct
+	}, {
+		path: 'products/:id',
+		component: Product,
+		children: [{
+			path: '/',
+			name: 'products:product',
+			component: ProductDetails
+		}]
+
+	}, {
 		path: 'sales/',
 		name: 'sales',
 		component: Sales
@@ -78,14 +84,15 @@ let routes = [{
 		path: 'suppliers/',
 		name: 'suppliers',
 		component: Suppliers
-	// }, {
-	// 	path: 'suppliers/:id' ,
-	// 	name: 'supplier',
-	// 	component: Supplier
 	}, {
 		path: 'suppliers/new',
 		name: 'suppliers:new',
 		component: NewSupplier
+	}, {
+		path: 'suppliers/:id',
+		name: 'suppliers:supplier',
+		component: Supplier
+
 	// }, {
 		// path: 'statistics/',
 		// name: 'statistics',

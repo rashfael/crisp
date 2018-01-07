@@ -16,5 +16,6 @@ class ProductSerializer(serializers.ModelSerializer):
 class ProductView(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    filter_backends = (filters.SearchFilter,)
-    search_fields = ('id',)
+    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
+    search_fields = ('id', 'name')
+    ordering = ('id',)

@@ -1,11 +1,12 @@
 <template lang="jade">
 .product-details.details
 
-	edit(:product="product", :new="true")
+	edit(:product="product", :is-new="true")
 </template>
 <script>
 import api from 'lib/api'
 import Edit from './edit'
+import Decimal from 'decimal.js'
 
 export default {
 	components: {Edit},
@@ -15,12 +16,12 @@ export default {
 				_id: '',
 				productGroupId: 0,
 				supplierId: 0,
-				supplierProductId: '',
+				supplier_product_id: '',
 				name: '',
 				printerline1: '',
 				printerline2: '',
-				cost: 0,
-				sale: 0
+				cost: new Decimal(),
+				sale: new Decimal()
 			}
 		}
 	}

@@ -8,7 +8,9 @@ Vue.use(Vuex)
 
 const state = {
 	suppliers: null,
+	suppliersMap: {},
 	productGroups: null,
+	productGroupsMap: {}
 }
 
 const store = new Vuex.Store({

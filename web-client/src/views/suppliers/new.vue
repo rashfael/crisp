@@ -1,5 +1,5 @@
 <template lang="jade">
-.supplier-details
+.supplier-details(v-scrollbar.y="")
 	edit(:supplier="supplier", :is-new="true")
 </template>
 <script>
@@ -11,7 +11,6 @@ export default {
 	data() {
 		return {
 			supplier: {
-				_id: '',
 				name: '',
 				name2: '',
 				street: '',
@@ -34,8 +33,5 @@ export default {
 	card()
 	width 1200px
 	align-self: center
-	
-	form
-		max-width: 420px
-		margin: 36px 0 0 36px
+	position: relative
 </style>

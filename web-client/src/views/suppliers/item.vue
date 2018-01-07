@@ -1,10 +1,7 @@
 <template lang="jade">
-.supplier-details
+.supplier-details(v-scrollbar.y="")
 	h2 {{ supplier.name }}
-
-	ui-tabs
-		ui-tab(header="Details")
-			edit(:supplier="supplier")
+	edit(:supplier="supplier")
 
 </template>
 <script>
@@ -19,15 +16,11 @@ export default {
 			history: []
 		}
 	},
-	route: {
-		data(transition) {
-			return Promise.all([api.suppliers.get(this.$route.params.id), api.suppliers.statistics(this.$route.params.id)]).then(([supplier, history]) => {
-				return {
-					supplier,
-					history
-				}
-			})
-		}
+	created () {
+		// api.suppliers.statistics(this.$route.params.id)
+		Promise.all([api.suppliers.get(this.$route.params.id)]).then(([supplier, history]) => {
+			this.supplier = supplier
+		})
 	},
 	methods: {
 
@@ -43,7 +36,7 @@ export default {
 	card()
 	width 1200px
 	margin 0 auto
-
+	position: relative
 	table.history, table.arrivals
 		table()
 </style>

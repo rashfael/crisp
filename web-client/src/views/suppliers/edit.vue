@@ -1,7 +1,6 @@
 <template lang="jade">
-
-form.details-edit(@submit.prevent="submit")
-	bunt-input(name="_id", v-model="supplier._id", label="Lieferantennummer", :disabled="!isNew")
+form.supplier-details-edit(@submit.prevent="submit")
+	//- bunt-input(name="_id", v-model="supplier._id", label="Lieferantennummer", :disabled="!isNew")
 	bunt-input(name="name", v-model="supplier.name", label="Name")
 	bunt-input(name="name2", v-model="supplier.name2", label="Name2")
 	bunt-input(name="street", v-model="supplier.street", label="Straße")
@@ -13,7 +12,7 @@ form.details-edit(@submit.prevent="submit")
 	bunt-input(name="email", v-model="supplier.email", label="Email")
 	bunt-input(name="notes", v-model="supplier.notes", label="Notizen")
 
-	button(type='submit') Speichern
+	bunt-button(type='submit') Speichern
 </template>
 <script>
 import api from 'lib/api'
@@ -34,13 +33,16 @@ export default {
 			let navigate = (supplier) =>
 				this.$router.go({name: 'supplier', params: {id: supplier._id}})
 			if (this.isNew)
-				api.suppliers.create(this.supplier).then((supplier) => this.supplier = supplier)
+				api.suppliers.create(this.supplier).then(navigate)
 			else
-				api.suppliers.update(this.supplier).then(navigate)
+				api.suppliers.update(this.supplier).then((supplier) => this.supplier = supplier)
 
 		}
 	}
 }
 </script>
 <style lang="stylus">
+.supplier-details-edit
+	max-width: 420px
+	margin: 36px 0 0 36px
 </style>

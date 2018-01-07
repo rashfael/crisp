@@ -1,4 +1,6 @@
 import config from 'config'
+import querystring from 'querystring'
+
 const BASE_URL = config.api.baseUrl
 let headers = new Headers()
 headers.append('Content-Type', 'application/json')
@@ -9,6 +11,11 @@ function request(url, body, method = 'GET') {
 		headers: headers
 	}
 	return fetch(BASE_URL + url, options)
+}
+
+export function cleanQuery (object) {
+	Object.keys(object).forEach(key => !object[key] && delete object[key])
+	return object
 }
 
 let api = {
@@ -52,7 +59,11 @@ let api = {
 	},
 	customers: {
 		list (search) {
-			return api.fetch(`customers/?search=${search}`)
+			const query = {
+				search: search
+			}
+			const qs = querystring.stringify(cleanQuery(query))
+			return api.fetch(`customers/?${qs}`)
 		},
 		get (id) {
 			return api.fetch(`customers/${id}`)
@@ -72,7 +83,11 @@ let api = {
 	},
 	products: {
 		list (search) {
-			return api.fetch(`products/?search=${search}`)
+			const query = {
+				search: search
+			}
+			const qs = querystring.stringify(cleanQuery(query))
+			return api.fetch(`products/?${qs}`)
 		},
 		get (id) {
 			return request(`products/${id}/`).then((response) => response.json())
@@ -110,11 +125,10 @@ let api = {
 	},
 	suppliers: {
 		list (limit) {
-			limit = limit || 100
 			return api.fetch(`suppliers/`)
 		},
 		get (id) {
-			return api.fetch(`suppliers/${id}`)
+			return api.fetch(`suppliers/${id}/`)
 		},
 		update (supplier) {
 			return api.fetch(`suppliers/${product._id}`, 'PUT', JSON.stringify(supplier))
@@ -144,7 +158,7 @@ api.fetch = function (url, method, body) {
 		headers,
 		body
 	}
-	return fetch(BASE_URL + url, options).then((response) => {
+	return fetch(url.startsWith('http') ? url : BASE_URL + url, options).then((response) => {
 		return response.json().then((json) => {
 			if (!response.ok)
 				return Promise.reject(json)

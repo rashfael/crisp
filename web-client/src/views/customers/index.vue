@@ -1,35 +1,63 @@
 <template lang="jade">
-#customers.list(v-if="items")
+#customers.index(v-if="customers")
 	.toolbar
 		.actions
-			a.new(v-link="{name: 'new-customer'}") Neuer Kunde
+			bunt-button.new(@click.native="$router.push({name: 'new-customer'})") Neuer Kunde
 			form.search(@submit.prevent='loadItems')
 				label(for='search'): i.material-icons search
 				input#search(type='text', v-model="search")
-			a.action.export(v-link="{name: 'export-customers'}") Export
-		pagination(:pages="pages", :current-page="currentPage", :total="items.metadata.totalCount", :items-per-page="100", @change-page="changePage")
-	table
-		tr
-			th Kundennummer
-			th Name
-			th Vorname
-		tr(v-for="item in items.items", :item="item", @click="$router.go({name:'customer', params:{id: item._id}})")
-			td {{item._id}}
-			td {{item.name}}
-			td {{item.forename}}
+	.list
+		.thead
+			.id Kundennummer
+			.name Name
+		.tbody(v-scrollbar.y="")
+			.item(v-for="item in customers", @click="$router.go({name:'customer', params:{id: item._id}})")
+				.id {{item.id}}
+				.name {{item.forename}} {{item.name}}
+			infinite-scroll(ref="infinite", @infinite="onInfinite", :loading="loading")
 </template>
 <script>
+import InfiniteScroll from 'components/infinite-scroll'
 import api from 'lib/api'
-import ListMixin from 'components/mixins/list'
 
 export default {
-	mixins: [ListMixin],
+	components: {InfiniteScroll},
 	data() {
 		return {
-			baseUrl: 'customers'
+			customers: null,
+			loading: true,
+			next: null,
+			search: ''
 		}
+	},
+	created () {
+		api.customers.list().then((response) => {
+			this.customers = response.results
+			this.next = response.next
+			this.loading = false
+		})
+	},
+	methods: {
+		onInfinite () {
+			console.log('TRIGGERED')
+			this.loading = true
+			api.fetch(this.next).then((response) => {
+				this.customers.push(...response.results)
+				this.next = response.next
+				this.loading = false
+			})
+		},
 	}
 }
 </script>
 <style lang="stylus">
+@import '~_settings'
+
+#customers
+	.bunt-button.new
+		button-style(color: $crisp-primary)
+
+	.list
+		.id
+			width: 240px
 </style>

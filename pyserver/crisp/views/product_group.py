@@ -15,3 +15,4 @@ class ProductGroupSerializer(serializers.ModelSerializer):
 class ProductGroupView(viewsets.ModelViewSet):
     queryset = ProductGroup.objects.all()
     serializer_class = ProductGroupSerializer
+    ordering = ('id',)

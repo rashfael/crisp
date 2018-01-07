@@ -23,13 +23,13 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         folder = options['folder'][0]
-        self.loadUsers(folder)
+        # self.loadUsers(folder)
         # self.loadCustomers(folder)
         # self.loadProductGroups(folder)
-        # self.loadSuppliers(folder)
-        # self.loadProducts(folder)
+        self.loadSuppliers(folder)
+        self.loadProducts(folder)
         # self.loadCoupons(folder)
-        self.loadSales(folder)
+        # self.loadSales(folder)
 
     def loadCustomers(self, folder):
         filepath = os.path.join(folder, 'customers.json')
@@ -60,7 +60,7 @@ class Command(BaseCommand):
                         customer.birthday = moment.date(rBirth).date
                     elif (int(rBirth['$numberLong']) > -10000000000000): # people arent 300 years old
                         customer.birthday = datetime.datetime(1970, 1, 1) + datetime.timedelta(milliseconds=(int(rBirth['$numberLong'])))
-                print(customer.__dict__)
+                # print(customer.__dict__)
                 customer.save()
 
     def loadProductGroups(self, folder):
@@ -112,7 +112,7 @@ class Command(BaseCommand):
                     cost=Decimal(raw['cost']) / Decimal(100),
                     sale=Decimal(raw['sale']) / Decimal(100),
                 )
-                print(product.__dict__)
+                # print(product.__dict__)
                 product.save()
                 if ('arrivals' in raw):
                     for rawArrival in raw['arrivals']:
@@ -123,7 +123,7 @@ class Command(BaseCommand):
                             date=moment.date(rawArrival['date']['$date']).date,
                             amount=rawArrival['amount']
                         )
-                        print(arrival.__dict__)
+                        # print(arrival.__dict__)
                         arrival.save()
 
     def loadUsers(self, folder):

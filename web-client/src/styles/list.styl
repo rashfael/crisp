@@ -1,20 +1,21 @@
 @import '_settings'
 
 $content-width = 1200px
-.list
-	flex 1 0
-	display flex
-	flex-direction column
-	width $content-width
-	margin 52px 0 0 0
+.index
+	flex: 1 0
+	display: flex
+	flex-direction: column
+	width: $content-width
+	margin: 52px 0 0 0
 	align-self: center
 	.toolbar
-		position fixed
-		width $content-width + 24px
-		z-index 100
-		top 52px
-		margin-left -12px
 		card()
+		position: fixed
+		width: $content-width + 24px
+		z-index: 100
+		top: 52px
+		margin-left: -12px
+
 		display flex
 		justify-content space-between
 		.actions
@@ -35,15 +36,31 @@ $content-width = 1200px
 			input
 				input(crisp-primary)
 
-	table
+	.list
 		card()
-		table()
-		border-collapse: collapse
-		border-spacing: 0
-		tr
-			cursor pointer
+		display: flex
+		flex-direction: column
+		.thead, .tbody .item
+			display: flex
+			align-items: center
+			border-bottom: border-separator()
+			flex: 0 0
+			color: $clr-primary-text-light
+			> :first-child
+				padding-left: 32px
+			> :last-child
+				padding-right: 32px
+		.thead
+			height: 64px
+			font-weight: 600
+		.tbody
+			display: flex
+			flex-direction: column
+			position: relative
 
-			&:hover
-				background-color $clr-grey-200
-		td, th
-			height 32px
+			.item
+				height: 40px
+				cursor pointer
+
+				&:hover
+					background-color $clr-grey-200
