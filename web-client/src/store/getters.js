@@ -1,6 +1,6 @@
 const getters = {
 	ready (state, getters) {
-		return state.suppliers && state.productGroups
+		return !!(state.suppliers && state.productGroups)
 	}
 }
 

@@ -2,10 +2,10 @@
 #products.index(v-if="products")
 	.toolbar
 		.actions
-			router-link(:to="{name: 'product:new'}").new Neuer Artikel
+			router-link(:to="{name: 'products:new'}").new Neuer Artikel
 			form.search(@submit.prevent='loadItems')
 				label(for='search'): i.material-icons search
-				input#search(type='text', v-model="search")
+				bunt-input#search(name="search", :value="search", @input="onSearch")
 	.list
 		.thead
 			.id Artikelnummer
@@ -16,8 +16,8 @@
 			.cost EK
 			.price VK
 			//- .stock Lager
-		.tbody(v-scrollbar.y="")
-			router-link.item(v-for="product in products", v-if="product.id", :to="{name:'producs:product', params:{id: product.id}}")
+		.tbody(ref="list", v-scrollbar.y="")
+			router-link.item(v-for="product in products", v-if="product.id", :to="{name:'products:product', params:{id: product.id}}", :key="product.id")
 				.id {{product.id}}
 				.name {{product.name}}
 				.product-group {{productGroupsMap[product.product_group].name}}
@@ -57,6 +57,7 @@ export default {
 	},
 	methods: {
 		onInfinite () {
+			if (!this.next) return
 			this.loading = true
 			api.fetch(this.next).then((response) => {
 				this.products.push(...response.results)
@@ -64,6 +65,16 @@ export default {
 				this.loading = false
 			})
 		},
+		onSearch (value) {
+			this.search = value
+			this.loading = true
+			this.$refs.list.scrollTop = 0
+			api.products.list(this.search).then((response) => {
+				this.products = response.results
+				this.next = response.next
+				this.loading = false
+			})
+		}
 	}
 }
 </script>

@@ -2,7 +2,7 @@
 form.details-edit(@submit.prevent="submit")
 	.product-id
 		bunt-input(name="_id", v-model="product.id", label="Artikelnummer", :disabled="!isNew")
-		//- ui-button.generate(v-if="isNew", @click.prevent="generateId") Generieren
+		bunt-switch(v-if="isNew", name="autogenerate", v-model="autogenerate") Generieren
 	bunt-input(name="name", v-model="product.name", label="Name")
 	bunt-select(name="productGroupId", label="Produktgruppe", v-model="product.product_group", :options="productGroups", option-label="name")
 	bunt-select(name="supplierId", label="Lieferant", v-model="product.supplier", :options="suppliers", option-label="name")
@@ -33,7 +33,8 @@ export default {
 	},
 	data() {
 		return {
-			humanize
+			humanize,
+			autogenerate: false
 		}
 	},
 	computed: {
@@ -48,8 +49,12 @@ export default {
 		submit() {
 			let navigate = (product) =>
 				this.$router.go({name: 'product', params: {id: product._id}})
-			if(this.isNew)
+			if(this.isNew) {
+				if (this.product.id === '' || this.autogenerate) {
+					this.product.id = undefined
+				}
 				api.products.create(this.product).then((product) => this.product = product)
+			}
 			else
 				api.products.update(this.product).then(navigate)
 		}

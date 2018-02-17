@@ -27,6 +27,6 @@ class Sale(models.Model):
     customer = models.ForeignKey('Customer')
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     payment_method = models.CharField(max_length=4, choices=PAYMENT_METHOD_CHOICES)
-    price = models.DecimalField(max_digits=8, decimal_places=2) # includes discount
+    price = models.DecimalField(max_digits=8, decimal_places=2)  # includes discount
     discount = models.DecimalField(max_digits=8, decimal_places=5)
     date = models.DateTimeField(auto_now_add=True)

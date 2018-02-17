@@ -4,7 +4,9 @@ import Coupons from 'views/coupons'
 // import Coupon from 'views/coupons/item'
 //
 import Customers from 'views/customers'
-// import Customer from 'views/customers/item'
+import Customer from 'views/customers/item'
+import CustomerDetails from 'views/customers/details'
+
 // import NewCustomer from 'views/customers/new'
 // import ExportCustomers from 'views/customers/export'
 //
@@ -44,10 +46,15 @@ let routes = [{
 		name: 'customers',
 		component: Customers
 	}, {
-	// 	path: 'customers/:id',
-	// 	name: 'customer',
-	// 	component: Customer
-	// }, {
+		path: 'customers/:id',
+		component: Customer,
+		children: [{
+			path: '/',
+			name: 'customers:customer',
+			component: CustomerDetails
+		}]
+
+	}, {
 	// 	path: 'customers/new',
 	// 	name: 'new-customer',
 	// 	component: NewCustomer

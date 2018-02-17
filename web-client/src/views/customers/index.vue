@@ -11,7 +11,7 @@
 			.id Kundennummer
 			.name Name
 		.tbody(v-scrollbar.y="")
-			.item(v-for="item in customers", @click="$router.go({name:'customer', params:{id: item._id}})")
+			router-link.item(v-for="item in customers", :to="{name:'customers:customer', params:{id: item.id}}", :key="item.id")
 				.id {{item.id}}
 				.name {{item.forename}} {{item.name}}
 			infinite-scroll(ref="infinite", @infinite="onInfinite", :loading="loading")

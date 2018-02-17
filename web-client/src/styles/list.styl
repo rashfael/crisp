@@ -28,13 +28,16 @@ $content-width = 1200px
 			height 36px
 
 		.search
+			display: flex
 			margin-left 16px
-			line-height 52px
+
 			vertical-align middle
 			i
+				line-height 52px
 				vertical-align middle
-			input
-				input(crisp-primary)
+			.bunt-input
+				bunt-input(crisp-primary)
+				margin: 0
 
 	.list
 		card()

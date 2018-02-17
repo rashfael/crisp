@@ -1,6 +1,5 @@
 <template lang="jade">
-.product-details.details
-
+.product-new.details
 	edit(:product="product", :is-new="true")
 </template>
 <script>
@@ -20,12 +19,14 @@ export default {
 				name: '',
 				printerline1: '',
 				printerline2: '',
-				cost: new Decimal(),
-				sale: new Decimal()
+				cost: new Decimal(0),
+				sale: new Decimal(0)
 			}
 		}
 	}
 }
 </script>
 <style lang="stylus">
+.product-new
+	padding: 16px 64px
 </style>

@@ -43,6 +43,8 @@ import Main from './main.vue'
 Main.router = router
 Main.store = store
 
+window.api = api
+
 api.auth.getSession().then(() => {
 	console.log('initing!')
 	new Vue(Main).$mount('#v-app')

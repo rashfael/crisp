@@ -1,8 +1,8 @@
 <template lang="jade">
 #v-app
 	template(v-if="ready")
-	navbar(v-if="$route.name !== 'pos'")
-	router-view
+		navbar(v-if="$route.name !== 'pos'")
+		router-view
 </template>
 <script>
 import { mapGetters } from 'vuex'

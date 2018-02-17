@@ -1,7 +1,7 @@
 <template lang="jade">
 
 form.details-edit(@submit.prevent="submit")
-	bunt-input(name="_id", :value.sync="customer._id", label="Kundennummer", :readonly="!isNew")
+	bunt-input(name="id", :value.sync="customer.id", label="Kundennummer", :readonly="!isNew")
 	bunt-input(name="name", :value.sync="customer.name", label="Name")
 	bunt-input(name="name2", :value.sync="customer.forename", label="Vorname")
 	bunt-input(name="street", :value.sync="customer.street", label="Straße")

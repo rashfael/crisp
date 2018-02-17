@@ -66,7 +66,7 @@ let api = {
 			return api.fetch(`customers/?${qs}`)
 		},
 		get (id) {
-			return api.fetch(`customers/${id}`)
+			return api.fetch(`customers/${id}/`)
 		},
 		update (customer) {
 			return api.fetch(`customers/${customer._id}`, 'PUT', JSON.stringify(customer))

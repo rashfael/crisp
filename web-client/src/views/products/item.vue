@@ -3,7 +3,7 @@
 	h2 {{ product.name }}
 
 	bunt-tabs(:active-tab="this.$route.name")
-		bunt-tab(header="Details", id="product", @selected="tabSelected")
+		bunt-tab(header="Details", id="products:product", @selected="tabSelected")
 
 			//- button() Drucken
 	router-view.content(:product="product")
