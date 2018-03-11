@@ -17,14 +17,6 @@ Vue.component('decimal-input', DecimalInput)
 Vue.component('percentage-input', PercentageInput)
 
 Vue.moment = moment
-const datetimeFormat = 'YYYY-MM-DD hh:mm'
-Vue.filter('datetime', (date) => {
-	return moment(date).format(datetimeFormat)
-})
-
-Vue.filter('fromnow', (date) => {
-	return moment(date).fromNow()
-})
 
 let router = new Router({
 	mode: 'history',

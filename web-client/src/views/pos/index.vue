@@ -105,9 +105,9 @@ export default {
 			}
 			Promise.all([api.products.list(search), api.customers.list(search), api.sales.list(search)]).then(([products, customers, sales]) => {
 				this.ultraresults = {
-					products,
-					customers,
-					sales
+					products: products.results,
+					customers: customers.results,
+					sales: sales.results
 				}
 			})
 		},

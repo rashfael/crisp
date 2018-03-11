@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Arrival(models.Model):
-    product = models.ForeignKey('Product')
+    product = models.ForeignKey('Product', related_name='arrivals')
     date = models.DateTimeField(auto_now_add=True)
     amount = models.IntegerField()
 

@@ -1,8 +1,8 @@
 <template lang="jade">
-form.details-edit(@submit.prevent="submit")
+form.details-edit
 	.product-id
-		bunt-input(name="_id", v-model="product.id", label="Artikelnummer", :disabled="!isNew")
-		bunt-switch(v-if="isNew", name="autogenerate", v-model="autogenerate") Generieren
+		bunt-input(name="_id", v-model="product.id", label="Artikelnummer", :disabled="!isNew || autogenerate")
+		bunt-switch(v-if="isNew", name="autogenerate", v-model="autogenerate", label="Generieren")
 	bunt-input(name="name", v-model="product.name", label="Name")
 	bunt-select(name="productGroupId", label="Produktgruppe", v-model="product.product_group", :options="productGroups", option-label="name")
 	bunt-select(name="supplierId", label="Lieferant", v-model="product.supplier", :options="suppliers", option-label="name")
@@ -12,7 +12,7 @@ form.details-edit(@submit.prevent="submit")
 	decimal-input(name="cost", v-model="product.cost", label="EK", :fixed="2")
 	decimal-input(name="sale", v-model="product.sale", label="VK", :fixed="2")
 
-	button(type='submit') Speichern
+	bunt-button#save(@click.native="submit") Speichern
 </template>
 <script>
 import { mapState } from 'vuex'
@@ -48,12 +48,12 @@ export default {
 		},
 		submit() {
 			let navigate = (product) =>
-				this.$router.go({name: 'product', params: {id: product._id}})
+				this.$router.push({name: 'product', params: {id: product._id}})
 			if(this.isNew) {
 				if (this.product.id === '' || this.autogenerate) {
 					this.product.id = undefined
 				}
-				api.products.create(this.product).then((product) => this.product = product)
+				api.products.create(this.product).then(navigate)
 			}
 			else
 				api.products.update(this.product).then(navigate)
@@ -62,6 +62,12 @@ export default {
 }
 </script>
 <style lang="stylus">
-.product-id
-	display flex
+.product-new form
+	width: 520px
+	.product-id
+		display: flex
+		align-items: center
+
+		.bunt-switch
+			margin-left: 16px
 </style>

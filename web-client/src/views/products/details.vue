@@ -1,5 +1,5 @@
 <template lang="jade">
-edit(:product="product")
+edit.content(:product="product")
 </template>
 <script>
 import Edit from './edit'

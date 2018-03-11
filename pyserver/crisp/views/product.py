@@ -5,7 +5,26 @@ from rest_framework import (
     exceptions
 )
 
-from ..core.models import Product
+from ..core.models import Product, Arrival, SaleItem, Sale
+from .sale import SaleSerializer
+
+
+class ArrivalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Arrival
+        fields = ('date', 'amount')
+
+
+class SingleProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ('id', 'name', 'product_group', 'supplier', 'supplier_product_id', 'printerline1', 'printerline2', 'cost', 'sale', 'arrivals', 'sales')
+    arrivals = ArrivalSerializer(many=True, read_only=True)
+    sales = serializers.SerializerMethodField()
+
+    def get_sales(self, product):
+        sales = Sale.objects.filter(sale_items__product=product)
+        return SaleSerializer(sales, many=True).data
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -39,7 +58,11 @@ class ProductSerializer(serializers.ModelSerializer):
 
 class ProductView(viewsets.ModelViewSet):
     queryset = Product.objects.all()
-    serializer_class = ProductSerializer
     filter_backends = (filters.SearchFilter, filters.OrderingFilter)
     search_fields = ('id', 'name', 'supplier_product_id', 'supplier__name')
     ordering = ('id',)
+
+    def get_serializer_class(self):
+        if self.action == 'retrieve':
+            return SingleProductSerializer
+        return ProductSerializer

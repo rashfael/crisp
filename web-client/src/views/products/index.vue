@@ -3,7 +3,7 @@
 	.toolbar
 		.actions
 			router-link(:to="{name: 'products:new'}").new Neuer Artikel
-			form.search(@submit.prevent='loadItems')
+			form.search
 				label(for='search'): i.material-icons search
 				bunt-input#search(name="search", :value="search", @input="onSearch")
 	.list

@@ -1,5 +1,9 @@
 <template lang="jade">
-bunt-input(v-model="decimalValue", :name="name", :label="label")
+.bunt-input.dense(:class!="{focused, 'floating-label': decimalValue !== null && decimalValue.length != 0}")
+	.label-input-container
+		label(:for="name") {{label}}
+		input(type="text", :name="name", :value="decimalValue", @focus="focused = true", @blur="onBlur($event)")
+	.underline
 </template>
 <script>
 import Decimal from 'decimal.js'
@@ -15,6 +19,7 @@ export default {
 	},
 	data () {
 		return {
+			focused: false
 		}
 	},
 	computed: {
@@ -34,10 +39,13 @@ export default {
 			},
 			set (v) {
 				try {
-					const dv = new Decimal(v.replace(',', '.'))
+					let dv = new Decimal(v.replace(',', '.'))
+					if (this.fixed) {
+						dv = dv.toDecimalPlaces(this.fixed)
+					}
 					this.$emit('input', dv)
 				} catch (e) {
-
+					console.error(e)
 				}
 			}
 		}
@@ -47,7 +55,12 @@ export default {
 		this.$nextTick(() => {
 		})
 	},
-	methods: {}
+	methods: {
+		onBlur (event) {
+			this.decimalValue = event.target.value
+			this.focused = false
+		}
+	}
 }
 </script>
 <style lang="stylus">

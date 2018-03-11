@@ -4,6 +4,7 @@ from .product_group import ProductGroupView
 from .product import ProductView
 from .sale import SaleView
 from .supplier import SupplierView
+from .user import UserView
 
 __all__ = [
     'CouponView',
@@ -12,4 +13,5 @@ __all__ = [
     'ProductView',
     'SaleView',
     'SupplierView',
+    'UserView'
 ]

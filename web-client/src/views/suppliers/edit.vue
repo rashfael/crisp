@@ -1,5 +1,5 @@
 <template lang="jade">
-form.supplier-details-edit(@submit.prevent="submit")
+form.supplier-details-edit.details-edit
 	//- bunt-input(name="_id", v-model="supplier._id", label="Lieferantennummer", :disabled="!isNew")
 	bunt-input(name="name", v-model="supplier.name", label="Name")
 	bunt-input(name="name2", v-model="supplier.name2", label="Name2")
@@ -12,7 +12,7 @@ form.supplier-details-edit(@submit.prevent="submit")
 	bunt-input(name="email", v-model="supplier.email", label="Email")
 	bunt-input(name="notes", v-model="supplier.notes", label="Notizen")
 
-	bunt-button(type='submit') Speichern
+	bunt-button#save(@click.native="submit") Speichern
 </template>
 <script>
 import api from 'lib/api'
@@ -31,7 +31,7 @@ export default {
 	methods: {
 		submit () {
 			let navigate = (supplier) =>
-				this.$router.go({name: 'supplier', params: {id: supplier._id}})
+				this.$router.push({name: 'supplier', params: {id: supplier.id}})
 			if (this.isNew)
 				api.suppliers.create(this.supplier).then(navigate)
 			else

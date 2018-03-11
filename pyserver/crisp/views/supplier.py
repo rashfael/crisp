@@ -22,6 +22,5 @@ class LargeResultsSetPagination(pagination.CursorPagination):
 class SupplierView(viewsets.ModelViewSet):
     queryset = Supplier.objects.all()
     serializer_class = SupplierSerializer
-    http_method_names = ['get', 'post', 'head']
     ordering = ('id',)
     pagination_class = LargeResultsSetPagination

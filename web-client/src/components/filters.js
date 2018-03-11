@@ -40,3 +40,7 @@ Vue.filter('datetime', function (val) {
 		return ''
 	return moment(val).format(dateTimeFormat)
 })
+
+Vue.filter('fromnow', (date) => {
+	return moment(date).fromNow()
+})

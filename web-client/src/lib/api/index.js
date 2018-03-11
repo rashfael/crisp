@@ -5,7 +5,7 @@ const BASE_URL = config.api.baseUrl
 let headers = new Headers()
 headers.append('Content-Type', 'application/json')
 
-function request(url, body, method = 'GET') {
+function request (url, body, method = 'GET') {
 	let options = {
 		method: method,
 		headers: headers
@@ -21,7 +21,7 @@ export function cleanQuery (object) {
 let api = {
 	auth: {
 		authenticated: false,
-		login(username, password) {
+		login (username, password) {
 			return fetch(BASE_URL + 'token/', {method: 'POST', headers: headers, body: JSON.stringify({username: username, password: password})})
 			.then((response) => {
 				if (!response.ok)
@@ -34,9 +34,9 @@ let api = {
 				return Promise.resolve(json)
 			})
 		},
-		getSession() {
+		getSession () {
 			let user = JSON.parse(localStorage.getItem('user'))
-			if(!user) return Promise.reject()
+			if (!user) return Promise.reject()
 			headers.set('Authorization', 'Token ' + user.token)
 			api.auth.authenticated = true
 			return Promise.resolve()
@@ -50,10 +50,10 @@ let api = {
 		}
 	},
 	coupons: {
-		list() {
+		list () {
 			return api.fetch(`coupons`)
 		},
-		get(id) {
+		get (id) {
 			return api.fetch(`coupons/${id}`)
 		}
 	},
@@ -69,7 +69,7 @@ let api = {
 			return api.fetch(`customers/${id}/`)
 		},
 		update (customer) {
-			return api.fetch(`customers/${customer._id}`, 'PUT', JSON.stringify(customer))
+			return api.fetch(`customers/${customer.id}/`, 'PUT', JSON.stringify(customer))
 		},
 		create (customer) {
 			return api.fetch('customers/', 'POST', JSON.stringify(customer))
@@ -93,13 +93,10 @@ let api = {
 			return request(`products/${id}/`).then((response) => response.json())
 		},
 		update (product) {
-			return api.fetch(`products/${product._id}`, 'PUT', JSON.stringify(product))
+			return api.fetch(`products/${product.id}/`, 'PUT', JSON.stringify(product))
 		},
 		create (product) {
 			return api.fetch('products/', 'POST', JSON.stringify(product))
-		},
-		generateId () {
-			return api.fetch('products/generate-id')
 		},
 		history (id) {
 			return api.fetch(`products/${id}/history`)
@@ -114,10 +111,14 @@ let api = {
 	},
 	sales: {
 		list (search) {
-			return api.fetch(`sales/?search=${search}`)
+			const query = {
+				search: search
+			}
+			const qs = querystring.stringify(cleanQuery(query))
+			return api.fetch(`sales/?${qs}`)
 		},
 		get (id) {
-			return api.fetch(`sales/${id}`)
+			return api.fetch(`sales/${id}/`)
 		},
 		create (sale) {
 			return api.fetch(`sales/`, 'POST', JSON.stringify(sale))
@@ -131,7 +132,7 @@ let api = {
 			return api.fetch(`suppliers/${id}/`)
 		},
 		update (supplier) {
-			return api.fetch(`suppliers/${product._id}`, 'PUT', JSON.stringify(supplier))
+			return api.fetch(`suppliers/${supplier.id}/`, 'PUT', JSON.stringify(supplier))
 		},
 		create (supplier) {
 			return api.fetch('suppliers/', 'POST', JSON.stringify(supplier))
@@ -141,13 +142,18 @@ let api = {
 		}
 	},
 	productGroups: {
-		list() {
+		list () {
 			return request('product-groups/').then((response) => response.json())
 		}
 	},
 	statistics: {
-		supplierArticleProfit(start, end) {
+		supplierArticleProfit (start, end) {
 			return api.fetch(`statistics/supplier-article-profit`, 'POST', JSON.stringify({start: start, end: end}))
+		}
+	},
+	users: {
+		list () {
+			return api.fetch(`users/`)
 		}
 	}
 }
@@ -158,7 +164,7 @@ api.fetch = function (url, method, body) {
 		headers,
 		body
 	}
-	return fetch(url.startsWith('http') ? url : BASE_URL + url, options).then((response) => {
+	return window.fetch(url.startsWith('http') ? url : BASE_URL + url, options).then((response) => {
 		return response.json().then((json) => {
 			if (!response.ok)
 				return Promise.reject(json)
@@ -172,8 +178,6 @@ api.fetch = function (url, method, body) {
 }
 
 export default api
-
-
 // 	_getSession: =>
 // 		user = JSON.parse localStorage.getItem 'user'
 // 		return @_showLoginPrompt() unless user?

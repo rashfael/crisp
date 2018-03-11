@@ -4,9 +4,10 @@
 
 	bunt-tabs(:active-tab="this.$route.name")
 		bunt-tab(header="Details", id="products:product", @selected="tabSelected")
-
+		bunt-tab(header="Lager", id="products:arrivals", @selected="tabSelected")
+		bunt-tab(header="Historie", id="products:history", @selected="tabSelected")
 			//- button() Drucken
-	router-view.content(:product="product")
+	router-view(:product="product")
 		//- ui-tab(header="Historie")
 		//- 	table.history
 		//- 		tr
@@ -41,18 +42,8 @@ export default {
 			history: []
 		}
 	},
-	route: {
-		data(transition) {
-			return Promise.all([api.products.get(this.$route.params.id), api.products.history(this.$route.params.id)]).then(([product, history]) => {
-				return {
-					product,
-					history
-				}
-			})
-		}
-	},
 	created () {
-		Promise.all([api.products.get(this.$route.params.id)]).then(([product, history]) => {
+		api.products.get(this.$route.params.id).then((product) => {
 			product.cost = new Decimal(product.cost)
 			product.sale = new Decimal(product.sale)
 			this.product = product

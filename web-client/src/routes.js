@@ -6,17 +6,20 @@ import Coupons from 'views/coupons'
 import Customers from 'views/customers'
 import Customer from 'views/customers/item'
 import CustomerDetails from 'views/customers/details'
+import CustomerHistory from 'views/customers/history'
 
-// import NewCustomer from 'views/customers/new'
+import NewCustomer from 'views/customers/new'
 // import ExportCustomers from 'views/customers/export'
 //
 import Products from 'views/products'
 import Product from 'views/products/item'
 import NewProduct from 'views/products/new'
 import ProductDetails from 'views/products/details'
+import ProductArrivals from 'views/products/arrivals'
+import ProductHistory from 'views/products/history'
 //
 import Sales from 'views/sales'
-// import Sale from 'views/sales/item'
+import SaleDetails from 'views/sales/item'
 //
 import Suppliers from 'views/suppliers'
 import Supplier from 'views/suppliers/item'
@@ -46,19 +49,22 @@ let routes = [{
 		name: 'customers',
 		component: Customers
 	}, {
+		path: 'customers/new',
+		name: 'customers:new',
+		component: NewCustomer
+	}, {
 		path: 'customers/:id',
 		component: Customer,
 		children: [{
 			path: '/',
 			name: 'customers:customer',
 			component: CustomerDetails
+		}, {
+			path: 'history',
+			name: 'customers:history',
+			component: CustomerHistory
 		}]
-
 	}, {
-	// 	path: 'customers/new',
-	// 	name: 'new-customer',
-	// 	component: NewCustomer
-	// }, {
 	// 	path: 'customers/export',
 	// 	name: 'export-customers',
 	// 	component: ExportCustomers
@@ -77,17 +83,25 @@ let routes = [{
 			path: '/',
 			name: 'products:product',
 			component: ProductDetails
+		}, {
+			path: 'arrivals',
+			name: 'products:arrivals',
+			component: ProductArrivals
+		}, {
+			path: 'history',
+			name: 'products:history',
+			component: ProductHistory
 		}]
 
 	}, {
 		path: 'sales/',
 		name: 'sales',
-		component: Sales
+		component: Sales,
 	}, {
-	// 	path: 'sales/:id',
-	// 	name: 'sale',
-	// 	component: Sale
-	// }, {
+		path: 'sales/:id',
+		name: 'sales:sale',
+		component: SaleDetails
+	}, {
 		path: 'suppliers/',
 		name: 'suppliers',
 		component: Suppliers

@@ -2,15 +2,15 @@
 #customers.index(v-if="customers")
 	.toolbar
 		.actions
-			bunt-button.new(@click.native="$router.push({name: 'new-customer'})") Neuer Kunde
-			form.search(@submit.prevent='loadItems')
+			router-link(:to="{name: 'customers:new'}").new Neuer Kunde
+			form.search
 				label(for='search'): i.material-icons search
-				input#search(type='text', v-model="search")
+				bunt-input#search(name="search", :value="search", @input="onSearch")
 	.list
 		.thead
 			.id Kundennummer
 			.name Name
-		.tbody(v-scrollbar.y="")
+		.tbody(ref="list", v-scrollbar.y="")
 			router-link.item(v-for="item in customers", :to="{name:'customers:customer', params:{id: item.id}}", :key="item.id")
 				.id {{item.id}}
 				.name {{item.forename}} {{item.name}}
@@ -39,7 +39,7 @@ export default {
 	},
 	methods: {
 		onInfinite () {
-			console.log('TRIGGERED')
+			if (!this.next) return
 			this.loading = true
 			api.fetch(this.next).then((response) => {
 				this.customers.push(...response.results)
@@ -47,6 +47,16 @@ export default {
 				this.loading = false
 			})
 		},
+		onSearch (value) {
+			this.search = value
+			this.loading = true
+			this.$refs.list.scrollTop = 0
+			api.customers.list(this.search).then((response) => {
+				this.customers = response.results
+				this.next = response.next
+				this.loading = false
+			})
+		}
 	}
 }
 </script>

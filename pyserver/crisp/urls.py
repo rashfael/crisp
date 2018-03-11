@@ -26,6 +26,7 @@ from .views import (
     ProductView,
     SaleView,
     SupplierView,
+    UserView,
 )
 
 router = routers.DefaultRouter()
@@ -35,6 +36,7 @@ router.register(r'product-groups', ProductGroupView, base_name='product-group')
 router.register(r'products', ProductView, base_name='product')
 router.register(r'sales', SaleView, base_name='sale')
 router.register(r'suppliers', SupplierView, base_name='supplier')
+router.register(r'users', UserView, base_name='user')
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

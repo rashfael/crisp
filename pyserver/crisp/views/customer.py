@@ -5,12 +5,14 @@ from rest_framework import (
 )
 
 from ..core.models import Customer
+from .sale import SaleSerializer
 
 
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
-        fields = "__all__"
+        fields = ('name', 'forename', 'title', 'street', 'zip', 'place', 'tel', 'email', 'birthday', 'customer_since', 'notes', 'sales')
+    sales = SaleSerializer(many=True, read_only=True, source='sale_customer')
 
 
 class CustomerView(viewsets.ModelViewSet):

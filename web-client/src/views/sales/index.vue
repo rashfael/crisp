@@ -1,37 +1,90 @@
 <template lang="jade">
-#sales.list(v-if="items")
+#sales.index(v-if="sales")
 	.toolbar
 		.actions
-			form.search(@submit.prevent='loadItems')
+			form.search
 				label(for='search'): i.material-icons search
-				input#search(type='text', v-model="search")
-		pagination(:pages="pages", :current-page="currentPage", :total="items.metadata.totalCount", :items-per-page="100", @change-page="changePage")
-	table
-		tr
-			th Bonnummer
-			th Datum
-			th Kunde
-			th Betrag
-			th Rabatt
-		tr(v-for="item in items.items", :item="item", @click="$router.go({name:'sale', params:{id: item._id}})")
-			td {{ item._id }}
-			td {{ item.date | date}}
-			td {{ item.customerId }}
-			td {{ item.price | currency }}
-			td {{ item.discount | percentage }}
+				bunt-input#search(name="search", :value="search", @input="onSearch")
+	.list
+		.thead
+			.id Bonnummer
+			.date Datum
+			.customer Kunde
+			.price Betrag
+			.discount Rabatt
+		.tbody(ref="list", v-scrollbar.y="")
+			router-link.item(v-for="sale in sales", v-if="sale.id", :to="{name:'sales:sale', params:{id: sale.id}}", :key="sale.id")
+				.id {{ sale.id }}
+				.date {{ sale.date | datetime }}
+				.customer {{ sale.customer_name }}
+				.price {{ sale.price | currency }}
+				.discount {{ sale.discount | percentage }}
+				//- .stock {{product.stock}}
+			infinite-scroll(ref="infinite", @infinite="onInfinite", :loading="loading")
 </template>
 <script>
+import { mapState } from 'vuex'
 import api from 'lib/api'
-import ListMixin from 'components/mixins/list'
+import InfiniteScroll from 'components/infinite-scroll'
+import globals from 'lib/globals'
 
 export default {
-	mixins: [ListMixin],
+	components: {InfiniteScroll},
 	data() {
 		return {
-			baseUrl: 'sales'
+			globals,
+			sales: null,
+			loading: true,
+			next: null,
+			search: ''
+		}
+	},
+	created () {
+		api.sales.list().then((response) => {
+			this.sales = response.results
+			this.next = response.next
+			this.loading = false
+		})
+	},
+	computed: {
+		...mapState(['suppliersMap', 'productGroupsMap'])
+	},
+	methods: {
+		onInfinite () {
+			if (!this.next) return
+			this.loading = true
+			api.fetch(this.next).then((response) => {
+				this.sales.push(...response.results)
+				this.next = response.next
+				this.loading = false
+			})
+		},
+		onSearch (value) {
+			this.search = value
+			this.loading = true
+			this.$refs.list.scrollTop = 0
+			api.sales.list(this.search).then((response) => {
+				this.sales = response.results
+				this.next = response.next
+				this.loading = false
+			})
 		}
 	}
 }
 </script>
 <style lang="stylus">
+@import '~_settings'
+
+#sales
+
+	.list
+		.id
+			width: 120px
+		.date
+			width: 240px
+		.customer
+			flex: 2
+		.price, .discount
+			width: 80px
+			text-align: right
 </style>

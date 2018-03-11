@@ -1,6 +1,6 @@
 <template lang="jade">
-.customer-details.details
-	edit(:customer="customer", :new="true")
+.customer-new.details
+	edit(:customer="customer", :is-new="true")
 </template>
 <script>
 import api from 'lib/api'
@@ -11,7 +11,7 @@ export default {
 	data() {
 		return {
 			customer: {
-				_id: '',
+				id: '',
 				name: '',
 				forename: '',
 				street: '',
@@ -28,5 +28,8 @@ export default {
 }
 </script>
 <style lang="stylus">
-
+.customer-new
+	padding: 16px 64px
+	form
+		width: 520px
 </style>

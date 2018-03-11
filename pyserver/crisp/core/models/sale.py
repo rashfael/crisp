@@ -1,8 +1,9 @@
 from django.db import models
 from django.conf import settings
 
+
 class SaleItem(models.Model):
-    product = models.ForeignKey('Product')
+    product = models.ForeignKey('Product', related_name='product_sale')
     sale = models.ForeignKey('Sale', related_name='sale_items')
     # includes item discount, global discount, and amount
     price = models.DecimalField(max_digits=8, decimal_places=2)
@@ -24,7 +25,7 @@ class Sale(models.Model):
         (EC, 'ec'),
         (BAR, 'cash')
     )
-    customer = models.ForeignKey('Customer')
+    customer = models.ForeignKey('Customer', related_name='sale_customer')
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     payment_method = models.CharField(max_length=4, choices=PAYMENT_METHOD_CHOICES)
     price = models.DecimalField(max_digits=8, decimal_places=2)  # includes discount

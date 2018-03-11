@@ -5,16 +5,16 @@
 			tbody
 				tr
 					th Bonnummer
-					td {{ sale._id }}
+					td {{ sale.id }}
 				tr
 					th Datum
 					td {{ sale.date | datetime }}
 				tr
 					th Kundennummer
-					td: a(v-link="{name: 'customer', params:{id:sale.customerId}}") {{ sale.customerId }}
+					td: router-link(:to="{name: 'customers:customer', params:{id: sale.customer }}") {{ sale.customer_name }}
 				tr
 					th Kassiererin
-					td {{ sale.cashier }}
+					td {{ usersMap[sale.user].username }}
 				tr
 					th Betrag
 					td {{ sale.price | currency }}
@@ -62,22 +62,22 @@
 </template>
 <script>
 import api from 'lib/api'
+import { mapState } from 'vuex'
 
 export default {
 	data() {
 		return {
-			sale: {}
+			sale: null
 		}
 	},
-	route: {
-		data(transition) {
-			return api.sales.get(this.$route.params.id).then((sale) => {
-				return {
-					sale
-				}
-			})
-		}
-	}
+	computed: {
+		...mapState(['usersMap'])
+	},
+	created () {
+		api.sales.get(this.$route.params.id).then((sale) => {
+			this.sale = sale
+		})
+	},
 }
 </script>
 <style lang="stylus">

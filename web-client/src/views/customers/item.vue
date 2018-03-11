@@ -1,10 +1,10 @@
 <template lang="jade">
 .customer-details.details(v-if="customer")
-	h2 {{ customer.name }}
+	h2 {{ customer.forename }} {{ customer.name }}
 
 	bunt-tabs(:active-tab="this.$route.name")
 		bunt-tab(header="Details", id="customers:customer", @selected="tabSelected")
-
+		bunt-tab(header="Historie", id="customers:history", @selected="tabSelected")
 	router-view.content(:customer="customer")
 //- 	ui-tabs
 //- 		ui-tab(header="Details")
@@ -34,16 +34,6 @@ export default {
 			history: []
 		}
 	},
-	route: {
-		data(transition) {
-			return Promise.all([api.customers.get(this.$route.params.id), api.customers.history(this.$route.params.id)]).then(([customer, history]) => {
-				return {
-					customer,
-					history
-				}
-			})
-		}
-	},
 	created () {
 		api.customers.get(this.$route.params.id).then((customer) => {
 			this.customer = customer
@@ -64,4 +54,16 @@ export default {
 .customer-details
 	table.history, table.arrivals
 		table()
+
+	.bunt-tabs
+		width: auto
+		tabs-style(
+			background-color: transparent,
+			color: $clr-secondary-text-light,
+			active-color: $clr-primary-text-light,
+			indicator-color: $crisp-primary
+		)
+
+	.content
+		padding: 16px 64px
 </style>

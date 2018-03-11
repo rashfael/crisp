@@ -10,7 +10,9 @@ const state = {
 	suppliers: null,
 	suppliersMap: {},
 	productGroups: null,
-	productGroupsMap: {}
+	productGroupsMap: {},
+	users: null,
+	usersMap: {}
 }
 
 const store = new Vuex.Store({

@@ -6,6 +6,10 @@ const mutations = {
 	SET_PRODUCT_GROUPS (state, productGroups) {
 		state.productGroups = productGroups
 		productGroups.reduce((acc, doc) => { acc[doc.id] = doc; return acc }, state.productGroupsMap)
+	},
+	SET_USERS (state, users) {
+		state.users = users
+		users.reduce((acc, doc) => { acc[doc.id] = doc; return acc }, state.usersMap)
 	}
 }
 
