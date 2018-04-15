@@ -9,7 +9,7 @@
 </template>
 <script>
 import Decimal from 'decimal.js'
-const priceFormat = new Intl.NumberFormat('de-DE', {minimumFractionDigits: 2, maximumFractionDigits:2})
+const priceFormat = new Intl.NumberFormat('de-DE', {minimumFractionDigits: 2, maximumFractionDigits: 2})
 
 export default {
 	components: {},
@@ -64,6 +64,7 @@ export default {
 </script>
 <style lang="stylus">
 #pos .item
+	height: 48px
 	.bunt-input
 		margin-bottom: 0
 

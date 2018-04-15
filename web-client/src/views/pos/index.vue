@@ -15,9 +15,12 @@
 					span.item-discount Rabatt
 					span.item-amount Menge
 					span.item-sum Summe
-				sale-item(v-for="item in items", :value="item")
+				template(v-for="item in items")
+					coupon-item(v-if="item.type === 'coupon'", :value="item")
+					sale-item(v-else, :value="item")
 			.finalize
 				.actions
+					bunt-button#btn-add-coupon(@click.native="addCoupon") Neuer Gutschein
 					bunt-button#btn-pay(@click.native="mode = 'pay'") bezahlen
 				.totals
 					.subtotal {{ subtotal | currency }}
@@ -55,23 +58,26 @@
 		.actions
 			bunt-button#pay-bar(icon="attach_money", :class="{active: paymentMethod === 'cash'}", @click.native="paymentMethod = 'cash'") bar
 			bunt-button#pay-ec(icon="credit_card", :class="{active: paymentMethod === 'card'}", @click.native="paymentMethod = 'card'") ec
-		bunt-button#pay-final(@click.native="send") Bezahlt
+		.actions
+			bunt-button#pay-final(@click.native="send", :disabled="!paymentMethod") Bezahlt
 </template>
 <script>
 import Decimal from 'decimal.js'
 import SaleItem from './sale-item'
+import CouponItem from './coupon-item'
 import Ultrasearch from './ultrasearch'
 import api from 'lib/api'
 
 export default {
-	components: {SaleItem, Ultrasearch},
+	components: { CouponItem, SaleItem, Ultrasearch },
 	data () {
 		return {
 			mode: 'scan', // 'scan', 'return', 'pay'
 			ultraresults: {
 				products: [],
 				customers: [],
-				sales: []
+				sales: [],
+				coupons: []
 			},
 			customer: null,
 			returnSale: null,
@@ -101,13 +107,15 @@ export default {
 			this.ultraresults = {
 				products: [],
 				customers: [],
-				sales: []
+				sales: [],
+				coupons: []
 			}
-			Promise.all([api.products.list(search), api.customers.list(search), api.sales.list(search)]).then(([products, customers, sales]) => {
+			Promise.all([api.products.list(search), api.customers.list(search), api.sales.list(search), api.coupons.list(search)]).then(([products, customers, sales, coupons]) => {
 				this.ultraresults = {
 					products: products.results,
 					customers: customers.results,
-					sales: sales.results
+					sales: sales.results,
+					coupons: coupons.results
 				}
 			})
 		},
@@ -115,7 +123,8 @@ export default {
 			this.ultraresults = {
 				products: [],
 				customers: [],
-				sales: []
+				sales: [],
+				coupons: []
 			}
 			switch (type) {
 				case 'product':
@@ -134,7 +143,6 @@ export default {
 					break
 				case 'sale':
 					Promise.all(object.sale_items.map((item) => api.products.get(item.product))).then((products) => {
-
 						object.sale_items.forEach((item, i) => {
 							item.product = products[i]
 						})
@@ -146,19 +154,32 @@ export default {
 					break
 			}
 		},
+		addCoupon () {
+			this.items.push({
+				type: 'coupon',
+				price: new Decimal(0),
+				discount: new Decimal(0),
+				amount: 1
+			})
+		},
 		send () {
-			const sale_items = this.items.map((item) => ({
+			const sale_items = this.items.filter((item) => item.type === 'product').map((item) => ({
 				product: item.productId,
 				price: item.sum,
 				discount: item.discount,
 				amount: item.amount
+			}))
+			const coupon_items = this.items.filter((item) => item.type === 'coupon').map((item) => ({
+				coupon: item.couponId || 0,
+				value_change: item.price
 			}))
 			api.sales.create({
 				customer: this.customer ? this.customer.id : 1,
 				price: this.total,
 				discount: this.globalDiscount,
 				payment_method: this.paymentMethod,
-				sale_items
+				sale_items,
+				coupon_items
 			})
 		},
 		selectReturnItem (item) {
@@ -190,7 +211,12 @@ export default {
 #pos
 	display: flex
 	flex: 1 1
-
+	.actions
+		.bunt-button
+			margin: 16px
+			height: 64px
+			width: 265px
+			font-size: 24px
 	.items
 		flex: 1 0
 		display: flex
@@ -235,13 +261,11 @@ export default {
 				display: flex
 				.actions
 					flex: 1
-					align-self: center
+					align-items: center
+					display: flex
+					justify-content: space-between
 					#btn-pay
 						button-style(color: $clr-success)
-						height: 64px
-						width: 256px
-						margin: 0 24px
-						font-size: 24px
 				.totals
 					flex: 0 0 128px
 					padding: 8px 16px
@@ -323,13 +347,7 @@ export default {
 					font-size: 24px
 		.actions
 			display: flex
-
 			.bunt-button
-				margin: 16px
-				height: 64px
-				width: 265px
-				font-size: 24px
-
 				.material-icons
 					font-size: 36px
 					width: 48px
@@ -352,4 +370,8 @@ export default {
 				&.active
 					&.active
 						outline-color: $clr-blue
+
+			#pay-final
+				button-style(color: $clr-green)
+				margin-top: 64px
 </style>

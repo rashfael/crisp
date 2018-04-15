@@ -1,31 +1,83 @@
 <template lang="jade">
-#coupons.list(v-if="items")
+#coupons.index(v-if="coupons")
 	.toolbar
 		.actions
-			form.search(@submit.prevent='loadItems')
+			form.search
 				label(for='search'): i.material-icons search
-				input#search(type='text', v-model="search")
-		pagination(:pages="pages", :current-page="currentPage", :total="items.metadata.totalCount", :items-per-page="100", @change-page="changePage")
-	table
-		tr
-			th Gutscheinnummer
-			th Aktueller Wert
-		tr(v-for="item in items.items", :item="item", @click="$router.go({name:'coupon', params:{id: item._id}})")
-			td {{ item._id }}
-			td {{ item.value | currency }}
+				bunt-input#search(name="search", :value="search", @input="onSearch")
+	.list
+		.thead
+			.id #
+			.value Restwert
+		.tbody(ref="list", v-scrollbar.y="")
+			router-link.item(v-for="coupon in coupons", v-if="coupon.id", :to="{name:'coupons:coupon', params:{id: coupon.id}}", :key="coupon.id")
+				.id {{ coupon.id }}
+				.value {{ coupon.changes.reduce((acc, val) => acc += val.value_change, 0) | currency }}
+			infinite-scroll(ref="infinite", @infinite="onInfinite", :loading="loading")
 </template>
 <script>
+import { mapState } from 'vuex'
 import api from 'lib/api'
-import ListMixin from 'components/mixins/list'
+import InfiniteScroll from 'components/infinite-scroll'
+import globals from 'lib/globals'
 
 export default {
-	mixins: [ListMixin],
+	components: {InfiniteScroll},
 	data() {
 		return {
-			baseUrl: 'coupons'
+			globals,
+			coupons: null,
+			loading: true,
+			next: null,
+			search: ''
+		}
+	},
+	created () {
+		api.coupons.list().then((response) => {
+			this.coupons = response.results
+			this.next = response.next
+			this.loading = false
+		})
+	},
+	computed: {
+		...mapState(['suppliersMap', 'productGroupsMap'])
+	},
+	methods: {
+		onInfinite () {
+			if (!this.next) return
+			this.loading = true
+			api.fetch(this.next).then((response) => {
+				this.coupons.push(...response.results)
+				this.next = response.next
+				this.loading = false
+			})
+		},
+		onSearch (value) {
+			this.search = value
+			this.loading = true
+			this.$refs.list.scrollTop = 0
+			api.coupons.list(this.search).then((response) => {
+				this.coupons = response.results
+				this.next = response.next
+				this.loading = false
+			})
 		}
 	}
 }
 </script>
 <style lang="stylus">
+@import '~_settings'
+
+#coupons
+
+	.list
+		.id
+			width: 120px
+		.date
+			width: 240px
+		.customer
+			flex: 2
+		.price, .discount
+			width: 80px
+			text-align: right
 </style>

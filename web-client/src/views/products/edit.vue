@@ -48,7 +48,7 @@ export default {
 		},
 		submit() {
 			let navigate = (product) =>
-				this.$router.push({name: 'product', params: {id: product._id}})
+				this.$router.push({name: 'products:product', params: {id: product._id}})
 			if(this.isNew) {
 				if (this.product.id === '' || this.autogenerate) {
 					this.product.id = undefined

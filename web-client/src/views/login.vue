@@ -23,7 +23,7 @@ export default {
 	methods: {
 		submit() {
 			// copypasta humanize init
-			api.auth.login(this.username, this.password).then(humanize.fetch).then(() => this.$router.go('/'))
+			api.auth.login(this.username, this.password).then(humanize.fetch).then(() => this.$router.push('/'))
 		}
 	}
 }
@@ -34,7 +34,7 @@ export default {
 #login
 	display flex
 	justify-content center
-	
+
 	padding-top 128px
 	h1
 		font-size 72px

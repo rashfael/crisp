@@ -30,7 +30,7 @@ let api = {
 			}).then((json) => {
 				localStorage.setItem('user', JSON.stringify(json))
 				api.auth.authenticated = true
-				headers.set('Authorization', 'Bearer ' + json.token)
+				headers.set('Authorization', 'Token ' + json.token)
 				return Promise.resolve(json)
 			})
 		},
@@ -50,11 +50,15 @@ let api = {
 		}
 	},
 	coupons: {
-		list () {
-			return api.fetch(`coupons`)
+		list (search) {
+			const query = {
+				search: search
+			}
+			const qs = querystring.stringify(cleanQuery(query))
+			return api.fetch(`coupons/?${qs}`)
 		},
 		get (id) {
-			return api.fetch(`coupons/${id}`)
+			return api.fetch(`coupons/${id}/`)
 		}
 	},
 	customers: {

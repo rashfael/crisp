@@ -13,6 +13,11 @@
 		i.material-icons(v-if="!rawSearch && !open") search
 
 	.ultraresults(v-if="results", v-show="open", @mousedown.prevent="")
+		.coupons(v-if="results.coupons.length > 0")
+			h6 gefundene Gutscheine
+			.coupon.result(v-for="coupon in results.coupons", @click="selected('coupon', coupon)")
+				.id {{ coupon.id }}
+				.value  {{ coupon.changes.reduce((acc, val) => acc += val.value_change, 0) | currency }}
 		.products(v-if="results.products.length > 0")
 			h6 gefundene Artikel
 			.product.result(v-for="product in results.products", @click="selected('product', product)")
@@ -29,6 +34,7 @@
 			.customer.result(v-for="sale in results.sales", @click="selected('sale', sale)")
 				.id {{ sale.id }}
 				.date  {{ sale.date }}
+
 //- ul.bunt-select-dropdown-menu(ref="dropdownMenu", v-show="open",  :style="{ 'max-height': maxHeight, 'width': width+'px' }", @mousedown.prevent.stop="")
 //- 	li(v-for="option, index in filteredOptions", track-by="$index", :class="{ active: isOptionSelected(option), highlight: index === typeAheadPointer }", @mouseover="typeAheadPointer = index", @mousedown.prevent.stop="select(option)")
 //- 		| {{ getOptionLabel(option) }}
