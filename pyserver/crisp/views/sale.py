@@ -4,7 +4,7 @@ from rest_framework import (
     filters,
 )
 
-from ..core.models import (Sale, SaleItem, Coupon, CouponChange)
+from ..core.models import (Sale, SaleItem, ReturnItem, Coupon, CouponChange)
 
 
 class CouponItemSerializer(serializers.ModelSerializer):
@@ -24,13 +24,20 @@ class SaleItemSerializer(serializers.ModelSerializer):
         return sale_item.product.name
 
 
+class ReturnItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReturnItem
+        fields = ('returned_item', 'price', 'amount')
+
+
 class SaleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sale
-        fields = ('id', 'date', 'customer', 'payment_method', 'price', 'discount', 'sale_items', 'coupon_items', 'customer_name', 'user')
+        fields = ('id', 'date', 'customer', 'payment_method', 'price', 'discount', 'return_items', 'sale_items', 'coupon_items', 'customer_name', 'user')
         read_only_fields = ('id', 'date', 'user')
     sale_items = SaleItemSerializer(many=True)
     coupon_items = CouponItemSerializer(many=True)
+    return_items = ReturnItemSerializer(many=True)
     customer_name = serializers.SerializerMethodField()
     user = serializers.PrimaryKeyRelatedField(read_only=True, default=serializers.CurrentUserDefault())
 
@@ -39,9 +46,11 @@ class SaleSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         sale_items_data = validated_data.pop('sale_items')
-        # return_items_data = validated_data.pop('return_items')
+        return_items_data = validated_data.pop('return_items')
         coupon_items_data = validated_data.pop('coupon_items')
         sale = Sale.objects.create(**validated_data)
+        for return_item_data in return_items_data:
+            ReturnItem.objects.create(sale=sale, **return_item_data)
         for sale_item_data in sale_items_data:
             SaleItem.objects.create(sale=sale, **sale_item_data)
         for coupon_item_data in coupon_items_data:

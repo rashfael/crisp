@@ -60,6 +60,20 @@
 			bunt-button#pay-ec(icon="credit_card", :class="{active: paymentMethod === 'card'}", @click.native="paymentMethod = 'card'") ec
 		.actions
 			bunt-button#pay-final(@click.native="send", :disabled="!paymentMethod") Bezahlt
+	.mode-postpay(v-if="mode === 'postpay'")
+		.actions
+			bunt-button#pay-final(@click="resetState") Neuer Einkauf
+		h1 Einkauf erfolgreich
+		.new-coupons(v-if="newCoupons.length > 0")
+			h2 Gekaufte Gutscheine:
+			.header
+				.coupon-number Nummer
+				.value Wert
+			.new-coupon(v-for="couponItem in newCoupons")
+				.coupon-number {{ couponItem.coupon }}
+				.value {{ couponItem.value_change | currency }}
+
+
 </template>
 <script>
 import Decimal from 'decimal.js'
@@ -67,12 +81,14 @@ import SaleItem from './sale-item'
 import CouponItem from './coupon-item'
 import Ultrasearch from './ultrasearch'
 import api from 'lib/api'
+import ioApi from 'lib/api/io'
 
 export default {
 	components: { CouponItem, SaleItem, Ultrasearch },
 	data () {
 		return {
-			mode: 'scan', // 'scan', 'return', 'pay'
+			mode: 'scan', // 'scan', 'return', 'pay', 'postpay'
+			ultrasearch: null,
 			ultraresults: {
 				products: [],
 				customers: [],
@@ -83,7 +99,8 @@ export default {
 			returnSale: null,
 			items: [],
 			globalDiscount: new Decimal(0),
-			paymentMethod: null
+			paymentMethod: null,
+			postpaySale: null
 		}
 	},
 	computed: {
@@ -94,6 +111,10 @@ export default {
 		},
 		total () {
 			return this.subtotal.sub(this.subtotal.mul(this.globalDiscount))
+		},
+		newCoupons () {
+			if (!this.postpaySale) return []
+			return this.postpaySale.coupon_items.filter((item) => item.value_change > 0)
 		}
 	},
 	created () {},
@@ -104,6 +125,7 @@ export default {
 	methods: {
 		onSearch (search) {
 			if (search === '') return
+			this.ultrasearch = search
 			this.ultraresults = {
 				products: [],
 				customers: [],
@@ -111,6 +133,7 @@ export default {
 				coupons: []
 			}
 			Promise.all([api.products.list(search), api.customers.list(search), api.sales.list(search), api.coupons.list(search)]).then(([products, customers, sales, coupons]) => {
+				if (this.ultrasearch !== search) return
 				this.ultraresults = {
 					products: products.results,
 					customers: customers.results,
@@ -165,7 +188,7 @@ export default {
 		send () {
 			const sale_items = this.items.filter((item) => item.type === 'product').map((item) => ({
 				product: item.productId,
-				price: item.sum,
+				price: item.price.sub(item.price.mul(item.discount)),
 				discount: item.discount,
 				amount: item.amount
 			}))
@@ -179,7 +202,12 @@ export default {
 				discount: this.globalDiscount,
 				payment_method: this.paymentMethod,
 				sale_items,
-				coupon_items
+				coupon_items,
+				return_items: []
+			}).then((sale) => {
+				this.postpaySale = sale
+				ioApi.print.sale(sale)
+				this.mode = 'postpay'
 			})
 		},
 		selectReturnItem (item) {
@@ -203,6 +231,9 @@ export default {
 				this.items.push(returnItem)
 			}
 			this.mode = 'scan'
+		},
+		resetState () {
+			Object.assign(this.$data, this.$options.data())
 		}
 	}
 }
@@ -295,7 +326,7 @@ export default {
 					flex: 1
 					margin: 8px 16px
 
-	.mode-pay, .mode-return
+	.mode-pay, .mode-return, .mode-postpay
 		background-color: $clr-white
 		flex: 1 1
 		display: flex
@@ -374,4 +405,25 @@ export default {
 			#pay-final
 				button-style(color: $clr-green)
 				margin-top: 64px
+	.mode-postpay
+		.actions
+			position: absolute
+			left: 16px
+			top: 16px
+			.bunt-button
+				button-style(color: $clr-green)
+
+		.new-coupons
+			display: flex
+			flex-direction: column
+			font-size: 24px
+
+			.header, .new-coupon
+				display: flex
+
+				> *
+					flex: 1
+				.value
+					text-align: right
+
 </style>
