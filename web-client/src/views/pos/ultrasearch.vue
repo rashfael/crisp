@@ -59,7 +59,6 @@ export default {
 		hasResults () {
 			if (!this.results) return false
 			return Object.keys(this.results).some((key) => this.results[key].length > 0)
-
 		},
 		singleResult () {
 			if (!this.results) return
@@ -110,7 +109,7 @@ export default {
 			}
 		},
 		onEnter () {
-			if (!this.results) {
+			if (!this.hasResults) {
 				this.selectNext = true
 				return
 			}
