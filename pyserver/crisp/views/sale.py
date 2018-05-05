@@ -68,4 +68,5 @@ class SaleView(viewsets.ModelViewSet):
     filter_backends = (filters.SearchFilter, filters.OrderingFilter)
     search_fields = ('id',)
     ordering = ('-id',)
+    # filter_fields = ('sale_items__product')
     http_method_names = ['get', 'post', 'head']

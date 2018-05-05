@@ -38,8 +38,8 @@
 				span.item-sum Summe
 			.item(v-for="item of returnSale.sale_items", :class="{selected: returnSale.returningItems.includes(item)}", @click="selectReturnItem(item)")
 				bunt-checkbox(:value="returnSale.returningItems.includes(item)", name="returnItemSelection").item-selected
-				span.article-id {{ item.product.id }}
-				span.article-name {{ item.product.name }}
+				span.article-id {{ item.product }}
+				span.article-name {{ item.product_name }}
 				span.item-discount {{ item.discount | percentage }}
 				span.item-amount {{ item.amount }}
 				span.item-price {{ item.price | currency }}
@@ -120,9 +120,16 @@ export default {
 	created () {},
 	mounted () {
 		this.$nextTick(() => {
+			document.addEventListener('keypress', this.onGlobalKeypress)
 		})
 	},
+	destroyed () {
+		document.removeEventListener('keypress', this.onGlobalKeypress)
+	},
 	methods: {
+		onGlobalKeypress (event) {
+			console.log(event)
+		},
 		onSearch (search) {
 			if (search === '') return
 			this.ultrasearch = search
@@ -165,15 +172,10 @@ export default {
 					this.customer = object
 					break
 				case 'sale':
-					Promise.all(object.sale_items.map((item) => api.products.get(item.product))).then((products) => {
-						object.sale_items.forEach((item, i) => {
-							item.product = products[i]
-						})
-						this.$set(this, 'returnSale', object)
-						this.$set(this.returnSale, 'returningItems', [])
-						// this.returnSale = object
-						this.mode = 'return'
-					})
+					this.$set(this, 'returnSale', object)
+					this.$set(this.returnSale, 'returningItems', [])
+					// this.returnSale = object
+					this.mode = 'return'
 					break
 			}
 		},
@@ -186,24 +188,29 @@ export default {
 			})
 		},
 		send () {
-			const sale_items = this.items.filter((item) => item.type === 'product').map((item) => ({
+			const saleItems = this.items.filter((item) => item.type === 'product').map((item) => ({
 				product: item.productId,
 				price: item.price.sub(item.price.mul(item.discount)),
 				discount: item.discount,
 				amount: item.amount
 			}))
-			const coupon_items = this.items.filter((item) => item.type === 'coupon').map((item) => ({
+			const couponItems = this.items.filter((item) => item.type === 'coupon').map((item) => ({
 				coupon: item.couponId || 0,
 				value_change: item.price
+			}))
+			const returnItems = this.items.filter((item) => item.type === 'return').map((item) => ({
+				returned_item: item.returnedItemId,
+				price: item.price,
+				amount: item.amount
 			}))
 			api.sales.create({
 				customer: this.customer ? this.customer.id : 1,
 				price: this.total,
 				discount: this.globalDiscount,
 				payment_method: this.paymentMethod,
-				sale_items,
-				coupon_items,
-				return_items: []
+				sale_items: saleItems,
+				coupon_items: couponItems,
+				return_items: returnItems
 			}).then((sale) => {
 				this.postpaySale = sale
 				ioApi.print.sale(sale)
@@ -221,8 +228,8 @@ export default {
 			for (const item of this.returnSale.returningItems) {
 				const returnItem = {
 					type: 'return',
-					productId: item.product.id,
-					name: `Rückgabe: '${item.product.name}'`,
+					productId: item.product,
+					name: `Rückgabe: '${item.product_name}'`,
 					price: new Decimal(item.price).div(item.amount).mul(-1),
 					discount: new Decimal(0),
 					amount: item.amount,

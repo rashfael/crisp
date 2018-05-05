@@ -27,12 +27,14 @@
 			thead
 				tr
 					th ProduktId
+					th Name
 					th Betrag
 					th Rabatt
 					th Anzahl
 			tbody
-				tr(v-for="item in sale.items")
-					td: a(v-link="'/products/'+item.productId") {{ item.productId }}
+				tr(v-for="item in sale.sale_items")
+					td: a(v-link="'/products/'+item.product") {{ item.product }}
+					td {{ item.product_name }}
 					td {{ item.price | currency }}
 					td {{ item.discount | percentage }}
 					td {{ item.amount }}
@@ -65,7 +67,7 @@ import api from 'lib/api'
 import { mapState } from 'vuex'
 
 export default {
-	data() {
+	data () {
 		return {
 			sale: null
 		}
