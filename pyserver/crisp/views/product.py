@@ -2,8 +2,11 @@ from rest_framework import (
     serializers,
     viewsets,
     filters,
-    exceptions
+    exceptions,
+    status
 )
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 from ..core.models import Product, Arrival, SaleItem, Sale
 from .sale import SaleSerializer
@@ -66,3 +69,16 @@ class ProductView(viewsets.ModelViewSet):
         if self.action == 'retrieve':
             return SingleProductSerializer
         return ProductSerializer
+
+    @action(methods=['post'], detail=True)
+    def arrival(self, request, pk=None):
+        product = self.get_object()
+        serializer = ArrivalSerializer(data=request.data)
+        if serializer.is_valid():
+            arrival = Arrival.objects.create(product=product, **serializer.data)
+            arrival.save()
+            serializer = ArrivalSerializer(arrival)
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)

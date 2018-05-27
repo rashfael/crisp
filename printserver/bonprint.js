@@ -11,10 +11,11 @@ const formatCurrency = function (number) {
 
 const printItem = function (name, price, amount, discount) {
 	let itemString = ''
+
+	itemString += name
 	if (amount > 1)
 		itemString += ` x${amount}`
-	itemString += name
-	itemString += formatCurrency(price).padStart(55 - name.length)
+	itemString += formatCurrency(price).padStart(55 - itemString.length)
 	itemString += '\n'
 	if (discount > 0) {
 		const dPrice = new Decimal(price)
@@ -44,7 +45,7 @@ module.exports = {
 
 		content += '\x1b\x61\x00' // center align
 		if (sale.customer !== 1) {
-			content += `KNr.: ${sale.customer}\n`
+			content += `Kunde: ${sale.customer}  ${sale.customer_name}\n`
 			content += '\n'
 		}
 		content += moment(sale.date).format(DATETIME_FORMAT)
@@ -59,7 +60,7 @@ module.exports = {
 			content += printItem('Rückgabe', item.price, item.amount, 0)
 		}
 		for (const item of sale.coupon_items) {
-			content += printItem(`Gutschein ${item.id}`, item.value_change, 1, 0)
+			content += printItem(`Gutschein ${item.coupon}`, item.value_change, 1, 0)
 		}
 		content += '-------------------------------------------------------\n'
 		const sum = new Decimal(sale.price)

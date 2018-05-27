@@ -24,6 +24,8 @@ import SaleDetails from 'views/sales/item'
 import Suppliers from 'views/suppliers'
 import Supplier from 'views/suppliers/item'
 import NewSupplier from 'views/suppliers/new'
+import SupplierDetails from 'views/suppliers/details'
+import SupplierHistory from 'views/suppliers/history'
 
 // import Statistics from 'views/statistics'
 
@@ -111,8 +113,16 @@ let routes = [{
 		component: NewSupplier
 	}, {
 		path: 'suppliers/:id',
-		name: 'suppliers:supplier',
-		component: Supplier
+		component: Supplier,
+		children: [{
+			path: '/',
+			name: 'suppliers:supplier',
+			component: SupplierDetails
+		}, {
+			path: 'history',
+			name: 'suppliers:history',
+			component: SupplierHistory
+		}]
 
 	// }, {
 		// path: 'statistics/',

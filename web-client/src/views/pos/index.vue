@@ -2,10 +2,12 @@
 #pos
 	.mode-scan(v-if="mode === 'scan'")
 		.meta-pane
-			ultrasearch(@search="onSearch", :results="ultraresults", @selected="onSelect")
+			ultrasearch(ref="ultrasearch", @search="onSearch", :results="ultraresults", @selected="onSelect")
 			.customer
-				i.material-icons account_circle
-				.customer-name {{ customer ? customer.forename + ' ' + customer.name : 'Laufkunde' }}
+				.customer-name
+					i.material-icons account_circle
+					span {{ customer ? customer.forename + ' ' + customer.name : 'Laufkunde' }}
+				p.customer-notes(v-if="customer") {{ customer.notes }}
 		.item-pane
 			.items
 				.item-header
@@ -57,7 +59,7 @@
 			h1 {{ total | currency }} €
 		.actions
 			bunt-button#pay-bar(icon="attach_money", :class="{active: paymentMethod === 'cash'}", @click.native="paymentMethod = 'cash'") bar
-			bunt-button#pay-ec(icon="credit_card", :class="{active: paymentMethod === 'card'}", @click.native="paymentMethod = 'card'") ec
+			bunt-button#pay-ec(icon="credit_card", :class="{active: paymentMethod === 'card'}", @click.native="paymentMethod = 'ec'") ec
 		.actions
 			bunt-button#pay-final(@click.native="send", :disabled="!paymentMethod") Bezahlt
 	.mode-postpay(v-if="mode === 'postpay'")
@@ -120,15 +122,18 @@ export default {
 	created () {},
 	mounted () {
 		this.$nextTick(() => {
-			document.addEventListener('keypress', this.onGlobalKeypress)
+			document.addEventListener('keydown', this.onGlobalKeypress)
 		})
 	},
 	destroyed () {
-		document.removeEventListener('keypress', this.onGlobalKeypress)
+		document.removeEventListener('keydown', this.onGlobalKeypress)
 	},
 	methods: {
 		onGlobalKeypress (event) {
-			console.log(event)
+			// STX perhaps?
+			if (event.shiftKey && event.ctrlKey && event.key === 'B') {
+				this.$refs.ultrasearch.focus()
+			}
 		},
 		onSearch (search) {
 			if (search === '') return
@@ -170,6 +175,7 @@ export default {
 					break
 				case 'customer':
 					this.customer = object
+					this.globalDiscount = new Decimal(0.05)
 					break
 				case 'sale':
 					this.$set(this, 'returnSale', object)
@@ -190,8 +196,8 @@ export default {
 		send () {
 			const saleItems = this.items.filter((item) => item.type === 'product').map((item) => ({
 				product: item.productId,
-				price: item.price.sub(item.price.mul(item.discount)),
-				discount: item.discount,
+				price: item.price.sub(item.price.mul(item.discount)).toDecimalPlaces(2),
+				discount: item.discount.toDecimalPlaces(2),
 				amount: item.amount
 			}))
 			const couponItems = this.items.filter((item) => item.type === 'coupon').map((item) => ({
@@ -262,11 +268,6 @@ export default {
 		.item-header, .item
 			display: flex
 
-		.item-header
-			height: 32px
-			align-items: center
-			border-bottom: 2px solid $clr-dividers-light
-
 			> :first-child
 				padding-left: 8px
 
@@ -275,6 +276,13 @@ export default {
 
 			.item-price, .item-discount, .item-amount, .item-sum
 				text-align: right
+
+		.item-header
+			height: 32px
+			align-items: center
+			border-bottom: 2px solid $clr-dividers-light
+
+
 		.article-id
 			flex: 0 0 136px
 			box-sizing: border-box
@@ -326,9 +334,14 @@ export default {
 			> .customer
 				display: flex
 				padding: 8px
-				> i
-					font-size: 64px
-					color: $clr-blue-grey-500
+				flex-direction: column
+				.customer-name
+					display: flex
+					align-items: center
+					font-size: 24px
+					> i
+						font-size: 64px
+						color: $clr-blue-grey-500
 				.bunt-input
 					flex: 1
 					margin: 8px 16px

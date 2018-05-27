@@ -13,10 +13,14 @@ form.details-edit
 	decimal-input(name="sale", v-model="product.sale", label="VK", :fixed="2")
 
 	bunt-button#save(@click.native="submit") Speichern
+	bunt-button.print(@click="printLabel") Drucken
+
 </template>
 <script>
 import { mapState } from 'vuex'
 import api from 'lib/api'
+import ioApi from 'lib/api/io'
+
 import humanize from 'lib/humanize'
 
 export default {
@@ -41,15 +45,15 @@ export default {
 		...mapState(['productGroups', 'suppliers'])
 	},
 	methods: {
-		generateId() {
-			api.products.generateId().then((id) =>{
+		generateId () {
+			api.products.generateId().then((id) => {
 				this.product._id = id
 			})
 		},
-		submit() {
+		submit () {
 			let navigate = (product) =>
 				this.$router.push({name: 'products:product', params: {id: product._id}})
-			if(this.isNew) {
+			if (this.isNew) {
 				if (this.product.id === '' || this.autogenerate) {
 					this.product.id = undefined
 				}
@@ -57,6 +61,9 @@ export default {
 			}
 			else
 				api.products.update(this.product).then(navigate)
+		},
+		printLabel () {
+			ioApi.print.label(this.product)
 		}
 	}
 }

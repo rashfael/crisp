@@ -13,6 +13,9 @@ let api = {
 	print: {
 		sale (sale) {
 			return api.fetch(`print/sale`, 'POST', JSON.stringify(sale))
+		},
+		label (product) {
+			return api.fetch(`print/label`, 'POST', JSON.stringify(product))
 		}
 	}
 }

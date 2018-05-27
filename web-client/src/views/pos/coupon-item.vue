@@ -2,17 +2,19 @@
 .item.coupon-item
 	.article-id
 	.article-name Gutschein
-	bunt-input.item-price(name="item-price", v-model="price")
+	cell-decimal-input.item-price(name="item-price", v-model="value.price")
 	.item-discount –
 	.item-amount –
-	bunt-input.item-sum(name="item-sum", :value="sum", :readonly="true")
+	input.item-sum(name="item-sum", :value="sum", :readonly="true")
 </template>
 <script>
 import Decimal from 'decimal.js'
+import CellDecimalInput from './cell-decimal-input'
+
 const priceFormat = new Intl.NumberFormat('de-DE', {minimumFractionDigits: 2, maximumFractionDigits: 2})
 
 export default {
-	components: {},
+	components: { CellDecimalInput },
 	props: {
 		value: {
 			type: Object,
@@ -24,18 +26,6 @@ export default {
 		}
 	},
 	computed: {
-		price: {
-			get () {
-				return priceFormat.format(this.value.price)
-			},
-			set (v) {
-				try {
-					this.value.price = new Decimal(v.replace(',', '.'))
-				} catch (e) {
-
-				}
-			}
-		},
 		sum: {
 			get () {
 				return priceFormat.format(this.value.price)

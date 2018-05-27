@@ -8,11 +8,11 @@
 				@keydown.down.prevent="typeAheadDown",
 				@keyup.enter.prevent="onEnter",
 				@blur="blur",
-				@focus="focus")
+				@focus="onFocus")
 		.underline
 		i.material-icons(v-if="!rawSearch && !open") search
 
-	.ultraresults(v-if="results", v-show="open", @mousedown.prevent="")
+	.ultraresults(v-if="results", v-show="open", @mousedown.prevent="", v-scrollbar.y="")
 		.coupons(v-if="results.coupons.length > 0")
 			h6 gefundene Gutscheine
 			.coupon.result(v-for="coupon in results.coupons", @click="selected('coupon', coupon)")
@@ -90,6 +90,9 @@ export default {
 	},
 	methods: {
 		focus () {
+			this.$refs.search.focus()
+		},
+		onFocus () {
 			this.open = true
 		},
 		blur () {
@@ -166,6 +169,7 @@ $ultra-height = 96px
 		top: $ultra-height + 6px
 		left: 0
 		right: 0
+		height: "calc(100vh - %s - 6px)" % $ultra-height
 
 		h6
 			padding: 0 8px

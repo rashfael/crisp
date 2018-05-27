@@ -1,6 +1,5 @@
 <template lang="jade">
-edit.content(:product="product")
-
+edit.content(:supplier="supplier")
 </template>
 <script>
 import Edit from './edit'
@@ -8,7 +7,7 @@ import Edit from './edit'
 export default {
 	components: {Edit},
 	props: {
-		product: Object
+		supplier: Object
 	},
 	data () {
 		return {
@@ -20,9 +19,7 @@ export default {
 		this.$nextTick(() => {
 		})
 	},
-	methods: {
-		
-	}
+	methods: {}
 }
 </script>
 <style lang="stylus">

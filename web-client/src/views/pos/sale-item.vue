@@ -1,18 +1,19 @@
 <template lang="jade">
 .item
-	bunt-input.article-id(name="article-id", v-model="value.productId", :readonly="true")
-	bunt-input.article-name(name="article-name", :value="value.name", :readonly="true")
-	bunt-input.item-price(name="item-price", v-model="price")
-	percentage-input.item-discount(name="item-discount", v-model="value.discount")
-	bunt-input.item-amount(name="item-amount", v-model.number="amount")
-	bunt-input.item-sum(name="item-sum", :value="sum")
+	.article-id {{ value.productId }}
+	.article-name {{ value.name }}
+	cell-decimal-input.item-price(name="item-price", v-model="price", :fixed="2")
+	cell-decimal-input.item-discount(name="item-discount", v-model="discount")
+	input.item-amount(name="item-amount", v-model.number="amount")
+	input.item-sum(name="item-sum", :value="sum")
 </template>
 <script>
 import Decimal from 'decimal.js'
+import CellDecimalInput from './cell-decimal-input'
 const priceFormat = new Intl.NumberFormat('de-DE', {minimumFractionDigits: 2, maximumFractionDigits: 2})
 
 export default {
-	components: {},
+	components: { CellDecimalInput },
 	props: {
 		value: {
 			type: Object,
@@ -26,12 +27,23 @@ export default {
 	computed: {
 		price: {
 			get () {
-				return priceFormat.format(this.value.price.sub(this.value.price.mul(this.value.discount)))
+				return this.value.price.sub(this.value.price.mul(this.value.discount))
+			},
+			set (discountedPrice) {
+				try {
+					this.value.discount = this.value.price.sub(discountedPrice).div(this.value.price)
+				} catch (e) {
+
+				}
+			}
+		},
+		discount: {
+			get () {
+				return this.value.discount.mul(100)
 			},
 			set (v) {
 				try {
-					const discountedPrice = new Decimal(v.replace(',', '.'))
-					this.value.discount = discountedPrice.div(this.value.price)
+					this.value.discount = v.div(100)
 				} catch (e) {
 
 				}
@@ -63,14 +75,25 @@ export default {
 }
 </script>
 <style lang="stylus">
+@import '~_settings'
+
 #pos .item
 	height: 48px
-	.bunt-input
-		margin-bottom: 0
+	display: flex
+	align-items: center
+	input
+		border: 0
+		text-align: right
+		font-weight: 600
+		width: 80px
+		align-self: stretch
+		font-size: 20px
+		&:focus
+			background-color: $clr-primary
+			color: $clr-primary-text-dark
 
 	.article-id, .article-name, .item-sum
-		.underline:after
-			display: none
+
 
 	.item-price, .item-discount, .item-amount, .item-sum
 		input

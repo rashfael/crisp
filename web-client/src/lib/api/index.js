@@ -107,10 +107,9 @@ let api = {
 		},
 		addArrival (id, amount) {
 			const data = {
-				amount,
-				shop: 'Ludwigsburg'
+				amount
 			}
-			return api.fetch(`products/${id}/arrival`, 'POST', JSON.stringify(data))
+			return api.fetch(`products/${id}/arrival/`, 'POST', JSON.stringify(data))
 		}
 	},
 	sales: {

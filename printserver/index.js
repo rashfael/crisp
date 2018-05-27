@@ -15,7 +15,8 @@ router.post('/print/sale', async (ctx) => {
 })
 
 router.post('/print/label', (ctx, next) => {
-
+	labelprint.print(ctx.request.body)
+	ctx.status = 200
 })
 
 

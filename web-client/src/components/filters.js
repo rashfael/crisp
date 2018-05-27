@@ -4,6 +4,9 @@ import moment from 'moment'
 const format = new Intl.NumberFormat('de-DE', {minimumFractionDigits: 2, maximumFractionDigits: 2})
 const dateFormat = 'DD. MM. YYYY'
 const dateTimeFormat = 'DD. MM. YYYY hh:mm'
+const monthFormat = 'YYYY MMMM'
+
+moment.locale('de')
 
 Vue.filter('pure-currency', {
 	read: function (val) {
@@ -39,6 +42,12 @@ Vue.filter('datetime', function (val) {
 	if (val == null)
 		return ''
 	return moment(val).format(dateTimeFormat)
+})
+
+Vue.filter('month', function (val) {
+	if (val == null)
+		return ''
+	return moment(val).format(monthFormat)
 })
 
 Vue.filter('fromnow', (date) => {
