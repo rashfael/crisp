@@ -10,13 +10,14 @@ nav
 			bunt-tab(header="Statistiken", id="statistics", @selected="tabSelected")
 
 		//- ui-switch.toggle-cost(label="EK anzeigen", :value.sync="costVisible")
+		bunt-link-button.to-pos(:to="{name: 'pos'}") Kasse
 </template>
 <script>
 import globals from 'lib/globals'
 
 export default {
 	components: {},
-	data() {
+	data () {
 		return {
 			selectedCell: null,
 			costVisible: false
@@ -52,6 +53,7 @@ nav
 		width 1200px
 		margin 0 auto
 		display flex
+		justify-content: space-between
 	.bunt-tabs
 		width: auto
 		tabs-style(
@@ -66,5 +68,8 @@ nav
 		align-self center
 		.ui-switch-label-text
 			white-space nowrap
+	.to-pos
+		align-self: center
+		link-button-style(color: $clr-primary)
 
 </style>

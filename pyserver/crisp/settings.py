@@ -26,6 +26,7 @@ SECRET_KEY = 'n82i0#)krozi@22gfgn*dt+-f7(_=zs4%(61-hd0hduh*m)x62'
 # DEBUG = True
 
 ALLOWED_HOSTS = [
+    'localhost',
     'crisp-api.aurelis.de'
 ]
 
@@ -56,12 +57,13 @@ INSTALLED_APPS = BASE_APPS + EXTERNAL_APPS + LOCAL_APPS
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware'
+
 ]
 
 ROOT_URLCONF = 'crisp.urls'
@@ -150,24 +152,6 @@ REST_FRAMEWORK = {
 
 LOGIN_URL = 'rest_framework:login'
 LOGOUT_URL = 'rest_framework:logout'
-
-
-# Debug config
-
-if DEBUG is True:
-    CORS_ORIGIN_ALLOW_ALL = True
-
-    # INSTALLED_APPS.append('rest_framework_swagger')
-
-    # SWAGGER_SETTINGS = {
-    #     'SECURITY_DEFINITIONS': {
-    #         'api_key': {
-    #             'type': 'apiKey',
-    #             'in': 'header',
-    #             'name': 'Authorization'
-    #         }
-    #     },
-    # }
 
 
 CORS_ORIGIN_WHITELIST = [
