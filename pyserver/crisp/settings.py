@@ -41,6 +41,7 @@ BASE_APPS = [
 EXTERNAL_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders'
 ]
 
 LOCAL_APPS = [
@@ -58,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware'
 ]
 
 ROOT_URLCONF = 'crisp.urls'
@@ -151,8 +153,6 @@ LOGOUT_URL = 'rest_framework:logout'
 # Debug config
 
 if DEBUG is True:
-    INSTALLED_APPS.append('corsheaders')
-    MIDDLEWARE.append('corsheaders.middleware.CorsMiddleware')
     CORS_ORIGIN_ALLOW_ALL = True
 
     # INSTALLED_APPS.append('rest_framework_swagger')
@@ -166,6 +166,25 @@ if DEBUG is True:
     #         }
     #     },
     # }
+
+
+CORS_ORIGIN_WHITELIST = [
+    'crisp.aurelis.de',
+    'localhost:8880',
+]
+CORS_ALLOW_HEADERS = [
+    'x-requested-with',
+    'content-type',
+    'accept',
+    'origin',
+    'authorization',
+    'x-csrftoken',
+    'ember',
+    'cache-control',
+    'content-type',
+]
+CORS_ALLOW_CREDENTIALS = True
+CORS_REPLACE_HTTPS_REFERER = True
 
 try:
     from .local_settings import *
