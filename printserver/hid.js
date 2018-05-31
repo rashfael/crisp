@@ -7,8 +7,8 @@ const COUNTRY_CODE = [0x02, 0x00, 3, 0x1B, 0x52, 0x02]
 const THANKS_DELAY = 60000
 const WELCOME_DELAY = 120000
 
-// device = new HID.HID 0x0aa7, 0x0200
-const device = new HID.HID '0001:0013:01'
+const device = new HID.HID(0x0aa7, 0x0200)
+// const device = new HID.HID('0001:0013:01')
 device.write(CLEAR)
 device.write(COUNTRY_CODE)
 
@@ -19,7 +19,7 @@ const clear = function () {
 }
 
 const writeText = function (text) {
-	const textBuffer = iconv.encode(content, 'cp437')
+	const textBuffer = iconv.encode(text, 'cp437')
 	const data = [ 0x02, 0x00, textBuffer.length, ...textBuffer]
 	device.write(data)
 }
@@ -53,7 +53,7 @@ const hid = {
 		setCursor(0)
 		writeText("    Vielen Dank")
 		setCursor(1)
-		WriteText(" für Ihren Einkauf!")
+		writeText(" für Ihren Einkauf!")
 		if (runningTimeout) {
 			clearTimeout(runningTimeout)
 		}
@@ -66,7 +66,7 @@ const hid = {
 		setCursor(0)
 		writeText("   Schön, dass Sie")
 		setCursor(1)
-		WriteText("    bei uns sind!")
+		writeText("    bei uns sind!")
 	}
 }
 
