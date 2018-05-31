@@ -56,6 +56,7 @@ nav
 	z-index: 100
 	display: flex
 	padding-left: 64px
+	flex-shrink: 0
 	.nav-inner
 		width 1200px
 		margin 0 auto

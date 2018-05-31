@@ -1,22 +1,25 @@
 <template lang="jade">
-.statistics
-	.daterange
-		datepicker(name="start", label="Start", v-model="startDate")
-		datepicker(name="end", label="End", v-model="endDate")
-	table
-		tr.total
-			th Gesamt
-			th {{ totals.amount }}
-			th {{ totals.sum/100 | currency }}
-		template(v-for="supplier in suppliers")
-			tr.supplier
-				th {{ suppliersMap[supplier.id].name }}
-				th {{ supplier.amount }}
-				th {{ supplier.sum | currency }}
-			tr.product(v-for="product in supplier.products")
-				td: router-link(:to="{name: 'product', params:{id: product.productId}}") {{ product.productId }} {{ product.name }}
-				td {{ product.amount }}
-				td {{ product.sum | currency }}
+.statistics.index
+	.toolbar
+		.actions
+			.daterange
+				datepicker(name="start", label="Start", v-model="startDate")
+				datepicker(name="end", label="End", v-model="endDate")
+	.content.list(v-scrollbar.y="")
+		table
+			tr.total
+				th Gesamt
+				th {{ totals.amount }}
+				th {{ totals.sum/100 | currency }}
+			template(v-for="supplier in suppliers")
+				tr.supplier
+					th {{ suppliersMap[supplier.id].name }}
+					th {{ supplier.amount }}
+					th {{ supplier.sum | currency }}
+				tr.product(v-for="product in supplier.products")
+					td: router-link(:to="{name: 'product', params:{id: product.productId}}") {{ product.productId }} {{ product.name }}
+					td {{ product.amount }}
+					td {{ product.sum | currency }}
 
 </template>
 <script>
@@ -79,17 +82,17 @@ export default {
 @import "~_settings"
 
 .statistics
-	width 1200px
-	margin 0 auto
-	card()
+	.content
+		position: relative
 	table
 		table()
-
+		margin-top: 52px
+		border-collapse: collapse
 		.supplier
 			border-bottom-width 2px
 			border-top border-separator()
 			border-top-width 2px
-			background-color clr-grey-100
+			background-color $clr-grey-100
 
 	.daterange
 		display: flex
