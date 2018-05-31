@@ -1,6 +1,9 @@
 let config = {
 	api: {
-		baseUrl: 'http://crisp-beta.aurelis.de/api/v2/'
+		baseUrl: 'http://crisp-api.aurelis.de/'
+	},
+	io: {
+		baseUrl: 'http://localhost:3000/'
 	}
 }
 
