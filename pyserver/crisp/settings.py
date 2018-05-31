@@ -23,9 +23,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'n82i0#)krozi@22gfgn*dt+-f7(_=zs4%(61-hd0hduh*m)x62'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'crisp-api.aurelis.de'
+]
 
 
 # Application definition
