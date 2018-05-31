@@ -1,0 +1,15 @@
+arrow==0.10.0
+dateparser==0.6.0
+Django==1.11.7
+django-cors-headers==2.1.0
+django-filter==1.1.0
+djangorestframework==3.8.2
+moment==0.8.2
+psycopg2==2.7.3.2
+python-dateutil==2.6.1
+pytz==2017.3
+regex==2017.11.9
+ruamel.yaml==0.15.34
+six==1.11.0
+times==0.7
+tzlocal==1.4
