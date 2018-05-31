@@ -150,7 +150,6 @@ class Command(BaseCommand):
                     id=unfuckNumberLong(raw['_id']),
                     # handle values in sales
                 )
-                print(coupon.__dict__)
                 coupon.save()
 
     def loadSales(self, folder):
