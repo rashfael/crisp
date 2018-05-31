@@ -77,8 +77,7 @@ module.exports = {
 		content += '\n\n'
 
 		content += '\x1b\x61\x01' // center align
-		content += 'Umtausch innerhalb 30 Tagen nur mit Kassenbeleg\n'
-		content += 'gegen Neuware oder Gutschein \n'
+		content += 'Umtausch innerhalb 8 Tagen nur mit Kassenbeleg\n'
 		content += '\n\n\n\n\n\n\n\n'
 		content += '\x1D\x56\x31' // cut
 
