@@ -34,7 +34,7 @@ const formatCurrency = function (number) {
 
 const hid = {
 	displaySum (sum) {
-		const text = formatCurrency(sum)
+		const text = formatCurrency(sum) + ' EUR'
 		clear()
 		setCursor(0)
 		writeText('SUMME:')
