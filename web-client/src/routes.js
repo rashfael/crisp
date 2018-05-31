@@ -27,7 +27,7 @@ import NewSupplier from 'views/suppliers/new'
 import SupplierDetails from 'views/suppliers/details'
 import SupplierHistory from 'views/suppliers/history'
 
-// import Statistics from 'views/statistics'
+import Statistics from 'views/statistics'
 
 import PointOfSale from 'views/pos'
 
@@ -124,10 +124,10 @@ let routes = [{
 			component: SupplierHistory
 		}]
 
-	// }, {
-		// path: 'statistics/',
-		// name: 'statistics',
-		// component: Statistics
+	}, {
+		path: 'statistics/',
+		name: 'statistics',
+		component: Statistics
 	}, {
 		path: 'pos',
 		name: 'pos',

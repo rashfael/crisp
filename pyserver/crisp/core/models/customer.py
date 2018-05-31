@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 
 class Customer(models.Model):
@@ -11,5 +12,5 @@ class Customer(models.Model):
     tel = models.CharField(max_length=255, blank=True)
     email = models.CharField(max_length=255, blank=True)
     birthday = models.DateField(null=True)
-    customer_since = models.DateTimeField(auto_now_add=True)
+    customer_since = models.DateTimeField(default=timezone.now)
     notes = models.TextField(blank=True)

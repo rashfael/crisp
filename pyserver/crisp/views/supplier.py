@@ -8,6 +8,7 @@ from ..core.models import Supplier, Sale, SaleItem
 from django.db.models import Avg, Count, Min, Sum
 from django.db.models.functions import TruncMonth
 
+
 class SupplierSerializer(serializers.ModelSerializer):
     class Meta:
         model = Supplier

@@ -1,85 +1,71 @@
 <template lang="jade">
 .statistics
-	input#daterangepicker(type="text", ref="daterangepicker")
+	.daterange
+		datepicker(name="start", label="Start", v-model="startDate")
+		datepicker(name="end", label="End", v-model="endDate")
 	table
 		tr.total
 			th Gesamt
 			th {{ totals.amount }}
 			th {{ totals.sum/100 | currency }}
-		template(v-for="(supplierId, supplier) in suppliers")
+		template(v-for="supplier in suppliers")
 			tr.supplier
-				th {{ humanize.suppliersMap[supplierId].name }}
-				th {{ supplier.value.amount }}
-				th {{ supplier.value.sum/100 | currency }}
+				th {{ suppliersMap[supplier.id].name }}
+				th {{ supplier.amount }}
+				th {{ supplier.sum | currency }}
 			tr.product(v-for="product in supplier.products")
-				td: a(v-link="{name: 'product', params:{id:product.productId}}") {{ product.productId }}
-				td {{ product.value.amount }}
-				td {{ product.value.sum/100 | currency }}
+				td: router-link(:to="{name: 'product', params:{id: product.productId}}") {{ product.productId }} {{ product.name }}
+				td {{ product.amount }}
+				td {{ product.sum | currency }}
 
 </template>
 <script>
+import { mapState } from 'vuex'
 import api from 'lib/api'
-import $ from 'jquery'
-import _ from 'lodash'
-import 'daterangepicker'
-import 'daterangepicker/daterangepicker-bs3.css'
-import moment from 'moment'
-import './index.styl'
-import humanize from 'lib/humanize'
 
+import Datepicker from 'components/datepicker'
+import moment from 'moment'
 
 export default {
-	data() {
+	components: { Datepicker },
+	data () {
 		return {
 			startDate: moment().startOf('day'),
 			endDate: moment().startOf('day'),
-			suppliers: [],
-			humanize,
+			suppliers: {},
 			totals: {
 				amount: 0,
 				sum: 0
 			}
 		}
 	},
-	ready() {
-		$(this.$refs.daterangepicker).daterangepicker({
-			locale: {
-				format: 'DD.MM.YYYY'
-			},
-			showDropdowns: true,
-			autoApply: true,
-			ranges: {
-				'Heute': [moment(), moment()],
-				'Gestern': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-				'Letzte 7 Tage': [moment().subtract(6, 'days'), moment()],
-				'Letzte 30 Tage': [moment().subtract(29, 'days'), moment()],
-				'Dieser Monat': [moment().startOf('month'), moment().endOf('month')],
-				'Letzter Monat': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-			}
-		}
-		, (start, end) => {
-			this.startDate = start
-			this.endDate = end
-			this.loadStatistics()
-		})
+	computed: {
+		...mapState(['suppliersMap'])
+	},
+	watch: {
+		startDate: 'loadStatistics',
+		endDate: 'loadStatistics'
 	},
 	methods: {
-		loadStatistics() {
-			api.statistics.supplierArticleProfit(this.startDate, this.endDate).then((data) => {
+		loadStatistics () {
+			if (this.endDate.isBefore(this.startDate)) return
+			api.statistics.profit(this.startDate, this.endDate).then((data) => {
 				let suppliers = {}
 				let totalAmount = 0
 				let totalSum = 0
-				for(let supplierArticle of data) {
-					let supplierId = supplierArticle._id.supplierId
-					let productId = supplierArticle._id.productId
-					let value = supplierArticle.value
-					if(!(supplierId in suppliers))
-						suppliers[supplierId] = {products: [], value: {amount: 0, sum: 0}}
-					suppliers[supplierId].products.push({productId, value})
-					suppliers[supplierId].value.amount += value.amount
-					suppliers[supplierId].value.sum += value.sum
-					totalAmount += value.amount
-					totalSum += value.sum
+				for (let supplierArticle of data) {
+					let supplierId = supplierArticle.product__supplier__id
+					let productId = supplierArticle.product__id
+					let name = supplierArticle.product__name
+					let sum = supplierArticle.price__sum
+					let amount = supplierArticle.amount__sum
+					if (!(supplierId in suppliers))
+						suppliers[supplierId] = {id: supplierId, products: [], amount: 0, sum: 0}
+					suppliers[supplierId].products.push({productId, name, sum, amount})
+					suppliers[supplierId].amount += amount
+					suppliers[supplierId].sum += sum
+					totalAmount += amount
+					totalSum += sum
 				}
 				this.totals.amount = totalAmount
 				this.totals.sum = totalSum
@@ -104,5 +90,9 @@ export default {
 			border-top border-separator()
 			border-top-width 2px
 			background-color clr-grey-100
+
+	.daterange
+		display: flex
+		padding: 16px
 
 </style>

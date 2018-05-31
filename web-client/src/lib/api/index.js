@@ -150,8 +150,13 @@ let api = {
 		}
 	},
 	statistics: {
-		supplierArticleProfit (start, end) {
-			return api.fetch(`statistics/supplier-article-profit`, 'POST', JSON.stringify({start: start, end: end}))
+		profit (start, end) {
+			const query = {
+				start: start.format(),
+				end: end.format()
+			}
+			const qs = querystring.stringify(cleanQuery(query))
+			return api.fetch(`sales/statistics/?${qs}`)
 		}
 	},
 	users: {

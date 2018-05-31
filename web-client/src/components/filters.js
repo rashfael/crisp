@@ -3,7 +3,7 @@ import moment from 'moment'
 
 const format = new Intl.NumberFormat('de-DE', {minimumFractionDigits: 2, maximumFractionDigits: 2})
 const dateFormat = 'DD. MM. YYYY'
-const dateTimeFormat = 'DD. MM. YYYY hh:mm'
+const dateTimeFormat = 'DD. MM. YYYY HH:mm'
 const monthFormat = 'YYYY MMMM'
 
 moment.locale('de')

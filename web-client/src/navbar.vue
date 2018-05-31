@@ -7,7 +7,7 @@ nav
 			bunt-tab(header="Kunden", id="customers", @selected="tabSelected")
 			bunt-tab(header="Verkaufshistorie", id="sales", @selected="tabSelected")
 			bunt-tab(header="Gutscheine", id="coupons", @selected="tabSelected")
-			//- bunt-tab(header="Statistiken", id="statistics", @selected="$router.go('/statistics')")
+			bunt-tab(header="Statistiken", id="statistics", @selected="tabSelected")
 
 		//- ui-switch.toggle-cost(label="EK anzeigen", :value.sync="costVisible")
 </template>

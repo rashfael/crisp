@@ -23,13 +23,13 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         folder = options['folder'][0]
-        # self.loadUsers(folder)
-        # self.loadCustomers(folder)
-        # self.loadProductGroups(folder)
+        self.loadUsers(folder)
+        self.loadCustomers(folder)
+        self.loadProductGroups(folder)
         self.loadSuppliers(folder)
         self.loadProducts(folder)
-        # self.loadCoupons(folder)
-        # self.loadSales(folder)
+        self.loadCoupons(folder)
+        self.loadSales(folder)
 
     def loadCustomers(self, folder):
         filepath = os.path.join(folder, 'customers.json')
@@ -131,8 +131,9 @@ class Command(BaseCommand):
         with open(filepath) as fp:
             for cnt, line in enumerate(fp):
                 raw = json.loads(line)
-                user = User(
-                    username=raw['_id']
+                user = User.objects.create_user(
+                    username=raw['_id'],
+                    password=raw['password']
                 )
                 print(user.__dict__)
                 try:
@@ -157,7 +158,7 @@ class Command(BaseCommand):
         with open(filepath) as fp:
             for cnt, line in enumerate(fp):
                 raw = json.loads(line)
-                print(raw)
+                # print(raw)
                 if (raw['customerId'] == 0):
                     continue
                 sale = Sale(

@@ -3,6 +3,9 @@ from rest_framework import (
     viewsets,
     filters,
 )
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from django.db.models import Avg, Count, Min, Sum
 
 from ..core.models import (Sale, SaleItem, ReturnItem, Coupon, CouponChange)
 
@@ -70,3 +73,20 @@ class SaleView(viewsets.ModelViewSet):
     ordering = ('-id',)
     # filter_fields = ('sale_items__product')
     http_method_names = ['get', 'post', 'head']
+
+    @action(methods=['get'], detail=False)
+    def statistics(self, request, pk=None):
+        start = request.query_params['start']
+        end = request.query_params['end']
+        stats = SaleItem.objects.filter(sale__date__range=[start, end]).values('product__id', 'product__name', 'product__supplier__id').annotate(Sum('price'), Sum('amount'))
+        return Response(stats)
+        # product = self.get_object()
+        # serializer = ArrivalSerializer(data=request.data)
+        # if serializer.is_valid():
+        #     arrival = Arrival.objects.create(product=product, **serializer.data)
+        #     arrival.save()
+        #     serializer = ArrivalSerializer(arrival)
+        #     return Response(serializer.data)
+        # else:
+        #     return Response(serializer.errors,
+        #                     status=status.HTTP_400_BAD_REQUEST)
