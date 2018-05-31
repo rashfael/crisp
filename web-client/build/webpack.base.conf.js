@@ -3,6 +3,7 @@ var webpack = require('webpack')
 var stylusLoader = require('stylus-loader')
 var utils = require('./utils')
 var projectRoot = path.resolve(__dirname, '../')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
 	entry: {
@@ -11,11 +12,12 @@ module.exports = {
 	output: {
 		path: path.resolve(__dirname, '../dist'),
 		publicPath: '/',
-		filename: '[name].js'
+		filename: '[name].js',
+		chunkFilename: '[name].[id].[hash].js'
 	},
 	resolve: {
 		extensions: ['.js', '.json', '.vue'],
-		modules: [path.resolve(__dirname, "../src"), path.resolve('src/styles'), path.join(__dirname, '../node_modules')]
+		modules: [path.resolve(__dirname, "../src"), path.resolve('src/styles'), path.join(__dirname, '../node_modules'), 'node_modules']
 	},
 	module: {
 		rules: [
@@ -28,13 +30,17 @@ module.exports = {
 							modules: false,
 							loose: true,
 							targets: {
-								chrome: 61
+								chrome: 66
 							}}],
-						'@babel/stage-1',
+						['@babel/stage-1', { "decoratorsLegacy": true }]
 					],
 					plugins: ['@babel/proposal-optional-chaining']
 				}}]
 			},
+			{
+        test: /\.jade$/,
+        loader: 'pug-plain-loader'
+      },
 			{ test: /\.html$/, use: ['vue-html-loader'] },
 			{test: /\.svg(\?.*)?/, use: [{
 				loader: 'svg-url-loader',
@@ -61,19 +67,6 @@ module.exports = {
 		]
 	},
 	plugins: [
-		new stylusLoader.OptionsPlugin({
-			default: {
-				use: [require('nib')(), require('rupture')(), require('autoprefixer-stylus')(), require('buntpapier/stylus')()]
-			},
-		}),
-		// needed for style tags in vue
-		new webpack.LoaderOptionsPlugin({
-			test: /\.vue$/,
-			stylus: {
-				default: {
-					use: [require('nib')(), require('rupture')(), require('autoprefixer-stylus')(), require('buntpapier/stylus')()]
-				}
-			},
-		}),
+		new VueLoaderPlugin(),
 	]
 }

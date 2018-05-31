@@ -9,35 +9,36 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var CompressionWebpackPlugin = require('compression-webpack-plugin')
 var CleanWebpackPlugin = require('clean-webpack-plugin')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const UglifyPlugin = require('uglifyjs-webpack-plugin')
 
 var webpackConfig = merge(baseWebpackConfig, {
+	mode: 'production',
+	devtool: 'source-map',
 	resolve: {
 		alias: {
-			'config': path.resolve(projectRoot, process.env.TARGET == 'production' ? 'config.prod.js' : 'config.stage.js'),
+			'config': path.resolve(projectRoot, 'config.prod.js'),
 		}
 	},
-	devtool: '#source-map',
 	module: {
 		rules: [
 			{ test: /\.vue$/, use: [{
 				loader:'vue-loader',
-				options: {
-					loaders: {
-						stylus: ExtractTextPlugin.extract({
-							use: ['css-loader', 'stylus-loader'],
-							fallback: 'vue-style-loader'
-						})
-					}
-				}
 			}]},
-			{ test: /\.css$/, use: ExtractTextPlugin.extract({
-				fallback: 'style-loader',
-				use: 'css-loader'
-			})},
-			{ test: /\.styl$/, use: ExtractTextPlugin.extract({
-				fallback: 'style-loader',
-				use: ['css-loader', 'stylus-loader']
-			})}
+			{ test: /\.css$/, use: [
+				MiniCssExtractPlugin.loader,
+				"css-loader"
+			]},
+			{ test: /\.styl|\.stylus$/, use: [
+				MiniCssExtractPlugin.loader,
+				'css-loader',
+				{
+					loader: 'stylus-loader',
+					options: {
+						use: [require('rupture')(), require('buntpapier/stylus')()],
+					},
+				},
+			]}
 		]
 	},
 	output: {
@@ -45,21 +46,73 @@ var webpackConfig = merge(baseWebpackConfig, {
 		chunkFilename: utils.assetsPath('js/[id].[chunkhash].js'),
 		sourceMapFilename: '[file].map.js',
 	},
+	optimization: {
+		runtimeChunk: true,
+		splitChunks: {
+			chunks: 'all',
+			cacheGroups: {
+				commons: {
+					test: /[\\/]node_modules[\\/]/,
+					name: "vendors",
+					chunks: "all"
+				}
+			}
+		},
+		minimizer: [
+			new UglifyPlugin({
+				uglifyOptions: {
+					compress: {
+						// turn off flags with small gains to speed up minification
+						arrows: false,
+						collapse_vars: false, // 0.3kb
+						comparisons: false,
+						computed_props: false,
+						hoist_funs: false,
+						hoist_props: false,
+						hoist_vars: false,
+						inline: false,
+						loops: false,
+						negate_iife: false,
+						properties: false,
+						reduce_funcs: false,
+						reduce_vars: false,
+						switches: false,
+						toplevel: false,
+						typeofs: false,
+
+						// a few flags with noticable gains/speed ratio
+						// numbers based on out of the box vendor bundle
+						booleans: true, // 0.7kb
+						if_return: true, // 0.4kb
+						sequences: true, // 0.7kb
+						unused: true, // 2.3kb
+
+						// required features to drop conditional branches
+						conditionals: true,
+						dead_code: true,
+						evaluate: true
+					},
+					mangle: {
+						safari10: true
+					}
+				},
+				sourceMap: true,
+				cache: true,
+				parallel: true
+			})
+		]
+	},
 	plugins: [
-		// new CleanWebpackPlugin(['dist'], {root: path.resolve(__dirname, '../')}),
 		new webpack.DefinePlugin({
 			'ENV_DEVELOPMENT': false,
 			'process.env': {
 				NODE_ENV: '"production"'
 			},
 		}),
-		new webpack.optimize.UglifyJsPlugin({
-			sourceMap: true
-		}),
 		// extract css into its own file
-		new ExtractTextPlugin({
-			filename: utils.assetsPath('css/[name].[contenthash].css'),
-			allChunks: true
+		new MiniCssExtractPlugin({
+			filename: utils.assetsPath('css/[name].[chunkhash].css'),
+			chunkFilename:  utils.assetsPath('css/[name].[chunkhash].css')
 		}),
 		// generate dist index.html with correct asset hash for caching.
 		// you can customize output by editing /index.html
@@ -76,26 +129,6 @@ var webpackConfig = merge(baseWebpackConfig, {
 			},
 			// necessary to consistently work with multiple chunks via CommonsChunkPlugin
 			chunksSortMode: 'dependency'
-		}),
-		// split vendor js into its own file
-		new webpack.optimize.CommonsChunkPlugin({
-			name: 'vendor',
-			minChunks: function (module, count) {
-				// any required modules inside node_modules are extracted to vendor
-				return (
-					module.resource &&
-					/\.js$/.test(module.resource) &&
-					module.resource.indexOf(
-						path.join(__dirname, '../node_modules') 
-					) === 0
-				)
-			}
-		}),
-		// extract webpack runtime and module manifest to its own file in order to
-		// prevent vendor hash from being updated whenever app bundle is updated
-		new webpack.optimize.CommonsChunkPlugin({
-			name: 'manifest',
-			chunks: ['vendor']
 		}),
 		new CompressionWebpackPlugin({
 			asset: '[path].gz[query]',

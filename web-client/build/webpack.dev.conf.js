@@ -11,11 +11,21 @@ Object.keys(baseWebpackConfig.entry).forEach(function (name) {
 })
 
 module.exports = merge(baseWebpackConfig, {
+	mode: 'development',
 	module: {
 		rules: [
 			{ test: /\.vue$/, use: ['vue-loader']},
 			{ test: /\.css$/, use: ['style-loader','css-loader'] },
-			{ test: /\.styl$/, use: ['style-loader','css-loader', 'stylus-loader'] }
+			{ test: /\.styl|\.stylus$/, use: [
+				'vue-style-loader',
+				'css-loader',
+				{
+					loader: 'stylus-loader',
+					options: {
+						use: [require('rupture')(), require('buntpapier/stylus')()],
+					},
+				},
+			] }
 		]
 	},
 	resolve: {
@@ -23,8 +33,9 @@ module.exports = merge(baseWebpackConfig, {
 			'config': path.resolve(projectRoot, 'config.dev.js'),
 		}
 	},
-	// eval-source-map is faster for development
-	devtool: '#source-map',
+	output: {
+		pathinfo: true
+	},
 	plugins: [
 		new webpack.DefinePlugin({
 			'ENV_DEVELOPMENT': true,
