@@ -6,7 +6,7 @@ from decimal import *
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand, CommandError
 from crisp.core.models import Coupon, CouponChange, Customer, ProductGroup, Product, Supplier, Arrival, Sale, SaleItem, ReturnItem
-
+from django.db import transaction
 
 def unfuckNumberLong(perhapsInt):
     if type(perhapsInt) is int:
@@ -21,6 +21,7 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('folder', nargs='+')
 
+    @transaction.atomic
     def handle(self, *args, **options):
         folder = options['folder'][0]
         self.loadUsers(folder)
