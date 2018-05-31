@@ -1,6 +1,6 @@
 import config from 'config'
 import querystring from 'querystring'
-
+import io from 'lib/api/io'
 const BASE_URL = config.api.baseUrl
 let headers = new Headers()
 headers.append('Content-Type', 'application/json')
@@ -19,6 +19,7 @@ export function cleanQuery (object) {
 }
 
 let api = {
+	io,
 	auth: {
 		authenticated: false,
 		login (username, password) {
