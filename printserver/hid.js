@@ -48,7 +48,6 @@ const hid = {
 		}, THANKS_DELAY)
 	},
 	displayThanks () {
-		const text = formatCurrency(sum)
 		clear()
 		setCursor(0)
 		writeText("    Vielen Dank")
