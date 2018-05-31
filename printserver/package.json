@@ -15,6 +15,7 @@
     "koa": "^2.5.0",
     "koa-bodyparser": "^4.2.0",
     "koa-router": "^7.4.0",
-    "moment": "^2.22.1"
+    "moment": "^2.22.1",
+    "node-hid": "^0.7.2"
   }
 }

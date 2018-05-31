@@ -8,9 +8,11 @@ const router = new Router()
 
 const bonprint = require('./bonprint')
 const labelprint = require('./labelprint')
+const hid = reqire('./hid')
 
 router.post('/print/sale', async (ctx) => {
 	bonprint.print(ctx.request.body)
+	hid.displaySum(ctx.request.body.price)
 	ctx.status = 200
 })
 
