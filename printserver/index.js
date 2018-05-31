@@ -8,7 +8,7 @@ const router = new Router()
 
 const bonprint = require('./bonprint')
 const labelprint = require('./labelprint')
-const hid = reqire('./hid')
+const hid = require('./hid')
 
 router.post('/print/sale', async (ctx) => {
 	bonprint.print(ctx.request.body)
