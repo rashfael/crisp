@@ -40,3 +40,5 @@ tmp/
 
 # Brunch output folder.
 public/
+
+local_settings.py

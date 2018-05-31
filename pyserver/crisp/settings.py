@@ -85,15 +85,6 @@ WSGI_APPLICATION = 'crisp.wsgi.application'
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'crisp',
-        'USER': 'crisp',
-        'PASSWORD': 'crisp',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
-        'ATOMIC_REQUESTS': True
-    }
 }
 
 
@@ -175,3 +166,8 @@ if DEBUG is True:
     #         }
     #     },
     # }
+
+try:
+    from .local_settings import *
+except ImportError as e:
+    print('No local settings found.')
