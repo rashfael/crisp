@@ -11,8 +11,10 @@ nav
 
 		//- ui-switch.toggle-cost(label="EK anzeigen", :value.sync="costVisible")
 		bunt-link-button.to-pos(:to="{name: 'pos'}") Kasse
+	bunt-button.logout(@click="logout") Auslogggen
 </template>
 <script>
+import api from 'lib/api'
 import globals from 'lib/globals'
 
 export default {
@@ -33,6 +35,9 @@ export default {
 			if (this.$route.name.split(':', 1)[0] === id)
 				return // HACK prevent programatic select changing route, see computed.activeTab
 			this.$router.replace({name: id, params: this.$route.params})
+		},
+		logout () {
+			api.auth.logout()
 		}
 	},
 	watch: {
@@ -49,6 +54,8 @@ nav
 	card()
 	height: 48px
 	z-index: 100
+	display: flex
+	padding-left: 64px
 	.nav-inner
 		width 1200px
 		margin 0 auto
@@ -71,5 +78,8 @@ nav
 	.to-pos
 		align-self: center
 		link-button-style(color: $clr-primary)
+
+	.logout
+		align-self: center
 
 </style>

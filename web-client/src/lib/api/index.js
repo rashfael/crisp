@@ -47,6 +47,10 @@ let api = {
 			//
 			// 	response.json()
 			// })
+		},
+		logout () {
+			localStorage.clear()
+			window.location = '/'
 		}
 	},
 	coupons: {
