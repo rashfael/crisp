@@ -18,11 +18,10 @@
 					span.item-amount Menge
 					span.item-sum Summe
 				template(v-for="item in items")
-					coupon-item(v-if="item.type === 'coupon'", :value="item", :subtotal="subtotal")
+					coupon-item(v-if="item.type === 'coupon'", :value="item")
 					sale-item(v-else, :value="item")
 			.finalize
 				.actions
-					bunt-button#btn-add-coupon(@click.native="addCoupon") Neuer Gutschein
 					bunt-button#btn-pay(@click.native="mode = 'pay'") bezahlen
 				.totals
 					.subtotal {{ subtotal | currency }}
@@ -175,9 +174,13 @@ export default {
 					this.items.push(product)
 					break
 				case 'coupon':
+					let price = new Decimal(-1 * Math.max(0, object.changes.reduce((acc, val) => acc += val.value_change, 0)))
+					if (object.id === 101005) {
+						price = new Decimal(0)
+					}
 					const coupon = {
 						type,
-						price: new Decimal(-1 * Decimal.min(object.changes.reduce((acc, val) => acc += val.value_change, 0), this.subtotal)),
+						price,
 						discount: new Decimal(0),
 						amount: 1,
 						coupon: object
@@ -320,7 +323,7 @@ export default {
 					flex: 1
 					align-items: center
 					display: flex
-					justify-content: space-between
+					justify-content: flex-end
 					#btn-pay
 						button-style(color: $clr-success)
 				.totals

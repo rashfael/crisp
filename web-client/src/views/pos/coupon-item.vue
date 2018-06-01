@@ -19,8 +19,7 @@ export default {
 		value: {
 			type: Object,
 			required: true
-		},
-		subtotal: Object
+		}
 	},
 	data () {
 		return {
@@ -35,8 +34,8 @@ export default {
 				if (!this.value.coupon) {
 					this.price = value
 				} else {
-					const couponValue = this.value.coupon.changes.reduce((acc, val) => acc += val.value_change, 0)
-					this.value.price = Decimal.min(couponValue, this.subtotal, value.abs()).mul(-1)
+					const couponValue = Math.max(0, this.value.coupon.changes.reduce((acc, val) => acc += val.value_change, 0))
+					this.value.price = Decimal.min(couponValue, value.abs()).mul(-1)
 				}
 			}
 		},
