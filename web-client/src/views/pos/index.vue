@@ -169,7 +169,8 @@ export default {
 						name: object.name,
 						price: new Decimal(object.sale),
 						discount: new Decimal(0),
-						amount: 1
+						amount: 1,
+						product: object
 					}
 					this.items.push(product)
 					break

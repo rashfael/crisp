@@ -23,7 +23,6 @@ export default {
 	computed: {
 		decimalValue: {
 			get () {
-				console.log('RENDER')
 				return fixedFormat.format(this.value)
 			},
 			set (v) {

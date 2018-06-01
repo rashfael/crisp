@@ -27,11 +27,18 @@ export default {
 	computed: {
 		price: {
 			get () {
+				if (this.value.product && this.value.product.sale === 0) {
+					return this.value.price
+				}
 				return this.value.price.sub(this.value.price.mul(this.value.discount))
 			},
 			set (discountedPrice) {
 				try {
-					this.value.discount = this.value.price.sub(discountedPrice).div(this.value.price)
+					if (this.value.product && this.value.product.sale === 0) {
+						this.value.price = discountedPrice
+					} else {
+						this.value.discount = this.value.price.sub(discountedPrice).div(this.value.price)
+					}
 				} catch (e) {
 
 				}
