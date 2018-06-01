@@ -210,7 +210,7 @@ export default {
 		send () {
 			const saleItems = this.items.filter((item) => item.type === 'product').map((item) => ({
 				product: item.productId,
-				price: item.price.sub(item.price.mul(item.discount)).toDecimalPlaces(2),
+				price: item.price.sub(item.price.mul(item.discount)).mul(item.amount).toDecimalPlaces(2),
 				discount: item.discount.toDecimalPlaces(2),
 				amount: item.amount
 			}))
