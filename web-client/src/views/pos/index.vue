@@ -208,12 +208,16 @@ export default {
 			})
 		},
 		send () {
-			const saleItems = this.items.filter((item) => item.type === 'product').map((item) => ({
-				product: item.productId,
-				price: item.price.sub(item.price.mul(item.discount)).mul(item.amount).toDecimalPlaces(2),
-				discount: item.discount.toDecimalPlaces(2),
-				amount: item.amount
-			}))
+			const saleItems = this.items.filter((item) => item.type === 'product').map((item) => {
+				let price = item.price.sub(item.price.mul(item.discount)).mul(item.amount)
+				price = price.sub(price.mul(this.globalDiscount))
+				return {
+					product: item.productId,
+					price: price.toDecimalPlaces(2),
+					discount: item.discount.toDecimalPlaces(2),
+					amount: item.amount
+				}
+			})
 			const couponItems = this.items.filter((item) => item.type === 'coupon').map((item) => ({
 				coupon: item.couponId || 0,
 				value_change: item.price.toDecimalPlaces(2)
