@@ -51,7 +51,7 @@ class SaleSerializer(serializers.ModelSerializer):
         sale_items_data = validated_data.pop('sale_items')
         return_items_data = validated_data.pop('return_items')
         coupon_items_data = validated_data.pop('coupon_items')
-        sale = Sale.objects.create(**validated_data)
+        sale = Sale.objects.create(user=self.context['request'].user, **validated_data)
         for return_item_data in return_items_data:
             ReturnItem.objects.create(sale=sale, **return_item_data)
         for sale_item_data in sale_items_data:
