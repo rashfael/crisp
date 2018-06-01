@@ -10,14 +10,14 @@
 			tr.total
 				th Gesamt
 				th {{ totals.amount }}
-				th {{ totals.sum/100 | currency }}
+				th {{ totals.sum | currency }}
 			template(v-for="supplier in suppliers")
 				tr.supplier
 					th {{ suppliersMap[supplier.id].name }}
 					th {{ supplier.amount }}
 					th {{ supplier.sum | currency }}
 				tr.product(v-for="product in supplier.products")
-					td: router-link(:to="{name: 'product', params:{id: product.productId}}") {{ product.productId }} {{ product.name }}
+					td: router-link(:to="{name: 'products:product', params:{id: product.productId}}") {{ product.productId }} {{ product.name }}
 					td {{ product.amount }}
 					td {{ product.sum | currency }}
 
@@ -34,7 +34,7 @@ export default {
 	data () {
 		return {
 			startDate: moment().startOf('day'),
-			endDate: moment().startOf('day'),
+			endDate: moment().endOf('day'),
 			suppliers: {},
 			totals: {
 				amount: 0,
@@ -69,6 +69,7 @@ export default {
 					suppliers[supplierId].sum += sum
 					totalAmount += amount
 					totalSum += sum
+					console.log(totalSum)
 				}
 				this.totals.amount = totalAmount
 				this.totals.sum = totalSum
