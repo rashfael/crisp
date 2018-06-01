@@ -202,17 +202,17 @@ export default {
 			}))
 			const couponItems = this.items.filter((item) => item.type === 'coupon').map((item) => ({
 				coupon: item.couponId || 0,
-				value_change: item.price
+				value_change: item.price.toDecimalPlaces(2)
 			}))
 			const returnItems = this.items.filter((item) => item.type === 'return').map((item) => ({
 				returned_item: item.returnedItemId,
-				price: item.price,
+				price: item.price.toDecimalPlaces(2),
 				amount: item.amount
 			}))
 			api.sales.create({
 				customer: this.customer ? this.customer.id : 1,
-				price: this.total,
-				discount: this.globalDiscount,
+				price: this.total.toDecimalPlaces(2),
+				discount: this.globalDiscount.toDecimalPlaces(2),
 				payment_method: this.paymentMethod,
 				sale_items: saleItems,
 				coupon_items: couponItems,
