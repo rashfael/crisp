@@ -18,7 +18,7 @@
 					span.item-amount Menge
 					span.item-sum Summe
 				template(v-for="item in items")
-					coupon-item(v-if="item.type === 'coupon'", :value="item")
+					coupon-item(v-if="item.type === 'coupon'", :value="item", :subtotal="subtotal")
 					sale-item(v-else, :value="item")
 			.finalize
 				.actions
@@ -174,9 +174,19 @@ export default {
 					}
 					this.items.push(product)
 					break
+				case 'coupon':
+					const coupon = {
+						type,
+						price: new Decimal(-1 * Decimal.min(object.changes.reduce((acc, val) => acc += val.value_change, 0), this.subtotal)),
+						discount: new Decimal(0),
+						amount: 1,
+						coupon: object
+					}
+					this.items.push(coupon)
+					break
 				case 'customer':
 					this.customer = object
-					this.globalDiscount = new Decimal(0.05)
+					this.globalDiscount = object.id === 1 ? new Decimal(0) : new Decimal(0.05)
 					break
 				case 'sale':
 					this.$set(this, 'returnSale', object)

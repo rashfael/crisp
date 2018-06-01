@@ -2,7 +2,7 @@
 .item.coupon-item
 	.article-id
 	.article-name Gutschein
-	cell-decimal-input.item-price(name="item-price", v-model="value.price")
+	cell-decimal-input.item-price(name="item-price", v-model="price")
 	.item-discount –
 	.item-amount –
 	input.item-sum(name="item-sum", :value="sum", :readonly="true")
@@ -19,13 +19,27 @@ export default {
 		value: {
 			type: Object,
 			required: true
-		}
+		},
+		subtotal: Object
 	},
 	data () {
 		return {
 		}
 	},
 	computed: {
+		price: {
+			get () {
+				return this.value.price
+			},
+			set (value) {
+				if (!this.value.coupon) {
+					this.price = value
+				} else {
+					const couponValue = this.value.coupon.changes.reduce((acc, val) => acc += val.value_change, 0)
+					this.value.price = Decimal.min(couponValue, this.subtotal, value.abs()).mul(-1)
+				}
+			}
+		},
 		sum: {
 			get () {
 				return priceFormat.format(this.value.price)
