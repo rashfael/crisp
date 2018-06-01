@@ -1,5 +1,5 @@
 <template lang="jade">
-form.details-edit
+form.details-edit(autocomplete="off")
 	bunt-input(v-if="!isNew", name="id", :value="customer.id", label="Kundennummer", :readonly="true")
 	bunt-input(name="name", v-model="customer.name", label="Name")
 	bunt-input(name="name2", v-model="customer.forename", label="Vorname")

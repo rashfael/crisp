@@ -1,5 +1,5 @@
 <template lang="jade">
-form.supplier-details-edit.details-edit
+form.supplier-details-edit.details-edit(autocomplete="off", )
 	//- bunt-input(name="_id", v-model="supplier._id", label="Lieferantennummer", :disabled="!isNew")
 	bunt-input(name="name", v-model="supplier.name", label="Name")
 	bunt-input(name="name2", v-model="supplier.name2", label="Name2")

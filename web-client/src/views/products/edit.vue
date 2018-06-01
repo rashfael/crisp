@@ -1,5 +1,5 @@
 <template lang="jade">
-form.details-edit(v-scrollbar.y="")
+form.details-edit(autocomplete="off", v-scrollbar.y="")
 	.product-id
 		bunt-input(name="_id", v-model="product.id", label="Artikelnummer", :disabled="!isNew || autogenerate")
 		bunt-switch(v-if="isNew", name="autogenerate", v-model="autogenerate", label="Generieren")
