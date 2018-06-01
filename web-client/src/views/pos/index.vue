@@ -59,7 +59,7 @@
 			h1 {{ total | currency }} €
 		.actions
 			bunt-button#pay-bar(icon="attach_money", :class="{active: paymentMethod === 'cash'}", @click.native="paymentMethod = 'cash'") bar
-			bunt-button#pay-ec(icon="credit_card", :class="{active: paymentMethod === 'card'}", @click.native="paymentMethod = 'ec'") ec
+			bunt-button#pay-ec(icon="credit_card", :class="{active: paymentMethod === 'ec'}", @click.native="paymentMethod = 'ec'") ec
 		.actions
 			bunt-button#pay-final(@click.native="send", :disabled="!paymentMethod") Bezahlt
 	.mode-postpay(v-if="mode === 'postpay'")
