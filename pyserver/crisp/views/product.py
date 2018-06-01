@@ -33,7 +33,8 @@ class SingleProductSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = "__all__"
+        fields = ('id', 'name', 'product_group', 'supplier', 'supplier_product_id', 'printerline1', 'printerline2', 'cost', 'sale')
+    id = serializers.CharField(required=False, allow_null=True)
 
     def create(self, validated_data):
         if 'id' not in validated_data:
