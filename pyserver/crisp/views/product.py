@@ -34,7 +34,6 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = "__all__"
-        read_only_fields = ('id',)
 
     def create(self, validated_data):
         if 'id' not in validated_data:
@@ -43,7 +42,6 @@ class ProductSerializer(serializers.ModelSerializer):
             lowerIndex = 0
             id = None
             while candidate < 999999 and lowerIndex < len(ids):  # die at max id
-                print(candidate, lowerIndex)
                 if len(ids[lowerIndex]['id']) != 6:  # discard non-barcode ids
                     lowerIndex += 1
                     continue
