@@ -1,5 +1,5 @@
 <template lang="jade">
-form.details-edit
+form.details-edit(v-scrollbar.y="")
 	.product-id
 		bunt-input(name="_id", v-model="product.id", label="Artikelnummer", :disabled="!isNew || autogenerate")
 		bunt-switch(v-if="isNew", name="autogenerate", v-model="autogenerate", label="Generieren")
@@ -52,7 +52,7 @@ export default {
 		},
 		submit () {
 			let navigate = (product) =>
-				this.$router.push({name: 'products:product', params: {id: product._id}})
+				this.$router.push({name: 'products:product', params: {id: product.id}})
 			if (this.isNew) {
 				if (this.product.id === '' || this.autogenerate) {
 					this.product.id = undefined
