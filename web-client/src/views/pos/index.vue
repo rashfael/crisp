@@ -17,9 +17,8 @@
 					span.item-discount Rabatt
 					span.item-amount Menge
 					span.item-sum Summe
-				template(v-for="item in items")
-					coupon-item(v-if="item.type === 'coupon'", :value="item")
-					sale-item(v-else, :value="item")
+				sale-item(v-for="item in items", :value="item")
+				coupon-item(v-for="coupon in coupons", :value="coupon")
 			.finalize
 				.actions
 					bunt-button#btn-pay(@click.native="mode = 'pay'") bezahlen
@@ -99,6 +98,7 @@ export default {
 			customer: null,
 			returnSale: null,
 			items: [],
+			coupons: [],
 			globalDiscount: new Decimal(0),
 			paymentMethod: null,
 			postpaySale: null
@@ -111,12 +111,17 @@ export default {
 			}, new Decimal(0))
 		},
 		total () {
-			return this.subtotal.sub(this.subtotal.mul(this.globalDiscount))
+			return this.subtotal.sub(this.subtotal.mul(this.globalDiscount)).add(this.couponTotal)
+		},
+		couponTotal () {
+			return this.coupons.reduce((acc, item) => {
+				return acc.add(item.price.sub(item.price.mul(item.discount)).mul(item.amount))
+			}, new Decimal(0))
 		},
 		newCoupons () {
 			if (!this.postpaySale) return []
 			return this.postpaySale.coupon_items.filter((item) => item.value_change > 0)
-		}
+		},
 	},
 	created () {},
 	mounted () {
@@ -185,7 +190,7 @@ export default {
 						amount: 1,
 						coupon: object
 					}
-					this.items.push(coupon)
+					this.coupons.push(coupon)
 					break
 				case 'customer':
 					this.customer = object
@@ -200,7 +205,7 @@ export default {
 			}
 		},
 		addCoupon () {
-			this.items.push({
+			this.coupons.push({
 				type: 'coupon',
 				price: new Decimal(0),
 				discount: new Decimal(0),
@@ -218,7 +223,7 @@ export default {
 					amount: item.amount
 				}
 			})
-			const couponItems = this.items.filter((item) => item.type === 'coupon').map((item) => ({
+			const couponItems = this.coupons.map((item) => ({
 				coupon: item.couponId || 0,
 				value_change: item.price.toDecimalPlaces(2)
 			}))
