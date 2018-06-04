@@ -1,5 +1,5 @@
 <template lang="jade">
-form.supplier-details-edit.details-edit(autocomplete="off", )
+form.supplier-details-edit.details-edit(autocomplete="off", v-scrollbar.y="")
 	//- bunt-input(name="_id", v-model="supplier._id", label="Lieferantennummer", :disabled="!isNew")
 	bunt-input(name="name", v-model="supplier.name", label="Name")
 	bunt-input(name="name2", v-model="supplier.name2", label="Name2")
@@ -11,8 +11,8 @@ form.supplier-details-edit.details-edit(autocomplete="off", )
 	bunt-input(name="fax", v-model="supplier.fax", label="Fax")
 	bunt-input(name="email", v-model="supplier.email", label="Email")
 	bunt-input(name="notes", v-model="supplier.notes", label="Notizen")
-
-	bunt-button#save(@click.native="submit") Speichern
+	.actions
+		bunt-button#save(@click.native="submit") Speichern
 </template>
 <script>
 import api from 'lib/api'
@@ -44,5 +44,5 @@ export default {
 <style lang="stylus">
 .supplier-details-edit
 	max-width: 420px
-	margin: 36px 0 0 36px
+	margin: 36px 0 36px 36px
 </style>

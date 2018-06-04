@@ -63,7 +63,4 @@ export default {
 			active-color: $clr-primary-text-light,
 			indicator-color: $crisp-primary
 		)
-
-	.content
-		padding: 16px 64px
 </style>

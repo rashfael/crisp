@@ -1,5 +1,5 @@
 <template lang="jade">
-form.details-edit(autocomplete="off")
+form.customer-details-edit.details-edit(autocomplete="off", v-scrollbar.y="")
 	bunt-input(v-if="!isNew", name="id", :value="customer.id", label="Kundennummer", :readonly="true")
 	bunt-input(name="name", v-model="customer.name", label="Name")
 	bunt-input(name="name2", v-model="customer.forename", label="Vorname")
@@ -11,8 +11,8 @@ form.details-edit(autocomplete="off")
 	bunt-input(name="birthday", v-model="customer.birthday", label="Geburtstag")
 	bunt-input(v-if="!isNew", name="customerSince", v-model="customer.customerSince", label="Kunde seit")
 	bunt-input(name="notes", v-model="customer.notes", label="Notizen")
-
-	bunt-button#save(@click.native="submit") Speichern
+	.actions
+		bunt-button#save(@click.native="submit") Speichern
 </template>
 <script>
 import api from 'lib/api'
@@ -25,11 +25,11 @@ export default {
 			default: false
 		}
 	},
-	data() {
+	data () {
 		return {}
 	},
 	methods: {
-		submit() {
+		submit () {
 			let navigate = (customer) =>
 				this.$router.push({name: 'customers:customer', params: {id: customer.id}})
 			if(this.isNew)
@@ -42,4 +42,7 @@ export default {
 }
 </script>
 <style lang="stylus">
+.customer-details-edit
+	max-width: 420px
+	margin: 36px 0 36px 36px
 </style>

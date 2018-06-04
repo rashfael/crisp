@@ -6,7 +6,7 @@
 		bunt-tab(header="Details", id="products:product", @selected="tabSelected")
 		bunt-tab(header="Lager", id="products:arrivals", @selected="tabSelected")
 		bunt-tab(header="Historie", id="products:history", @selected="tabSelected")
-	router-view(:product="product")
+	router-view.content(:product="product")
 
 </template>
 <script>
@@ -47,9 +47,6 @@ export default {
 			active-color: $clr-primary-text-light,
 			indicator-color: $crisp-primary
 		)
-
-	.content
-		padding: 16px 64px
 
 	.print
 		button-style(color: $clr-primary)

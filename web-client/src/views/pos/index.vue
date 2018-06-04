@@ -11,14 +11,15 @@
 		.item-pane
 			.items
 				.item-header
+					span.actions
 					span.article-id #
 					span.article-name Beschreibung
 					span.item-price Preis
 					span.item-discount Rabatt
 					span.item-amount Menge
 					span.item-sum Summe
-				sale-item(v-for="item in items", :value="item")
-				coupon-item(v-for="coupon in coupons", :value="coupon")
+				sale-item(v-for="item in items", :value="item", @remove="removeItem(items, item)")
+				coupon-item(v-for="coupon in coupons", :value="coupon", @remove="removeItem(coupons, coupon)")
 			.finalize
 				.actions
 					bunt-button#btn-pay(@click.native="mode = 'pay'") bezahlen
@@ -111,7 +112,10 @@ export default {
 			}, new Decimal(0))
 		},
 		total () {
-			return this.subtotal.sub(this.subtotal.mul(this.globalDiscount)).add(this.couponTotal)
+			// don't discount already discounted items
+			return this.items.reduce((acc, item) => {
+				return acc.add(item.price.sub(item.price.mul(item.discount.isZero() ? this.globalDiscount : item.discount)).mul(item.amount))
+			}, new Decimal(0)).add(this.couponTotal)
 		},
 		couponTotal () {
 			return this.coupons.reduce((acc, item) => {
@@ -212,10 +216,15 @@ export default {
 				amount: 1
 			})
 		},
+		removeItem (list, item) {
+			const index = list.indexOf(item)
+			if (index >= 0) {
+				list.splice(index, 1)
+			}
+		},
 		send () {
 			const saleItems = this.items.filter((item) => item.type === 'product').map((item) => {
-				let price = item.price.sub(item.price.mul(item.discount)).mul(item.amount)
-				price = price.sub(price.mul(this.globalDiscount))
+				let price = item.price.sub(item.price.mul(item.discount.isZero() ? this.globalDiscount : item.discount)).mul(item.amount)
 				return {
 					product: item.productId,
 					price: price.toDecimalPlaces(2),
@@ -305,6 +314,16 @@ export default {
 			align-items: center
 			border-bottom: 2px solid $clr-dividers-light
 
+		.actions
+			width: 52px
+			display: flex
+			.bunt-icon-button
+				height: 48px
+				width: @height
+				icon-button-style()
+
+				.bunt-icon
+					font-size: 32px
 
 		.article-id
 			flex: 0 0 136px

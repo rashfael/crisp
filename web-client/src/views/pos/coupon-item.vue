@@ -1,5 +1,7 @@
 <template lang="jade">
 .item.coupon-item
+	.actions
+		bunt-icon-button(@click="$emit('remove')") close
 	.article-id
 	.article-name Gutschein
 	cell-decimal-input.item-price(name="item-price", v-model="price")

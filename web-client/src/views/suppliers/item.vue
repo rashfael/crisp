@@ -1,10 +1,10 @@
 <template lang="jade">
-.supplier-details(v-scrollbar.y="")
+.supplier-details.details(v-scrollbar.y="")
 	h2 {{ supplier.name }}
 	bunt-tabs(:active-tab="this.$route.name")
 		bunt-tab(header="Details", id="suppliers:supplier", @selected="tabSelected")
 		bunt-tab(header="Historie", id="suppliers:history", @selected="tabSelected")
-	router-view(:supplier="supplier")
+	router-view.content(:supplier="supplier")
 </template>
 <script>
 import api from 'lib/api'

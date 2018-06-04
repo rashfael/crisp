@@ -1,5 +1,7 @@
 <template lang="jade">
 .item
+	.actions
+		bunt-icon-button(@click="$emit('remove')") close
 	.article-id {{ value.productId }}
 	.article-name {{ value.name }}
 	cell-decimal-input.item-price(name="item-price", v-model="price", :fixed="2")
@@ -8,7 +10,6 @@
 	input.item-sum(name="item-sum", :value="sum")
 </template>
 <script>
-import Decimal from 'decimal.js'
 import CellDecimalInput from './cell-decimal-input'
 const priceFormat = new Intl.NumberFormat('de-DE', {minimumFractionDigits: 2, maximumFractionDigits: 2})
 
@@ -27,14 +28,11 @@ export default {
 	computed: {
 		price: {
 			get () {
-				if (this.value.product && this.value.product.sale === 0) {
-					return this.value.price
-				}
 				return this.value.price.sub(this.value.price.mul(this.value.discount))
 			},
 			set (discountedPrice) {
 				try {
-					if (this.value.product && this.value.product.sale === 0) {
+					if (this.value.price.isZero() && this.value.product && this.value.product.sale === 0) {
 						this.value.price = discountedPrice
 					} else {
 						this.value.discount = this.value.price.sub(discountedPrice).div(this.value.price)

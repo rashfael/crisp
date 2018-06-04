@@ -78,8 +78,12 @@ class SaleView(viewsets.ModelViewSet):
     def statistics(self, request, pk=None):
         start = request.query_params['start']
         end = request.query_params['end']
+        totals = Sale.objects.filter(date__range=[start, end]).aggregate(Sum('price'))
         stats = SaleItem.objects.filter(sale__date__range=[start, end]).values('product__id', 'product__name', 'product__supplier__id').annotate(Sum('price'), Sum('amount'))
-        return Response(stats)
+        return Response({
+            'totals': totals,
+            'sales': stats
+        })
         # product = self.get_object()
         # serializer = ArrivalSerializer(data=request.data)
         # if serializer.is_valid():

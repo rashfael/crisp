@@ -1,5 +1,5 @@
 <template lang="jade">
-form.details-edit(autocomplete="off", v-scrollbar.y="")
+form.product-details-edit.details-edit(autocomplete="off", v-scrollbar.y="")
 	.product-id
 		bunt-input(name="_id", v-model="product.id", label="Artikelnummer", :disabled="!isNew || autogenerate")
 		bunt-switch(v-if="isNew", name="autogenerate", v-model="autogenerate", label="Generieren")
@@ -11,9 +11,9 @@ form.details-edit(autocomplete="off", v-scrollbar.y="")
 	bunt-input(name="printerline2", v-model="product.printerline2", label="Druckzeile 2")
 	decimal-input(name="cost", v-model="product.cost", label="EK", :fixed="2")
 	decimal-input(name="sale", v-model="product.sale", label="VK", :fixed="2")
-
-	bunt-button#save(@click.native="submit") Speichern
-	bunt-button.print(@click="printLabel") Drucken
+	.actions
+		bunt-button#save(@click.native="submit") Speichern
+		bunt-button.print(@click="printLabel") Drucken
 
 </template>
 <script>
@@ -35,7 +35,7 @@ export default {
 			default: false
 		}
 	},
-	data() {
+	data () {
 		return {
 			humanize,
 			autogenerate: false
@@ -69,12 +69,7 @@ export default {
 }
 </script>
 <style lang="stylus">
-.product-new form
-	width: 520px
-	.product-id
-		display: flex
-		align-items: center
-
-		.bunt-switch
-			margin-left: 16px
+.product-details-edit
+	max-width: 420px
+	margin: 36px 0 36px 36px
 </style>

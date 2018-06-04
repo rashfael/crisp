@@ -55,8 +55,7 @@ export default {
 			api.statistics.profit(this.startDate, this.endDate).then((data) => {
 				let suppliers = {}
 				let totalAmount = 0
-				let totalSum = 0
-				for (let supplierArticle of data) {
+				for (let supplierArticle of data.sales) {
 					let supplierId = supplierArticle.product__supplier__id
 					let productId = supplierArticle.product__id
 					let name = supplierArticle.product__name
@@ -68,11 +67,9 @@ export default {
 					suppliers[supplierId].amount += amount
 					suppliers[supplierId].sum += sum
 					totalAmount += amount
-					totalSum += sum
-					console.log(totalSum)
 				}
 				this.totals.amount = totalAmount
-				this.totals.sum = totalSum
+				this.totals.sum = data.totals.price__sum
 				this.suppliers = suppliers
 			})
 		}
