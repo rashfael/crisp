@@ -2,7 +2,7 @@
 #sales.index(v-if="sales")
 	.toolbar
 		.actions
-			form.search
+			form.search(@submit.prevent)
 				label(for='search'): i.material-icons search
 				bunt-input#search(name="search", :value="search", @input="onSearch")
 	.list

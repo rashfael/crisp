@@ -8,16 +8,19 @@ form.customer-details-edit.details-edit(autocomplete="off", v-scrollbar.y="")
 	bunt-input(name="place", v-model="customer.place", label="Ort")
 	bunt-input(name="tel", v-model="customer.tel", label="Telefon")
 	bunt-input(name="email", v-model="customer.email", label="Email")
-	bunt-input(name="birthday", v-model="customer.birthday", label="Geburtstag")
-	bunt-input(v-if="!isNew", name="customerSince", v-model="customer.customerSince", label="Kunde seit")
-	bunt-input(name="notes", v-model="customer.notes", label="Notizen")
+	datepicker(name="birthday", v-model="customer.birthday", label="Geburtstag")
+	bunt-input(v-if="!isNew", name="customerSince", v-model="customer.customer_since", label="Kunde seit", :readonly="true")
+	textarea(name="notes", v-model="customer.notes", label="Notizen")
 	.actions
 		bunt-button#save(@click.native="submit") Speichern
 </template>
 <script>
+import moment from 'moment'
 import api from 'lib/api'
+import Datepicker from 'components/datepicker'
 
 export default {
+	components: { Datepicker },
 	props: {
 		customer: Object,
 		isNew: {
@@ -32,11 +35,15 @@ export default {
 		submit () {
 			let navigate = (customer) =>
 				this.$router.push({name: 'customers:customer', params: {id: customer.id}})
-			if(this.isNew)
-				api.customers.create(this.customer).then(navigate)
+			const customer = Object.assign({}, this.customer)
+			customer.birthday = customer.birthday.format('YYYY-MM-DD')
+			if (this.isNew)
+				api.customers.create(customer).then(navigate)
 			else
-				api.customers.update(this.customer).then((customer) => this.customer = customer)
-
+				api.customers.update(customer).then((customer) => {
+					customer.birthday = moment(customer.birthday)
+					this.customer = customer
+				})
 		}
 	}
 }
@@ -45,4 +52,10 @@ export default {
 .customer-details-edit
 	max-width: 420px
 	margin: 36px 0 36px 36px
+
+	textarea
+		flex-shrink: 0
+		height: 360px
+		width: 410px
+		margin-bottom: 8px
 </style>

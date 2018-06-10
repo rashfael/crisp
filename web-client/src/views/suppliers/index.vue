@@ -3,7 +3,7 @@
 	.toolbar
 		.actions
 			router-link(:to="{name: 'suppliers:new'}").new Neuer Lieferant
-			form.search(@submit.prevent='loadItems')
+			form.search(@submit.prevent)
 				label(for='search'): i.material-icons search
 				bunt-input#search(name="search", v-model="search")
 	.list

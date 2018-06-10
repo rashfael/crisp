@@ -23,12 +23,13 @@
 //- 					td {{ item.discount | percentage }}
 </template>
 <script>
+import moment from 'moment'
 import api from 'lib/api'
 import Edit from './edit'
 
 export default {
 	components: {Edit},
-	data() {
+	data () {
 		return {
 			customer: {},
 			history: []
@@ -36,6 +37,7 @@ export default {
 	},
 	created () {
 		api.customers.get(this.$route.params.id).then((customer) => {
+			customer.birthday = moment(customer.birthday)
 			this.customer = customer
 		})
 	},

@@ -7,7 +7,11 @@
 				.customer-name
 					i.material-icons account_circle
 					span {{ customer ? customer.forename + ' ' + customer.name : 'Laufkunde' }}
-				p.customer-notes(v-if="customer") {{ customer.notes }}
+				template(v-if="customer")
+
+					p.customer-address {{ customer.street }} {{ customer.zip }} {{ customer.place }}
+					p.customer-notes {{ customer.notes }}
+					bunt-button(@click="deselectCustomer") kunde entfernen
 		.item-pane
 			.items
 				.item-header
@@ -276,6 +280,10 @@ export default {
 				this.items.push(returnItem)
 			}
 			this.mode = 'scan'
+		},
+		deselectCustomer () {
+			this.customer = null
+			this.globalDiscount = new Decimal(0)
 		},
 		resetState () {
 			Object.assign(this.$data, this.$options.data())

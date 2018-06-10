@@ -3,7 +3,7 @@
 	.toolbar
 		.actions
 			router-link(:to="{name: 'products:new'}").new Neuer Artikel
-			form.search
+			form.search(@submit.prevent="navigateSearch = true")
 				label(for='search'): i.material-icons search
 				bunt-input#search(name="search", :value="search", @input="onSearch")
 	.list
@@ -36,13 +36,14 @@ import globals from 'lib/globals'
 
 export default {
 	components: {InfiniteScroll},
-	data() {
+	data () {
 		return {
 			globals,
 			products: null,
 			loading: true,
 			next: null,
-			search: ''
+			search: '',
+			navigateSearch: true
 		}
 	},
 	created () {
@@ -68,11 +69,15 @@ export default {
 		onSearch (value) {
 			this.search = value
 			this.loading = true
+			this.navigateSearch = false
 			this.$refs.list.scrollTop = 0
 			api.products.list(this.search).then((response) => {
 				this.products = response.results
 				this.next = response.next
 				this.loading = false
+				if (this.navigateSearch && this.products.length === 1) {
+					this.$router.push({name: 'products:product', params: {id: this.products[0].id}})
+				}
 			})
 		}
 	}

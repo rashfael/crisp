@@ -3,12 +3,13 @@
 	edit(:customer="customer", :is-new="true")
 </template>
 <script>
-import api from 'lib/api'
+import moment from 'moment'
+
 import Edit from './edit'
 
 export default {
 	components: {Edit},
-	data() {
+	data () {
 		return {
 			customer: {
 				id: '',
@@ -19,7 +20,7 @@ export default {
 				place: '',
 				tel: '',
 				email: '',
-				birthday: '',
+				birthday: moment(),
 				customerSince: '',
 				notes: ''
 			}

@@ -3,7 +3,7 @@
 	.toolbar
 		.actions
 			router-link(:to="{name: 'customers:new'}").new Neuer Kunde
-			form.search
+			form.search(@submit.prevent)
 				label(for='search'): i.material-icons search
 				bunt-input#search(name="search", :value="search", @input="onSearch")
 	.list
