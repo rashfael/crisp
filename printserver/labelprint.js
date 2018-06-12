@@ -7,7 +7,7 @@ module.exports = {
 		let content = 'ZT\nD15\nS0\nN\n'
 		content += `A330,15,0,3,1,1,N,"${product.printerline1}"\n`
 		content += `A330,50,0,3,1,1,N,"${product.printerline2}"\n`
-		content += `A330,93,0,3,1,1,N,"${product.price.toFixed(2).replace('.', ',')}"\n`
+		content += `A330,93,0,3,1,1,N,"${product.sale.toFixed(2).replace('.', ',')}"\n`
 		content += `B600,15,0,3,2,4,75,B,"${product.id}"\n`
 		content += `P1\n`
 
