@@ -1,5 +1,5 @@
 <template lang="jade">
-.sale-details
+.sale-details(v-if="sale")
 	.details-data
 		table
 			tbody
@@ -28,16 +28,16 @@
 				tr
 					th ProduktId
 					th Name
-					th Betrag
 					th Rabatt
 					th Anzahl
+					th Betrag
 			tbody
 				tr(v-for="item in sale.sale_items")
-					td: a(v-link="'/products/'+item.product") {{ item.product }}
+					td: router-link(:to="{name: 'products:product', params: {id: item.product}}") {{ item.product }}
 					td {{ item.product_name }}
-					td {{ item.price | currency }}
 					td {{ item.discount | percentage }}
-					td {{ item.amount }}
+					td {{ item.price | currency }}
+
 
 		h2 Gutscheine
 		table.coupons
@@ -46,19 +46,25 @@
 					th Gutscheinnummer
 					th Wertänderung
 			tbody
-				tr(v-for="item in sale.coupons")
-					td: a(v-link="'/coupons/'+item.couponId") {{ item.couponId} }
-					td {{ item.valuechange | currency }}
+				tr(v-for="item in sale.coupon_items")
+					td: router-link(:to="{name: 'coupons:coupon', params: {id: item.coupon}}") {{ item.coupon }}
+					td {{ item.value_change | currency }}
 
 		h2 Rückgaben
 		table.returns
 			thead
 				tr
 					th Bonnummer
+					th ProduktId
+					th Name
+					th Anzahl
 					th Betrag
 			tbody
-				tr(v-for="item in sale.returns")
-					td: a(v-link="'/sales/'+item.saleId") {{ item.saleId }}
+				tr(v-for="item in sale.return_items")
+					td: router-link(:to="{name: 'sales:sale', params: {id: item.sale}}") {{ item.sale }}
+					td: router-link(:to="{name: 'products:product', params: {id: item.product}}") {{ item.product }}
+					td {{ item.product_name }}
+					td {{ item.amount }}
 					td {{ item.price | currency }}
 
 </template>

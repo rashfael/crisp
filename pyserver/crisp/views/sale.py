@@ -30,7 +30,16 @@ class SaleItemSerializer(serializers.ModelSerializer):
 class ReturnItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReturnItem
-        fields = ('returned_item', 'price', 'amount')
+        fields = ('returned_item', 'price', 'amount', 'sale', 'product', 'product_name')
+
+    product = serializers.SerializerMethodField()
+    product_name = serializers.SerializerMethodField()
+
+    def get_product(self, return_item):
+        return return_item.returned_item.product.id
+
+    def get_product_name(self, return_item):
+        return return_item.returned_item.product.name
 
 
 class SaleSerializer(serializers.ModelSerializer):
@@ -57,11 +66,7 @@ class SaleSerializer(serializers.ModelSerializer):
         for sale_item_data in sale_items_data:
             SaleItem.objects.create(sale=sale, **sale_item_data)
         for coupon_item_data in coupon_items_data:
-            if coupon_item_data['coupon'] != 0:
-                coupon = Coupon.objects.create()
-            else:
-                coupon = Coupon.objects.get(id=coupon_item_data['coupon'])
-            CouponChange.objects.create(coupon=coupon, sale=sale, value_change=coupon_item_data['value_change'])
+            CouponChange.objects.create(coupon=coupon_item_data['coupon'], sale=sale, value_change=coupon_item_data['value_change'])
         return sale
 
 

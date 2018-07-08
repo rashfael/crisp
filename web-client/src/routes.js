@@ -1,7 +1,7 @@
 import App from './App'
 
 import Coupons from 'views/coupons'
-// import Coupon from 'views/coupons/item'
+import Coupon from 'views/coupons/item'
 //
 import Customers from 'views/customers'
 import Customer from 'views/customers/item'
@@ -43,10 +43,10 @@ let routes = [{
 		name: 'coupons',
 		component: Coupons
 	}, {
-	// 	path: 'coupons/:id',
-	// 	name: 'coupon',
-	// 	component: Coupon
-	// }, {
+		path: 'coupons/:id',
+		name: 'coupons:coupon',
+		component: Coupon
+	}, {
 		path: 'customers/',
 		name: 'customers',
 		component: Customers

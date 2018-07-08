@@ -237,7 +237,7 @@ export default {
 				}
 			})
 			const couponItems = this.coupons.map((item) => ({
-				coupon: item.couponId || 0,
+				coupon: item.coupon.id || 0,
 				value_change: item.price.toDecimalPlaces(2)
 			}))
 			const returnItems = this.items.filter((item) => item.type === 'return').map((item) => ({

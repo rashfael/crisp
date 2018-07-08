@@ -1,15 +1,15 @@
 <template lang="jade">
-.coupon-details.details
-	h1 Gutschein {{ coupon._id }}
+.coupon-details.details(v-if="coupon")
+	h1 Gutschein {{ coupon.id }}
 
 	table.details
 		tbody
 			tr
 				th Gutscheinnummer
-				td {{ coupon._id }}
+				td {{ coupon.id }}
 			tr
 				th Aktueller Wert
-				td {{ coupon.value | currency }}
+				td {{ remainingValue | currency }}
 
 	h2 Veränderungen
 	table.changes
@@ -19,29 +19,31 @@
 				th Datum
 				th Wertänderung
 		tbody
-			tr(v-for="item in coupon.items")
-				td: a(v-link="'/sales/'+item.saleId") {{ item.saleId }}
-				td {{ item.date | date }}
-				td {{ item.valuechange | currency }}
+			tr(v-for="change in coupon.changes")
+				td: router-link(:to="{name: 'sales:sale', params: {id: change.sale.id}}") {{ change.sale.id }}
+				td {{ change.sale.date | date }}
+				td {{ change.value_change | currency }}
 </template>
 <script>
 import api from 'lib/api'
 
 export default {
-	data() {
+	data () {
 		return {
-			coupon: {}
+			coupon: null
 		}
 	},
-	route: {
-		data(transition) {
-			return api.coupons.get(this.$route.params.id).then((coupon) => {
-				return {
-					coupon
-				}
-			})
+	computed: {
+		remainingValue () {
+			return this.coupon.changes.reduce((acc, val) => acc += val.value_change, 0)
 		}
-	}
+	},
+	created () {
+		api.coupons.get(this.$route.params.id).then((coupon) => {
+			this.coupon = coupon
+		})
+	},
+
 }
 </script>
 <style lang="stylus">
