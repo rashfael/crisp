@@ -31,6 +31,7 @@ class ReturnItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReturnItem
         fields = ('returned_item', 'price', 'amount', 'sale', 'product', 'product_name')
+        read_only_fields = ('sale', 'product', 'product_name')
 
     product = serializers.SerializerMethodField()
     product_name = serializers.SerializerMethodField()
