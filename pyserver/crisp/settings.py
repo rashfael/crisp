@@ -29,7 +29,7 @@ SECRET_KEY = 'n82i0#)krozi@22gfgn*dt+-f7(_=zs4%(61-hd0hduh*m)x62'
 
 ALLOWED_HOSTS = [
     'localhost',
-    'crisp-api.aurelis.de'
+    'crisp-api.gepperth.de'
 ]
 
 
@@ -157,7 +157,7 @@ LOGOUT_URL = 'rest_framework:logout'
 
 
 CORS_ORIGIN_WHITELIST = [
-    'crisp.aurelis.de',
+    'crisp.gepperth.de',
     'localhost:8880',
 ]
 CORS_ALLOW_HEADERS = [
